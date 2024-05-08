@@ -9,7 +9,7 @@ function Setup(){
             <SplitView>
                 <Title>Let&apos;s get to know each other.</Title>
                 <SubTitle>The setup process may take a couple minuets.</SubTitle>
-                <Button>Continue</Button>
+                <Button link={'/setup/1'}>Continue</Button>
             </SplitView>
         </>
     )
