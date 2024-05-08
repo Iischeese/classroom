@@ -10,13 +10,11 @@ export default async function PrivatePage() {
     redirect('/login')
   }
 
-  const { userData } = await supabase
+  const { data: users, e } = await supabase
     .from('users')
-    .select()
+    .select('first_name')
     .eq('user_id', data.user.id)
-
-    console.log(userData)
-
+    
   return (
     <>
       <section className='h-screen w-screen flex flex-col items-start justify-center px-10'>
