@@ -1,6 +1,9 @@
 import { redirect } from 'next/navigation'
 
 import { createClient } from '@/utils/supabase/server'
+import TeacherHome from '@/components/dasboard/TeacherHome'
+
+import Error from '@/components/Error'
 
 export default async function PrivatePage() {
   const supabase = createClient()
@@ -15,6 +18,9 @@ export default async function PrivatePage() {
 
   return (
     <>
+      {
+        <TeacherHome user={"s"} />
+      }
     </>
   )
 }
