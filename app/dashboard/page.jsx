@@ -11,6 +11,10 @@ export default async function PrivatePage() {
   if (error || !user) {
     redirect('/login')
   }
-  else redirect('/dashboard/classes')
 
+
+  return (
+    <>
+    </>
+  )
 }
