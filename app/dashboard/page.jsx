@@ -1,7 +1,6 @@
 import { redirect } from 'next/navigation'
 
 import { createClient } from '@/utils/supabase/server'
-import TeacherHome from '@/components/dasboard/TeacherHome'
 
 export default async function PrivatePage() {
   const supabase = createClient()
