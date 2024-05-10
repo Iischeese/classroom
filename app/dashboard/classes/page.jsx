@@ -3,7 +3,6 @@ import {user} from "@/utils/supabase/user"
 import ClassroomPreview from "@/components/dasboard/classes/ClassroomPreivew"
 import Button from "@/components/Button"
 import Input from "@/components/Input"
-
 async function Classes() {
 
     const supabase = createClient()
