@@ -6,12 +6,12 @@ import Input from "@/components/Input"
 
 async function Classes() {
 
-    // const supabase = createClient()
+    const supabase = createClient()
 
-    // const {data: classrooms, error}  = await supabase
-    //     .from('classrooms')
-    //     .select()
-    //     .eq('user_id', user.data.user.id)
+    const {data: classrooms, error}  = await supabase
+        .from('classrooms')
+        .select()
+        .eq('user_id', user.data.user.id)
 
     return (
         <>
@@ -22,7 +22,7 @@ async function Classes() {
                     <Button style='max-w-fit'>View</Button>
                     <Button style='max-w-fit'>Create classroom</Button>
                 </nav>
-                {/* {classrooms.map((classroom, index) => <ClassroomPreview title={classroom.name} key={index} />)} */}
+                {classrooms.map((classroom, index) => <ClassroomPreview title={classroom.name} key={index} />)}
             </section>
         </>
     )

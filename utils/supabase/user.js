@@ -1,4 +1,4 @@
-const { createClient } = require("./server");
+import { createClient } from "./server"
 
 const supabase = createClient()
 

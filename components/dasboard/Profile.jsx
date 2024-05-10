@@ -1,7 +1,6 @@
 import { data } from "@/utils/supabase/user"
 
 function ProfilePic() {
-
     return (
         <>
             <div className="relative aspect-square h-full rounded-full overflow-clip">
