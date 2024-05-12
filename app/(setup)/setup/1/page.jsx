@@ -13,6 +13,8 @@ function Setup1() {
                         My name is
                         <ONInput id="fname" name="fname" type="text" placeholder="First Name" />
                         <ONInput id="lname" name="lname" type="text" placeholder="Last Name" />.
+
+                        I go by <ONDropdown id="prefix" name="prefix" options={['Mr.', 'Ms.', 'Mx.', 'Dr.', 'Prof.']}/>
                     </h1>
                     <h1 className="text-2xl flex gap-4 items-end">
                         And I <ONDropdown id="teach" name="teach" options={['am', 'am not']} />  a

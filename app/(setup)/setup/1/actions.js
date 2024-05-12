@@ -15,13 +15,14 @@ async function setupUser(formData) {
     const formD = {
         fname: formData.get('fname'),
         lname: formData.get('lname'),
-        teach: teach
+        teach: teach,
+        prefix: formData.get('prefix'),
     }
 
     const { data, error } = await supabase
         .from('users')
         .insert([
-            { first_name: formD.fname, last_name: formD.lname, isTeacher: formD.teach },
+            { first_name: formD.fname, last_name: formD.lname, isTeacher: formD.teach, prefix: formD.prefix },
         ])
         .select()
 

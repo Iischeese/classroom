@@ -4,8 +4,19 @@ import Label from '@/components/Label'
 import Input from '@/components/Input'
 import Title from '@/components/Title'
 import { login, signup } from './actions'
+import { createClient } from '@/utils/supabase/server'
+import { redirect } from 'next/navigation'
 
-export default function LoginPage() {
+export default async function LoginPage() {
+
+  const supabase = createClient()
+
+  const {data: {user}, error} = await supabase.auth.getUser()
+
+  if(user){
+    redirect('/dashboard')
+  }
+
   return (
     <SplitView>
       <Title>Login</Title>
