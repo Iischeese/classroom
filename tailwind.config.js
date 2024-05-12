@@ -7,21 +7,23 @@ module.exports = {
   ],
   theme: {
     extend: {
+      // Sea Blue
       colors: {
-        'text': '#e2f4fd',
-        'background': '#000305',
-        'primary': '#0e93ec',
-        'secondary': '#871908',
-        'accent': '#b4b70b',
+        'text': '#e7f6f9',
+        'background': '#040f11',
+        'primary': '#5EB1BF',
+        'secondary': '#042A2B',
+        'accent': '#CDEDF6',
        },
+      //  Forest Green
        colors: {
-        'text': '#e2e1fe',
-        'background': '#000111',
-        'primary': '#6d75fc',
-        'secondary': '#6204ab',
-        'accent': '#cc1bfa',
+        'text': '#e3ece6',
+        'background': '#0c120e',
+        'primary': '#61E786',
+        'secondary': '#5A5766',
+        'accent': '#EDFFEC',
        },
-       
+                          
     },
   },
   plugins: [],
