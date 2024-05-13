@@ -27,7 +27,7 @@ async function Classes() {
                     <Input mono placeholder="Search for a classroom..." />
                     <Button mono style="w-min">View</Button>
                     <Button mono style="w-min">Filter</Button>
-                    <Button mono style="w-1/4 min-w-fit" primary>Create new classroom</Button>
+                    <Button link='/dashboard/classes/create' mono style="w-1/4 min-w-fit" primary>Create new classroom</Button>
                 </div>
                 {classrooms.map((classroom, index) =>
                     <ClassroomPreview key={index} classroom={classroom} />
