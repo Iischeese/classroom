@@ -9,6 +9,16 @@ const nextConfig = {
             },
         ]
     },
+    images: {
+        remotePatterns: [
+          {
+            protocol: 'https',
+            hostname: 'omlicebivegdzmftibvx.supabase.co',
+            port: '',
+            pathname: '/storage/**',
+          },
+        ],
+      },
 };
 
 export default nextConfig;

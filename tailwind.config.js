@@ -1,30 +1,28 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: ["class"],
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    './pages/**/*.{js,jsx}',
+    './components/**/*.{js,jsx}',
+    './app/**/*.{js,jsx}',
+    './src/**/*.{js,jsx}',
   ],
   theme: {
     extend: {
-      // Sea Blue
       colors: {
-        'text': '#e7f6f9',
-        'background': '#040f11',
-        'primary': '#5EB1BF',
-        'secondary': '#042A2B',
-        'accent': '#CDEDF6',
-       },
-      //  Forest Green
-       colors: {
-        'text': '#e3ece6',
-        'background': '#0c120e',
-        'primary': '#61E786',
-        'secondary': '#5A5766',
-        'accent': '#EDFFEC',
-       },
-                          
-    },
+        'text': '#eed7f7',
+        'background': '#15061a',
+        'primary': '#d691e8',
+        'secondary': '#931f4c',
+        'accent': '#d32d40',
+      },
+      colors: {
+        'text': '#dbe7f8',
+        'background': '#040b12',
+        'primary': '#8bb6e9',
+        'secondary': '#441a85',
+        'accent': '#a82cd6',
+       },       
+    }
   },
-  plugins: [],
-};
+}
