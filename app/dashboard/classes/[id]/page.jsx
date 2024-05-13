@@ -23,7 +23,7 @@ export default async function Page({ params }) {
   return (
     <main className="flex flex-col p-10 w-screen min-h-[calc(100vh-5rem)] gap-14">
       <div className="relative rounded-md h-96 overflow-clip">
-        <Image className="z-10 absolute object-cover w-full h-full" height={1080} width={1920} src={header_photo} />
+        <img className="z-10 absolute object-cover w-full h-full" src={header_photo} />
         <div className="z-20 absolute w-full h-full bg-background/50" />
         <div className="absolute w-full h-full z-30 flex flex-col gap-2 p-3 justify-end items-start">
           <Button link={'/dashboard/classes'} style="m-3 w-min absolute top-0 left-0" mono>Back</Button>
