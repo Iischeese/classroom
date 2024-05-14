@@ -13,6 +13,7 @@ async function createClass(formData) {
         name: formData.get('name'),
         grade_level: formData.get('level'),
         user_id: user.id,
+        photo: formData.get('photo'),
     }
 
     const { data, error } = await supabase
