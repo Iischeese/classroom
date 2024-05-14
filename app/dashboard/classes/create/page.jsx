@@ -14,7 +14,7 @@ async function Create() {
 
     const fileU = useRef(null)
     
-    const process = useCallback(async(e)=>{
+    const process = ( async(e)=>{
         console.log("sdsdsd")
 
         let file = e.target.files[0]
@@ -25,7 +25,7 @@ async function Create() {
             .storage
             .from('header-picture')
             .upload(user.id + '/' + uuidv4(), file)
-    })
+    }, [])
 
     const handle = useCallback(()=>{fileU.current?.click()}, [])
 
@@ -38,7 +38,7 @@ async function Create() {
                         <div className="flex flex-col gap-2">
                             <Label id='name'>Photo: </Label>
                             <Button noForm={handle} mono>Upload</Button>
-                            <input onChangeCapture={process} className="hidden" ref={fileU} accept="image/*" type="file" name="photo" id="photo" />
+                            <input onChange={process} className="hidden" ref={fileU} accept="image/*" type="file" name="photo" id="photo" />
                         </div>
                         <div className="flex flex-col gap-2">
                             <Label id='name'>Name: </Label>
