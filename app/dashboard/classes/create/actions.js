@@ -3,24 +3,33 @@
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
 
-async function createClassroom(formData){
+async function createClass(formData) {
+
     const supabase = createClient()
-    
+
     const {data: {user}} = await supabase.auth.getUser()
 
-    console.log(user.id)
+    const formD = {
+        name: formData.get('name'),
+        grade_level: formData.get('level'),
+        user_id: user.id,
+    }
 
-    const {data, error} = await supabase
+    const { data, error } = await supabase
         .from('classrooms')
         .insert([
-            {user_id: user.id},
-            {name: formData.get('name')},
-            {grade_level: formData.get('grade')},
+            { user_id: formD.user_id, name: formD.name, grade_level: formD.grade_level},
         ])
+        .select()
 
-    console.log(error.message)
+    if (!error) {
+        redirect('/dashboard')
+    }
+    else {
+        console.log(error.message)
+    }
 
-    redirect('/dashboard')
 }
 
-export default createClassroom
+
+export { createClass }

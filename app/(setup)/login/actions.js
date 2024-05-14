@@ -40,3 +40,7 @@ export async function signup(formData) {
   revalidatePath('/', 'layout')
   redirect('/setup')
 }
+
+function signOut(){
+  
+}
