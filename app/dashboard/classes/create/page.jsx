@@ -21,7 +21,7 @@ async function Create() {
                     <form className="flex flex-col gap-8">
                         <div className="flex flex-col gap-2">
                             <Label id='name'>Photo: </Label>
-                            <Button noForm={handle} mono>Upload</Button>
+                            <input value="Upload" type="button" onClick={handle} />
                             <input className="hidden" ref={fileU} accept="image/*" type="file" name="photo" id="photo" />
                         </div>
                         <div className="flex flex-col gap-2">

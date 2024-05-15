@@ -11,24 +11,21 @@ async function createClass(formData) {
 
     const photo = formData.get('photo')
 
-    const {data, error:{message}} = await supabase.storage
+    console.log(photo)
+
+    const {data} = await supabase.storage
         .from('header-picture')
         .upload(user.id + '/' + photo.name, photo);
-
-
-    if(message){
-        console.log(message)
-    }
 
     const formD = {
         name: formData.get('name'),
         grade_level: formData.get('level'),
         user_id: user.id,
-        photo: data.path,
+        photo: 'https://omlicebivegdzmftibvx.supabase.co/storage/v1/object/public/header-picture/' + data.path,
     }
 
 
-    const { data:{}, error } = await supabase
+    const { data: {user_id}, error } = await supabase
         .from('classrooms')
         .insert([
             { user_id: formD.user_id, name: formD.name, grade_level: formD.grade_level, header_photo: formD.photo}
