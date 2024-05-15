@@ -5,27 +5,11 @@ import Input from "@/components/Input"
 import Label from "@/components/Label"
 import Title from "@/components/Title"
 import { createClass } from "./actions"
-import { useCallback, useEffect, useRef } from "react"
-import { createClient } from "@/utils/supabase/client"
+import { useCallback, useRef } from "react"
 
 async function Create() {
 
-    const supabase = createClient()
-
     const fileU = useRef(null)
-    
-    const process = ( async(e)=>{
-        console.log("sdsdsd")
-
-        let file = e.target.files[0]
-
-        const {data: {user}} = await supabase.auth.getUser()
-
-        const {data: {path}, error} = await supabase
-            .storage
-            .from('header-picture')
-            .upload(user.id + '/' + uuidv4(), file)
-    }, [])
 
     const handle = useCallback(()=>{fileU.current?.click()}, [])
 
@@ -38,7 +22,7 @@ async function Create() {
                         <div className="flex flex-col gap-2">
                             <Label id='name'>Photo: </Label>
                             <Button noForm={handle} mono>Upload</Button>
-                            <input onChange={process} className="hidden" ref={fileU} accept="image/*" type="file" name="photo" id="photo" />
+                            <input className="hidden" ref={fileU} accept="image/*" type="file" name="photo" id="photo" />
                         </div>
                         <div className="flex flex-col gap-2">
                             <Label id='name'>Name: </Label>
