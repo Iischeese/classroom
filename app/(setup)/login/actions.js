@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 
 import { createClient } from '@/utils/supabase/server'
 
-export async function login(formData) {
+async function login(formData) {
   const supabase = createClient()
 
   const data = {
@@ -23,7 +23,7 @@ export async function login(formData) {
   redirect('/dashboard')
 }
 
-export async function signup(formData) {
+async function signup(formData) {
   const supabase = createClient()
 
   const data = {
@@ -41,6 +41,31 @@ export async function signup(formData) {
   redirect('/setup')
 }
 
-function signOut(){
-  
+async function getUser(){
+  const supabase = createClient()
+
+  const {data, error} = await supabase.auth.getUser()
+
+  if(error) return
+
+  return data.user
 }
+
+async function getUserData(){
+  const supabase = createClient()
+
+  const user = await getUser()
+
+  const { data, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('user_id', user.id)
+    .single()
+
+  if(error) return
+
+  return data
+
+}
+
+export {signup, login, getUser, getUserData}

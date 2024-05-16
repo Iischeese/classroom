@@ -1,23 +1,19 @@
 import Button from "@/components/Button"
 import Input from "@/components/Input"
 import ClassroomPreview from "@/components/dashboard/ClassroomPreview"
-import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
-import Title from "@/components/Title"
+import getClassrooms from "./actions"
+import { getUser } from "@/app/(setup)/login/actions"
 
 async function Classes() {
 
-    const supabase = createClient()
-
-    const { data: { user }, e } = await supabase.auth.getUser()
+    const user = getUser()
 
     if (!user) {
         redirect('/login')
     }
 
-    let { data: classrooms, error } = await supabase
-        .from('classrooms')
-        .select('*')
+    const classrooms = await getClassrooms()
 
 
     return (

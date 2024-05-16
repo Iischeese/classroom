@@ -1,13 +1,9 @@
 import Button from "@/components/Button";
-import Heading from "@/components/Heading";
-import Heading2 from "@/components/Heading2";
 import Input from "@/components/Input";
 import Label from "@/components/Label";
 import SplitView from "@/components/Splitview";
 import Header from "@/components/dashboard/Header";
-
-const { default: SubTitle } = require("@/components/SubTitle");
-const { default: Title } = require("@/components/Title");
+import { Title, SubTitle, Heading, Text } from "@/components/Typography";
 
 function TEST() {
     return (
@@ -17,7 +13,7 @@ function TEST() {
                 <Title>Title</Title>
                 <SubTitle>Subtitle</SubTitle>
                 <Heading>Heading 1</Heading>
-                <Heading2>Heading 2</Heading2>
+                <Text>Heading 2</Text>
             </div>
             <div className="flex flex-col gap-8 w-1/2">
                 <Title>UI</Title>

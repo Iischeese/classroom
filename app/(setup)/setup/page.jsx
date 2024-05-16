@@ -1,6 +1,5 @@
 import SplitView from "@/components/Splitview"
-import SubTitle from "@/components/SubTitle"
-import Title from "@/components/Title"
+import {Title, SubTitle} from "@/components/Typography"
 import Button from "@/components/Button"
 
 function Setup(){

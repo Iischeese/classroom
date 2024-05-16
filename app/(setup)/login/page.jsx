@@ -2,18 +2,15 @@ import SplitView from '@/components/Splitview'
 import Button from '@/components/Button'
 import Label from '@/components/Label'
 import Input from '@/components/Input'
-import Title from '@/components/Title'
-import { login, signup } from './actions'
-import { createClient } from '@/utils/supabase/server'
+import { Title } from '@/components/Typography'
+import { getUser, login, signup } from './actions'
 import { redirect } from 'next/navigation'
 
 export default async function LoginPage() {
 
-  const supabase = createClient()
+  const user = await getUser()
 
-  const {data: {user}, error} = await supabase.auth.getUser()
-
-  if(user){
+  if (user) {
     redirect('/dashboard')
   }
 

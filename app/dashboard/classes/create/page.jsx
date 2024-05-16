@@ -3,7 +3,7 @@
 import Button from "@/components/Button"
 import Input from "@/components/Input"
 import Label from "@/components/Label"
-import Title from "@/components/Title"
+import {Title} from "@/components/Typography"
 import { createClass } from "./actions"
 import { useCallback, useRef } from "react"
 
@@ -21,9 +21,8 @@ async function Create() {
                     <form className="flex flex-col gap-8">
                         <div className="flex flex-col gap-2">
                             <Label id='name'>Photo: </Label>
-                            <input value="Upload" type="button" onClick={handle} />
                             <input className="hidden" ref={fileU} accept="image/*" type="file" name="photo" id="photo" />
-                        </div>
+                            <input className="w-full bg-text/5 border-text/40 border p-3 rounded-md" value="Upload" type="button" onClick={handle} />                        </div>
                         <div className="flex flex-col gap-2">
                             <Label id='name'>Name: </Label>
                             <Input mono id='name' name='name' placeholder='U.S History' />

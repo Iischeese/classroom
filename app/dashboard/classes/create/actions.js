@@ -11,17 +11,32 @@ async function createClass(formData) {
 
     const photo = formData.get('photo')
 
-    console.log(photo)
+    let Path = ''
 
     const {data} = await supabase.storage
         .from('header-picture')
-        .upload(user.id + '/' + photo.name, photo);
+        .upload(user.id + '/' + photo.name, photo)
+
+    if(!data) {
+        const {data} = await supabase.storage
+        .from('header-picture')
+        .getPublicUrl(user.id+'/'+photo.name)
+
+        Path = data.publicUrl
+    }
+    else {
+        const {data: {path}} = await supabase.storage
+        .from('header-picture')
+        .getPublicUrl(data.path)
+
+        Path = path
+    }
 
     const formD = {
         name: formData.get('name'),
         grade_level: formData.get('level'),
         user_id: user.id,
-        photo: 'https://omlicebivegdzmftibvx.supabase.co/storage/v1/object/public/header-picture/' + data.path,
+        photo: Path,
     }
 
 
