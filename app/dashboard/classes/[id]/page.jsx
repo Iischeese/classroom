@@ -1,6 +1,6 @@
 import Button from "@/components/Button"
 import { Title, SubTitle } from "@/components/Typography"
-import { getClassroom } from "./actions"
+import { getClassroom } from "../actions"
 import { getUser, getUserData } from "@/app/(setup)/login/actions"
 import { redirect } from "next/dist/server/api-utils"
 
@@ -19,7 +19,7 @@ export default async function Page({ params }) {
         <img className="z-10 absolute object-cover w-full h-full" src={classroom.header_photo} />
         <div className="z-20 absolute w-full h-full bg-background/50" />
         <div className="absolute w-full h-full top-0 left-0 z-30 flex flex-col gap-2" >
-          <Button link={'/dashboard/classes'} style="backdrop-blur-sm backdrop-filter m-3 w-min absolute top-0 left-0 m-3" mono>Back</Button>
+          <Button link={'/dashboard/classes'} style="m-3 w-min absolute top-0 left-0 m-3" mono>Back</Button>
           <div className="flex flex-col gap-2 absolute bottom-0 m-3">
             <Title>{classroom.name}</Title>
             <SubTitle>{classroom.grade_level}{classroom.grade_level > 2 ? "th" : classroom.grade_level > 1 ? "nd" : "st"} grade | {user.prefix} {user.last_name}</SubTitle>

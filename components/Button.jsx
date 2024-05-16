@@ -1,21 +1,21 @@
 import Link from "next/link"
 
-function Button({ id, mono, children, primary, link, click, style, noForm,type }) {
-    return link ?
+function Button(props) {
+    return props.link ?
         (
-            <Link className="w-full" href={link}>
-                <Template type={type} id={id} noForm={noForm} black={mono} css={style} action={click} color={primary} text={children} ></Template>
+            <Link className="w-full" href={props.link}>
+                <Template data={props} ></Template>
             </Link>
         )
         :
         (
-            <Template id={id} noForm={noForm} black={mono} css={style} action={click} color={primary} text={children} />
+            <Template data={props} />
         )
 }
 
-function Template({ id, color, text, action, css, black, noForm,type }) {
+function Template({ data }) {
     return (
-        <button id={id} onClick={noForm} formAction={action} className={`${css} ${black ? color ? "bg-text border-text/40 border text-background" : "bg-text/5 border-text/40 border" : color ? "bg-primary text-background" : "bg-secondary"} w-full py-3 px-5 rounded-md hover:opacity-70 transition-opacity`}>{text}</button>
+        <button id={data.id} onClick={data.noForm} formAction={data.click} className={`${data.style} ${data.mono ? data.primary ? "bg-text border-text/40 border text-background" : "bg-text/5 border-text/40 border" : data.danger ? "bg-red-500 text-text" : data.primary ? "bg-primary text-background" : "bg-secondary"} backdrop-blur-sm backdrop-filter w-full py-3 px-5 rounded-md hover:opacity-70 transition-opacity`}>{data.children}</button>
     )
 }
 
