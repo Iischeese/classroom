@@ -9,6 +9,8 @@ import { createServerClient } from '@supabase/ssr'
 async function login(formData) {
   const supabase = createClient()
 
+  // type-casting here for convenience
+  // in practice, you should validate your inputs
   const data = {
     email: formData.get('email'),
     password: formData.get('password'),
@@ -21,7 +23,7 @@ async function login(formData) {
   }
 
   revalidatePath('/', 'layout')
-  redirect('/dashboard')
+  redirect('/')
 }
 
 async function signup(formData) {

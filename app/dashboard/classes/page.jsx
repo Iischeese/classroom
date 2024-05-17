@@ -4,7 +4,8 @@ import ClassroomPreview from "@/components/dashboard/ClassroomPreview"
 import { redirect } from "next/navigation"
 import { getClassrooms, joinClassroom } from "./actions"
 import { getUser, getUserData } from "@/app/(setup)/login/actions"
-import { Heading, Title } from "@/components/Typography"
+import { Heading, SubTitle, Title } from "@/components/Typography"
+import { Suspense } from "react"
 
 async function Classes() {
 
@@ -32,14 +33,25 @@ async function Classes() {
                             <Button link='/dashboard/classes/join' mono style="w-1/3 min-w-fit" primary>Join a classroom</Button>
                     }
                 </div>
-                {
-                    classrooms.length <= 0 ?
-                        <div className="w-full flex flex-col items-center">
-                            <Heading>You have no classrooms</Heading>
-                        </div>
-                        :
-                        classrooms.map((classroom, index) => <ClassroomPreview key={index} classroom={classroom} />)
-                }
+                <Suspense fallback={
+                    ['', '', ''].map(() => {
+                        return (
+                            <div className="h-52 w-full p-5 bg-text/20 rounded-md">
+                                <div className="w-40 bg-text/30 h-10 rounded-md"></div>
+                                <div className="w-80 my-3 bg-text/20 h-10 rounded-md"></div>
+                            </div>
+                        )
+                    })
+                }>
+                    {
+                        classrooms.length <= 0 ?
+                            <div className="w-full flex flex-col items-center">
+                                <Heading>You have no classrooms</Heading>
+                            </div>
+                            :
+                            classrooms.map((classroom, index) => <ClassroomPreview key={index} classroom={classroom} />)
+                    }
+                </Suspense>
             </main>
         </>
     )

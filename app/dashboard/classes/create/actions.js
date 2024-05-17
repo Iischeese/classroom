@@ -3,6 +3,7 @@
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
 import { generateJoinCode } from "../actions"
+import Error from "@/components/Error"
 
 async function createClass(formData) {
 
@@ -38,7 +39,7 @@ async function createClass(formData) {
     }
 
 
-    const { data: { user_id }, error } = await supabase
+    const { data, error } = await supabase
         .from('classrooms')
         .insert([
             { join_code: generateJoinCode(), user_id: formD.user_id, name: formD.name, grade_level: formD.grade_level, header_photo: formD.photo, students: [] }
@@ -50,6 +51,7 @@ async function createClass(formData) {
     }
     else {
         console.log(error.message)
+        return redirect('/error')
     }
 
 }

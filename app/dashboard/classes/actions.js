@@ -18,6 +18,7 @@ async function getClassrooms() {
             .from('classrooms')
             .select('*')
             .eq('user_id', user.user_id)
+            .order('created_at', {ascending: false})
 
         if (error) return
 
@@ -29,6 +30,7 @@ async function getClassrooms() {
             .from('classrooms')
             .select('*')
             .in('id', user.enrolled_classes)
+            .order('created_at', {ascending: true})
 
         if (error) { console.error(error.code + ': ' + error.message + '\n' + error.details); return [] }
         else return data
