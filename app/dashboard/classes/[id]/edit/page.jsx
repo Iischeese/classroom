@@ -4,6 +4,8 @@ import { Section, SectionContent, SectionFooter } from "@/components/Section"
 import { SubTitle, Heading } from "@/components/Typography"
 import { deleteClassroom, getClassroom } from "../../actions"
 import { getUserData } from "@/app/(setup)/login/actions"
+import { redirect } from "next/dist/server/api-utils"
+import Error from "@/components/Error"
 
 async function ClassroomSettings({ params }) {
 
@@ -11,6 +13,8 @@ async function ClassroomSettings({ params }) {
 
     const classroom = await getClassroom(id)
     const user = await getUserData()
+
+    if(!user.user_id == classroom.user_id) return <Error />
 
     const deleteClass = async () => {
         'use server'

@@ -2,20 +2,21 @@ import Button from "@/components/Button"
 import Input from "@/components/Input"
 import ClassroomPreview from "@/components/dashboard/ClassroomPreview"
 import { redirect } from "next/navigation"
-import { getClassrooms } from "./actions"
-import { getUser } from "@/app/(setup)/login/actions"
+import { getClassrooms, joinClassroom } from "./actions"
+import { getUser, getUserData } from "@/app/(setup)/login/actions"
 import { Heading, Title } from "@/components/Typography"
 
 async function Classes() {
 
-    const user = getUser()
+    const user = await getUser()
 
     if (!user) {
         redirect('/login')
     }
 
-    const classrooms = await getClassrooms()
+    const userData = await getUserData()
 
+    const classrooms = await getClassrooms()
 
     return (
         <>
@@ -24,15 +25,20 @@ async function Classes() {
                     <Input mono placeholder="Search for a classroom..." />
                     <Button mono style="w-min">View</Button>
                     <Button mono style="w-min">Filter</Button>
-                    <Button link='/dashboard/classes/create' mono style="w-1/4 min-w-fit" primary>Create new classroom</Button>
+                    {
+                        userData.isTeacher ?
+                            <Button link='/dashboard/classes/create' mono style="w-1/4 min-w-fit" primary>Create new classroom</Button>
+                            :
+                            <Button link='/dashboard/classes/join' mono style="w-1/3 min-w-fit" primary>Join a classroom</Button>
+                    }
                 </div>
                 {
                     classrooms.length <= 0 ?
                         <div className="w-full flex flex-col items-center">
-                             <Heading>You have no classrooms</Heading>
+                            <Heading>You have no classrooms</Heading>
                         </div>
                         :
-                        classrooms.map((classroom, index)=> <ClassroomPreview key={index} classroom={classroom}/>)
+                        classrooms.map((classroom, index) => <ClassroomPreview key={index} classroom={classroom} />)
                 }
             </main>
         </>

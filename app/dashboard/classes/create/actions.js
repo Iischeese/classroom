@@ -40,7 +40,7 @@ async function createClass(formData) {
     const { data: { user_id }, error } = await supabase
         .from('classrooms')
         .insert([
-            { user_id: formD.user_id, name: formD.name, grade_level: formD.grade_level, header_photo: formD.photo }
+            { user_id: formD.user_id, name: formD.name, grade_level: formD.grade_level, header_photo: formD.photo, students: [] }
         ])
         .select()
 

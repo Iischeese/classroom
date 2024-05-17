@@ -12,7 +12,7 @@ async function ClassroomPreview({ classroom }) {
         redirect('/login')
     }
 
-    const data = await getUserData()
+    const data = await getUserData(classroom.user_id)
 
     return (
         <Link href={`/dashboard/classes/${classroom.id}`}>

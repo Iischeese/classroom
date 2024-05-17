@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 import { createClient } from '@/utils/supabase/server'
+import { createServerClient } from '@supabase/ssr'
 
 async function login(formData) {
   const supabase = createClient()
@@ -51,10 +52,13 @@ async function getUser(){
   return data.user
 }
 
-async function getUserData(){
+async function getUserData(id){
   const supabase = createClient()
 
-  const user = await getUser()
+  let user
+
+  if(!id) user = await getUser()
+  else user = {id: id}
 
   const { data, error } = await supabase
     .from('users')

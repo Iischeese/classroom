@@ -22,7 +22,7 @@ async function setupUser(formData) {
     const { data, error } = await supabase
         .from('users')
         .insert([
-            { first_name: formD.fname, last_name: formD.lname, isTeacher: formD.teach, prefix: formD.prefix },
+            { first_name: formD.fname, last_name: formD.lname, isTeacher: formD.teach, prefix: formD.prefix, enrolled_classes: [] },
         ])
         .select()
 
