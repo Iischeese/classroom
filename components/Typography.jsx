@@ -7,7 +7,7 @@ function Title({ children }) {
 function SubTitle({ children }) {
 
     return (
-        <h2 className="text-3xl">{children}</h2>
+        <h2 className="text-3xl text-text/95">{children}</h2>
     )
 
 }
@@ -15,14 +15,14 @@ function SubTitle({ children }) {
 function Heading({ children }) {
     return (
         <>
-            <h3 className="text-xl">{children}</h3>
+            <h3 className="text-xl text-text/90">{children}</h3>
         </>
     )
 }
 
 function Text({ children }) {
     return (
-        <p className="text-sm">{children}</p>
+        <p className="text-sm text-text/85">{children}</p>
     )
 }
 

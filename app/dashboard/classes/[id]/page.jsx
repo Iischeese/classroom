@@ -1,5 +1,5 @@
 import Button from "@/components/Button"
-import { Title, SubTitle } from "@/components/Typography"
+import { Title, SubTitle, Text} from "@/components/Typography"
 import { getClassroom } from "../actions"
 import { getUser, getUserData } from "@/app/(setup)/login/actions"
 import Error from "@/components/Error"
@@ -36,6 +36,7 @@ export default async function Page({ params }) {
             }
           </div>
         </div>
+        <Text>{classroom.join_code}</Text>
       </main>
     )
   }

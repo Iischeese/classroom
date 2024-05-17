@@ -13,7 +13,7 @@ async function Account() {
 
     return (
         <main className="w-full flex flex-col p-5 px-[20vw]">
-            <Title>Preferences</Title>
+            <Title>Account Settings</Title>
             <div className="gap-10 my-10">
                 <Section>
                     <SectionContent>

@@ -5,6 +5,7 @@ import { createClient } from "@/utils/supabase/server"
 import { createServerClient } from "@supabase/ssr"
 import { redirect } from "next/navigation"
 import { cookies } from 'next/headers'
+import { revalidatePath } from "next/cache"
 
 
 async function getClassrooms() {
@@ -69,11 +70,23 @@ async function deleteClassroom(id) {
 
 }
 
+async function changeName(id, newName) {
+    const supabase = createClient()
+
+    const { data, error } = await supabase
+        .from('classrooms')
+        .update({ name: newName })
+        .eq('id', id)
+        .select('*')
+
+    return error
+}
+
 async function joinClassroom(formData) {
 
     const cookieStore = cookies()
- 
-    const ClassID = formData.get('code')
+
+    const code = formData.get('code')
 
     const supabase = createServerClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, { cookies: {} })
 
@@ -82,7 +95,7 @@ async function joinClassroom(formData) {
     const { data: { students }, error } = await supabase
         .from('classrooms')
         .select('*')
-        .eq('id', ClassID)
+        .eq('join_code', code)
         .single()
 
     if (error) console.log(error.message)
@@ -92,12 +105,13 @@ async function joinClassroom(formData) {
     const classroom = await supabase
         .from('classrooms')
         .update({ students: studentsArray })
-        .eq('id', ClassID)
+        .eq('join_code', code)
+        .single()
         .select()
 
-    if(classroom.error) console.error(classroom.error.message)
+    if (classroom.error) console.error(classroom.error.message)
 
-    const classesArray = user.enrolled_classes.concat(ClassID)
+    const classesArray = user.enrolled_classes.concat(classroom.data.id)
 
     const newUser = await supabase
         .from('users')
@@ -105,7 +119,36 @@ async function joinClassroom(formData) {
         .eq('user_id', user.user_id)
         .select()
 
-    redirect('/dashboard/classes/' + ClassID)
+    redirect('/dashboard/classes/' + classroom.data.id)
 }
 
-export { getClassrooms, getClassroom, deleteClassroom, joinClassroom }
+function generateJoinCode() {
+
+    const n = 7
+
+    var add = 1, max = 12 - add;   // 12 is the min safe number Math.random() can generate without it starting to pad the end with zeros.   
+
+    if (n > max) {
+        return generate(max) + generate(n - max);
+    }
+
+    max = Math.pow(10, n + add);
+    var min = max / 10; // Math.pow(10, n) basically
+    var number = Math.floor(Math.random() * (max - min + 1)) + min;
+
+    const seed = ("" + number).substring(add);
+
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+
+    let code = []
+
+    for (let i = 0; i < seed.length; i++) {
+        const char = alphabet.charAt((i * 1 + seed.charAt(i)) % alphabet.length) 
+
+        code.push(char)
+    }
+
+    return code.join("")
+}
+
+export { getClassrooms, getClassroom, deleteClassroom, changeName, joinClassroom, generateJoinCode }

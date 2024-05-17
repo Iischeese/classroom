@@ -4,10 +4,15 @@ import Label from "@/components/Label";
 import SplitView from "@/components/Splitview";
 import Header from "@/components/dashboard/Header";
 import { Title, SubTitle, Heading, Text } from "@/components/Typography";
+import { generateJoinCode } from "@/app/dashboard/classes/actions";
 
-function TEST() {
+async function TEST() {
+
+    const code = await generateJoinCode()
+
     return (
         <main className="flex flex-col items-center gap-20 w-screen">
+            <Heading>{code}</Heading>
             <div className="flex flex-col gap-8 w-1/2">
                 <Title>Typography</Title>
                 <Title>Title</Title>
@@ -31,9 +36,9 @@ function TEST() {
                 </SplitView>
             </div>
             <div className="flex flex-col gap-8 w-1/2">
-               <Header/>
+                <Header />
             </div>
-        </main>
+        </main >
     )
 }
 
