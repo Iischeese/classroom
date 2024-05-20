@@ -1,19 +1,34 @@
 import Button from "@/components/Button"
-import { Title, SubTitle, Text} from "@/components/Typography"
-import { getClassroom } from "../actions"
+import { Title, SubTitle, Heading, Text } from "@/components/Typography"
+import { getAssignments, getClassroom } from "../actions"
 import { getUser, getUserData } from "@/app/(setup)/login/actions"
 import Error from "@/components/Error"
+import Card from "@/components/Card"
+import Bento from "@/components/dashboard/Bento"
+
+export async function generateMetadata({ params }) {
+  const data = await getClassroom(params.id)
+
+  return {
+    title: `${data.grade_level}${data.grade_level > 2 ? "th" : data.grade_level > 1 ? "nd" : "st"} Grade ${data.name}`
+  }
+}
 
 export default async function Page({ params }) {
 
+  const isSignedIn = await getUser()
+
+  // Get Classroom Data
   const classroom = await getClassroom(params.id)
+  if (classroom.message) return <Error title="Classroom not found" desc="The classroom you are looking for could have been moved, or deleted" />
 
-  if(classroom.message) return <Error title={"Error "+ classroom.code} desc={classroom.message}/>
-
+  // Get data of user and Owner 
   const signedIn = await getUserData()
+  if (signedIn.message) return <Error error={signedIn} />
   const user = await getUserData(classroom.user_id)
 
-  const isSignedIn = await getUser()
+  // Get Assignments
+  let assignments = await getAssignments(params.id)
 
   const render = () => {
     return (
@@ -30,17 +45,39 @@ export default async function Page({ params }) {
             {
               // Edit Mode
               signedIn.user_id == classroom.user_id ?
-                <Button style="absolute right-0 bottom-0 w-min m-3" mono primary link={`/dashboard/classes/${params.id}/edit`}>Edit</Button>
+                <div className="absolute right-0 top-0 m-3 flex gap-2">
+                  <Button mono link={`/dashboard/classes/${params.id}/edit`}>Settings</Button>
+                  <Button mono primary link={`/dashboard/classes/${params.id}/edit`}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg></Button>
+                </div>
                 :
                 <></>
             }
           </div>
         </div>
-        <Text>{classroom.join_code}</Text>
-      </main>
+        <Bento>
+          <Card >
+            <div className="flex flex-col gap-2">
+              <Heading>Join Code:</Heading>
+              <Text>{classroom.join_code}</Text>
+            </div>
+          </Card>
+          <Card className="row-span-3">
+            <Heading>Upcoming assignments</Heading>
+            {
+              // assignments.map((assignment, index)=>{
+              //   <Text key={index}>{assignment.name}</Text>
+              // })
+            }
+          </Card>
+          <Card className="col-span-2 row-span-2">
+            <Heading>Testing Calander</Heading>
+          </Card>
+        </Bento>
+      </main >
     )
   }
 
+  // Check Auth
   if (isSignedIn.id == user.user_id) return render()
   for (let i = 0; i < classroom.students.length; i++) {
     if (signedIn.user_id == classroom.students[i]) {
@@ -48,6 +85,6 @@ export default async function Page({ params }) {
     }
   }
 
-  return <Error title="Not Authenticated." desc="You don't have access to this classroom, contact your teacher or School Head."/>
+  return <Error title="Not Authenticated." desc="You don't have access to this classroom, if this is a mistake contact your teacher or School Head." />
 
 }

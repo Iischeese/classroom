@@ -7,6 +7,10 @@ import { getUser, getUserData } from "@/app/(setup)/login/actions"
 import { Heading, SubTitle, Title } from "@/components/Typography"
 import { Suspense } from "react"
 
+export const metadata = {
+    title: "Classes"
+}
+
 async function Classes() {
 
     const user = await getUser()
@@ -21,7 +25,7 @@ async function Classes() {
 
     return (
         <>
-            <main className="flex flex-col p-10 w-screen min-h-[calc(100vh-5rem)] gap-14">
+            <main className="flex flex-col p-10 w-full min-h-screen gap-14">
                 <div className="flex gap-8">
                     <Input mono placeholder="Search for a classroom..." />
                     <Button mono style="w-min">View</Button>

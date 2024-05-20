@@ -3,11 +3,15 @@ import Input from "@/components/Input"
 import { Section, SectionContent, SectionFooter } from "@/components/Section"
 import { SubTitle, Heading } from "@/components/Typography"
 import { deleteClassroom, getClassroom, changeName } from "../../actions"
-import { getUserData } from "@/app/(setup)/login/actions"
-import { redirect } from "next/dist/server/api-utils"
+import { getUser, getUserData } from "@/app/(setup)/login/actions"
 import Error from "@/components/Error"
+import { redirect } from "next/navigation"
 
 async function ClassroomSettings({ params }) {
+
+    const isSignedIn = await getUser()
+
+    if(!isSignedIn) redirect('/login')
 
     const id = params.id
 
@@ -21,7 +25,9 @@ async function ClassroomSettings({ params }) {
 
     const changeNameOfClass = async () => {
         'use server'
-        changeName(id, 'History')
+        const error = await changeName(id, 'English')
+
+        if(error) console.error(error.message)
     }
 
     const render = () => {

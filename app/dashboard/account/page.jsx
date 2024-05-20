@@ -1,20 +1,21 @@
-import { getUser, getUserData } from "@/app/(setup)/login/actions"
+import { getUser, getUserData, signOut } from "@/app/(setup)/login/actions"
+import Button from "@/components/Button"
 import Input from "@/components/Input"
 import { Section, SectionContent, SectionFooter } from "@/components/Section"
 import { Title, Heading, Text } from "@/components/Typography"
-import { redirect } from "next/dist/server/api-utils"
+import { redirect } from "next/navigation"
 
 async function Account() {
 
     const user = await getUser()
-    const userData = await getUserData()
-
     if (!user) redirect('/login')
+
+    const userData = await getUserData()
 
     return (
         <main className="w-full flex flex-col p-5 px-[20vw]">
             <Title>Account Settings</Title>
-            <div className="gap-10 my-10">
+            <div className="flex flex-col gap-10 my-10">
                 <Section>
                     <SectionContent>
                         <Heading>Name</Heading>
@@ -25,7 +26,22 @@ async function Account() {
                         </div>
                     </SectionContent>
                     <SectionFooter>
-
+                        <div></div>
+                        <Button primary mono style="w-min">Save</Button>
+                    </SectionFooter>
+                </Section>
+                <Section danger>
+                    <SectionContent>
+                        <Heading>Sign Out</Heading>
+                        <Text>This will sign you out of all your devices signed in to this account.</Text>
+                    </SectionContent>
+                    <SectionFooter danger>
+                        <div></div>
+                        <form action="">
+                            <Button click={signOut} primary danger style="w-fit w-max-min">
+                                Log-Out
+                            </Button>
+                        </form>
                     </SectionFooter>
                 </Section>
             </div>

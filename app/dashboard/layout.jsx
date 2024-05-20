@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`bg-background text-text ${inter.className}`}>
+      <body className={`bg-background text-text flex ${inter.className}`}>
         <Header/>
         {children}
       </body>

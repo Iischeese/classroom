@@ -4,6 +4,7 @@ import { getUser, getUserData } from "@/app/(setup)/login/actions"
 import { createClient } from "@/utils/supabase/server"
 import { createServerClient } from "@supabase/ssr"
 import { redirect } from "next/navigation"
+import Router from "next/navigation"
 import { cookies } from 'next/headers'
 import { revalidatePath } from "next/cache"
 
@@ -18,7 +19,7 @@ async function getClassrooms() {
             .from('classrooms')
             .select('*')
             .eq('user_id', user.user_id)
-            .order('created_at', {ascending: false})
+            .order('created_at', { ascending: false })
 
         if (error) return
 
@@ -30,7 +31,7 @@ async function getClassrooms() {
             .from('classrooms')
             .select('*')
             .in('id', user.enrolled_classes)
-            .order('created_at', {ascending: true})
+            .order('created_at', { ascending: true })
 
         if (error) { console.error(error.code + ': ' + error.message + '\n' + error.details); return [] }
         else return data
@@ -81,7 +82,9 @@ async function changeName(id, newName) {
         .eq('id', id)
         .select('*')
 
-    return error
+    if (error) return error
+
+    revalidatePath('/', 'page')
 }
 
 async function joinClassroom(formData) {
@@ -145,7 +148,7 @@ function generateJoinCode() {
     let code = []
 
     for (let i = 0; i < seed.length; i++) {
-        const char = alphabet.charAt((i * 1 + seed.charAt(i)) % alphabet.length) 
+        const char = alphabet.charAt((i * 1 + seed.charAt(i)) % alphabet.length)
 
         code.push(char)
     }
@@ -153,4 +156,18 @@ function generateJoinCode() {
     return code.join("")
 }
 
-export { getClassrooms, getClassroom, deleteClassroom, changeName, joinClassroom, generateJoinCode }
+async function getAssignments(class_id) {
+    const supabase = createClient()
+
+    const { data, error } = await supabase
+        .from('assignments')
+        .select('*')
+        .eq('classroom_id', class_id)
+
+    if (error) {console.error(error); return}
+    
+    return data
+
+}
+
+export { getClassrooms, getClassroom, deleteClassroom, changeName, joinClassroom, generateJoinCode, getAssignments }

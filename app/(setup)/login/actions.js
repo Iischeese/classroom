@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 
 import { createClient } from '@/utils/supabase/server'
 import { createServerClient } from '@supabase/ssr'
+import Error from '@/components/Error'
 
 async function login(formData) {
   const supabase = createClient()
@@ -23,6 +24,7 @@ async function login(formData) {
   }
 
   revalidatePath('/', 'layout')
+  revalidatePath('/login', 'page')
   redirect('/')
 }
 
@@ -49,7 +51,7 @@ async function getUser(){
 
   const {data, error} = await supabase.auth.getUser()
 
-  if(error) return
+  if(error) return null
 
   return data.user
 }
@@ -61,6 +63,8 @@ async function getUserData(id){
 
   if(!id) user = await getUser()
   else user = {id: id}
+
+  if(!user) return {message: "User not found"}
 
   const { data, error } = await supabase
     .from('users')
@@ -74,4 +78,13 @@ async function getUserData(id){
 
 }
 
-export {signup, login, getUser, getUserData}
+async function signOut(){
+  const supabase = createClient()
+
+  const {error} = await supabase.auth.signOut()
+
+  revalidatePath('/', 'layout')
+  redirect('/login')
+}
+
+export {signup, login, getUser, getUserData, signOut}
