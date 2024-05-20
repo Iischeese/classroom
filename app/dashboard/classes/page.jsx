@@ -26,15 +26,15 @@ async function Classes() {
     return (
         <>
             <main className="flex flex-col p-10 w-full min-h-screen gap-14">
-                <div className="flex gap-8">
+                <div className="flex gap-8 h-min">
                     <Input mono placeholder="Search for a classroom..." />
                     <Button mono style="w-min">View</Button>
                     <Button mono style="w-min">Filter</Button>
                     {
                         userData.isTeacher ?
-                            <Button link='/dashboard/classes/create' mono style="w-1/4 min-w-fit" primary>Create new classroom</Button>
+                            <Button link='/dashboard/classes/create' mono style="w-max" primary>Create new classroom</Button>
                             :
-                            <Button link='/dashboard/classes/join' mono style="w-1/3 min-w-fit" primary>Join a classroom</Button>
+                            <Button link='/dashboard/classes/join' mono style="w-max" primary>Join a classroom</Button>
                     }
                 </div>
                 <Suspense fallback={
