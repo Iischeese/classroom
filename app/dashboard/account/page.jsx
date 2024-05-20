@@ -3,6 +3,7 @@ import Button from "@/components/Button"
 import Input from "@/components/Input"
 import { Section, SectionContent, SectionFooter } from "@/components/Section"
 import { Title, Heading, Text } from "@/components/Typography"
+import SettingsContainer from "@/components/dashboard/SettingsContainer"
 import { redirect } from "next/navigation"
 
 async function Account() {
@@ -13,7 +14,7 @@ async function Account() {
     const userData = await getUserData()
 
     return (
-        <main className="w-full flex flex-col p-5 px-[20vw]">
+        <SettingsContainer>
             <Title>Account Settings</Title>
             <div className="flex flex-col gap-10 my-10">
                 <Section>
@@ -45,7 +46,7 @@ async function Account() {
                     </SectionFooter>
                 </Section>
             </div>
-        </main>
+        </SettingsContainer>
     )
 }
 

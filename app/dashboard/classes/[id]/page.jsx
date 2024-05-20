@@ -5,6 +5,7 @@ import { getUser, getUserData } from "@/app/(setup)/login/actions"
 import Error from "@/components/Error"
 import Card from "@/components/Card"
 import Bento from "@/components/dashboard/Bento"
+import AssignmentPreview from "@/components/dashboard/AssignmentsPreview"
 
 export async function generateMetadata({ params }) {
   const data = await getClassroom(params.id)
@@ -47,7 +48,7 @@ export default async function Page({ params }) {
               signedIn.user_id == classroom.user_id ?
                 <div className="absolute right-0 top-0 m-3 flex gap-2">
                   <Button mono link={`/dashboard/classes/${params.id}/edit`}>Settings</Button>
-                  <Button mono primary link={`/dashboard/classes/${params.id}/edit`}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg></Button>
+                  <Button mono primary link={`/dashboard/classes/${params.id}/assignments/create`}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg></Button>
                 </div>
                 :
                 <></>
@@ -61,16 +62,15 @@ export default async function Page({ params }) {
               <Text>{classroom.join_code}</Text>
             </div>
           </Card>
-          <Card className="row-span-3">
+          <Card className="row-span-3 flex flex-col gap-4">
             <Heading>Upcoming assignments</Heading>
             {
-              // assignments.map((assignment, index)=>{
-              //   <Text key={index}>{assignment.name}</Text>
-              // })
+              assignments.map((assignment, index)=>{
+                return(
+                  <AssignmentPreview link={params.id} assignment={assignment} key={index} />
+                )
+              })
             }
-          </Card>
-          <Card className="col-span-2 row-span-2">
-            <Heading>Testing Calander</Heading>
           </Card>
         </Bento>
       </main >

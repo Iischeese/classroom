@@ -1,10 +1,10 @@
 'use server'
 
-import { getUser, getUserData } from "@/app/(setup)/login/actions"
+import { getUserData } from "@/app/(setup)/login/actions"
 import { createClient } from "@/utils/supabase/server"
 import { createServerClient } from "@supabase/ssr"
 import { redirect } from "next/navigation"
-import Router from "next/navigation"
+import { redirect as redirect2 } from "next/dist/server/api-utils"
 import { cookies } from 'next/headers'
 import { revalidatePath } from "next/cache"
 
@@ -159,15 +159,51 @@ function generateJoinCode() {
 async function getAssignments(class_id) {
     const supabase = createClient()
 
-    const { data, error } = await supabase
+    let { data: assignments, error } = await supabase
         .from('assignments')
         .select('*')
         .eq('classroom_id', class_id)
 
-    if (error) {console.error(error); return}
-    
-    return data
+    if (error) { console.error(error); return }
 
+    return assignments
 }
 
-export { getClassrooms, getClassroom, deleteClassroom, changeName, joinClassroom, generateJoinCode, getAssignments }
+async function createAssignment(assig, id) {
+
+    const supabase = createClient()
+
+    const { data, error } = await supabase
+        .from('assignments')
+        .insert({ name: assig.name, type: assig.type, classroom_id: id, due_date: assig.date, description: assig.desc })
+
+    if (error) console.error(error.message)
+
+   revalidatePath('/', 'layout')
+}
+
+async function getAssignment(id) {
+    const supabase = createClient()
+
+    const { data, error } = await supabase
+        .from('assignments')
+        .select('*')
+        .eq('id', id)
+        .single()
+
+    if (error) return error
+
+    return data
+}
+
+export {
+    getClassrooms,
+    getClassroom,
+    deleteClassroom,
+    changeName,
+    joinClassroom,
+    generateJoinCode,
+    getAssignments,
+    createAssignment,
+    getAssignment
+}

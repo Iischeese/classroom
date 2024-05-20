@@ -15,7 +15,7 @@ async function Create() {
 
     return (
         <>
-            <main className="flex flex-col items-center justify-center w-screen h-[calc(100vh-5rem)]">
+            <main className="flex flex-col items-center justify-center w-screen h-screen">
                 <div className="border border-text/40 rounded-md p-5 flex flex-col gap-4">
                     <Title>Create a Class</Title>
                     <form className="flex flex-col gap-8">
