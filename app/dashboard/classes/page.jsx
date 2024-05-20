@@ -38,9 +38,9 @@ async function Classes() {
                     }
                 </div>
                 <Suspense fallback={
-                    ['', '', ''].map(() => {
+                    ['', '', ''].map((value, index) => {
                         return (
-                            <div className="h-52 w-full p-5 bg-text/20 rounded-md">
+                            <div key={index} className="h-52 w-full p-5 bg-text/20 rounded-md">
                                 <div className="w-40 bg-text/30 h-10 rounded-md"></div>
                                 <div className="w-80 my-3 bg-text/20 h-10 rounded-md"></div>
                             </div>

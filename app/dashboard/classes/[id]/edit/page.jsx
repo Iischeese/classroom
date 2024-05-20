@@ -34,7 +34,7 @@ async function ClassroomSettings({ params }) {
         return (
             <>
                 <main className="w-full flex flex-col p-5 px-[20vw]">
-                    <SubTitle>{classroom.name}'s Configuration</SubTitle>    
+                    <SubTitle>{classroom.name}&apos;s Configuration</SubTitle>    
                     <div className="flex flex-col gap-10 my-10">
                         <Section>
                             <SectionContent>
