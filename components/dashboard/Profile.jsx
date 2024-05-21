@@ -1,13 +1,15 @@
 import { getUserData } from "@/app/(setup)/login/actions"
 import Image from "next/image"
 
-async function ProfilePic(){
+async function ProfilePic() {
 
     const user = await getUserData()
 
-    return(
-        <div className={`${user.isTeacher? "border-4 border-primary":""} w-full aspect-square rounded-full overflow-clip relative`}>
-            <Image className="w-full h-full absolute object-cover p-1 rounded-full" width={50} height={50} src={user.profile_pic}/>
+    return (
+        <div className="w-full aspect-square">
+            <div className={`${user.type == "teacher" ? "border-4 border-primary" : ""} w-full aspect-square rounded-full overflow-clip relative`}>
+                <Image className="w-full h-full absolute object-cover" width={50} height={50} src={user.profile_pic} />
+            </div>
         </div>
     )
 }

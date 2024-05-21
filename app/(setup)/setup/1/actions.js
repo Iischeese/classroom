@@ -9,8 +9,8 @@ async function setupUser(formData) {
 
     let teach
 
-    if (formData.get('teach') == "am") teach = true
-    else teach = false
+    if (formData.get('teach') == "am") teach = "teacher"
+    else teach = "student"
 
     const formD = {
         fname: formData.get('fname'),
@@ -22,7 +22,7 @@ async function setupUser(formData) {
     const { data, error } = await supabase
         .from('users')
         .insert([
-            { first_name: formD.fname, last_name: formD.lname, isTeacher: formD.teach, prefix: formD.prefix, enrolled_classes: [], assignments: [] },
+            { first_name: formD.fname, last_name: formD.lname, type: formD.teach, prefix: formD.prefix, enrolled_classes: [], assignments: [] },
         ])
         .select()
 

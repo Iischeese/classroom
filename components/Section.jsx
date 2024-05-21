@@ -1,7 +1,8 @@
-function Section({ children, danger }) {
+function Section({ children, danger, disabled }) {
     return (
         <>
-            <section className={`overflow-clip w-full border ${danger ? "border-red-500" : "border-text/40"} rounded-md bg-background`}>
+            <section className={`relative overflow-clip w-full border ${danger ? "border-red-500" : "border-text/40"} rounded-md bg-background`}>
+                <div className={`${disabled? "" : "hidden"} z-50 w-full h-full absolute object-cover bg-background/50`}/>
                 {children}
             </section>
         </>

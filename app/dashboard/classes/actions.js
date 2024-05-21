@@ -14,7 +14,7 @@ async function getClassrooms() {
 
     const user = await getUserData()
 
-    if (user.isTeacher) {
+    if (user.type == "teacher") {
         const { data, error } = await supabase
             .from('classrooms')
             .select('*')
@@ -175,11 +175,27 @@ async function createAssignment(assig, id) {
 
     const { data, error } = await supabase
         .from('assignments')
-        .insert({ name: assig.name, type: assig.type, classroom_id: id, due_date: assig.date, description: assig.desc })
+        .insert({ name: assig.name, type: assig.type, classroom_id: id, due_date: assig.due, description: assig.desc, input: "TEXT" })
+        .select('*')
+        .single()
 
     if (error) console.error(error.message)
 
-   revalidatePath('/', 'layout')
+    /**
+     * Add the assignment to the students
+     */
+    const classroom = await getClassroom(id)
+
+
+    for (let i = 0; i < classroom.students.length; i++) {
+        console.log(classroom.students.length)
+
+        const { error: userError } = await supabase
+            .from('responses')
+            .insert({ assignment_id: data.id, student_id: classroom.students[i], input: data.type})
+
+        if (userError) console.log(userError.message)
+    }
 }
 
 async function getAssignment(id) {
@@ -196,6 +212,35 @@ async function getAssignment(id) {
     return data
 }
 
+async function getResponse(assID, userID) {
+    const supabase = createClient()
+
+    const { data: response, error } = await supabase
+        .from('responses')
+        .select('*')
+        .eq('assignment_id', assID)
+        .eq('student_id', userID)
+        .single()
+
+    if (error) return error
+
+    return response
+}
+
+async function setResponseViewed(response, bool) {
+    const supabase = createClient()
+
+    const { data, error } = await supabase
+        .from('responses')
+        .update({is_viewed: bool})
+        .eq('assignment_id', response.assignment_id)
+        .eq('student_id', response.student_id)
+        .select('*')
+        .single()
+        
+    if (error) console.error(error)
+}
+
 export {
     getClassrooms,
     getClassroom,
@@ -205,5 +250,7 @@ export {
     generateJoinCode,
     getAssignments,
     createAssignment,
-    getAssignment
+    getAssignment,
+    getResponse,
+    setResponseViewed
 }

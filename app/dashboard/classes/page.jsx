@@ -31,7 +31,7 @@ async function Classes() {
                     <Button mono style="w-min">View</Button>
                     <Button mono style="w-min">Filter</Button>
                     {
-                        userData.isTeacher ?
+                        userData.type == "teacher" ?
                             <Button link='/dashboard/classes/create' mono style="w-max" primary>Create new classroom</Button>
                             :
                             <Button link='/dashboard/classes/join' mono style="w-max" primary>Join a classroom</Button>
