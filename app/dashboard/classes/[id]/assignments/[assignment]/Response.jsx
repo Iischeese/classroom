@@ -4,6 +4,7 @@ import {updateValue, turnItIn } from "./actions";
 import { Section, SectionContent, SectionFooter } from "@/components/Section";
 import { Text, Heading } from "@/components/Typography";
 import Error from "@/components/Error";
+import { revalidatePath } from "next/cache";
 
 async function Response({ id, user }) {
 
@@ -29,7 +30,9 @@ async function Response({ id, user }) {
 
     async function turnIN(){
         'use server'
-        turnItIn(response)
+        await turnItIn(response)
+
+        revalidatePath('/', 'layout')
     }
 
 
@@ -45,7 +48,7 @@ async function Response({ id, user }) {
                         <Text>Your progress will not auto-save.</Text>
                         <div className="flex gap-2">
                             <Button click={update} mono style="w-min">Save</Button>
-                            <Button click={turnIN} mono primary style="w-fit">{ response.submitted ? "Already submitted!" : "Turn it in!"}</Button>
+                            <Button click={turnIN} mono primary style="w-fit">{ response.submitted ? "Submitted!" : "Turn it in!"}</Button>
                         </div>
                     </SectionFooter>
                 </Section>

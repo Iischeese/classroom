@@ -15,19 +15,17 @@ async function AssignmentView({ params }) {
 
     const assignment = await getAssignment(id)
 
-    if(assignment.message) return <Error />
+    if (assignment.message) return <Error />
 
-    if (user.type == "student") {
-        const response = await getResponse(id, user.user_id)
+    const check = async () => {
+        if (user.type == "student") {
+            const response = await getResponse(id, user.user_id)
 
-        if(response.code == "PGRST116") {
-            const response = await createResponse(id, user.user_id)
-
-            if(response.message) {console.log(response); return <Error />}
+            await setResponseViewed(response, true)
         }
-
-        await setResponseViewed(response, true)
     }
+
+    await check()
 
     const responses = await getResponses(id)
 
@@ -36,7 +34,7 @@ async function AssignmentView({ params }) {
             <SettingsContainer>
                 <div className="py-10 w-full flex justify-between items-end border-b border-text/40">
                     <Title>{assignment.name}</Title>
-                    <Text>Due {assignment.due_date}</Text>
+                    <Text><span className="w-full break-keep">{assignment.due_date}</span></Text>
                 </div>
                 <p className="py-10 text-text/85">
                     {assignment.description}

@@ -66,15 +66,17 @@ export default async function Page({ params }) {
               <Text>{classroom.join_code}</Text>
             </div>
           </Card>
-          <Card className="row-span-3 flex flex-col gap-4">
+          <Card className="row-span-3 col-span-1 flex flex-col gap-4 overflow-y-scroll">
             <Heading>Upcoming assignments</Heading>
-            {
-              assignments.map((assignment, index) => {
-                return (
-                  <AssignmentPreview link={params.id} assignment={assignment} key={index} />
-                )
-              })
-            }
+            <div className="w-full h-full overflow-y-scroll">
+              {
+                assignments.map((assignment, index) => {
+                  return (
+                    <AssignmentPreview link={params.id} assignment={assignment} key={index} />
+                  )
+                })
+              }
+            </div>
           </Card>
         </Bento>
       </main >

@@ -5,20 +5,25 @@ import Button from "@/components/Button"
 import Dropdown from "@/components/Dropdown"
 import { createAssignment } from "../../../actions"
 import SettingsContainer from "@/components/dashboard/SettingsContainer"
+import { redirect } from "next/navigation"
 
 function CreateAssignment({ params }) {
 
     const create = async (formData) => {
         'use server'
 
-        const formD = {
+        let formD = {
             name: formData.get('name'),
             type: formData.get('type'),
             due: formData.get('date'),
             desc: formData.get('desc')
         }
 
-        createAssignment(formD, params.id)
+        if(formD.due == '') formD.due = new Date()
+
+            await createAssignment(formD, params.id)
+
+        redirect(`/dashboard/classes/${params.id}`)
     }
 
     return (
@@ -40,7 +45,7 @@ function CreateAssignment({ params }) {
                             <input className="bg-text/5 border border-text/40 rounded-md p-3" type="date" name="date" id="date" />
                         </div>
                         <div className="flex flex-col gap-2">
-                            <Label id='desc'>Instruction:s </Label>
+                            <Label id='desc'>Instructions </Label>
                             <textarea className="bg-text/5 border border-text/40 rounded-md p-3" name="desc" id="desc"></textarea>
                         </div>
                         <Button click={create} mono primary>Create</Button>

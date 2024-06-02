@@ -7,6 +7,7 @@ import { redirect } from "next/navigation"
 import { redirect as redirect2 } from "next/dist/server/api-utils"
 import { cookies } from 'next/headers'
 import { revalidatePath } from "next/cache"
+import { createResponse } from "./[id]/assignments/[assignment]/actions"
 
 
 async function getClassrooms() {
@@ -173,29 +174,27 @@ async function createAssignment(assig, id) {
 
     const supabase = createClient()
 
-    const { data, error } = await supabase
+    const { data: assignment, error } = await supabase
         .from('assignments')
         .insert({ name: assig.name, type: assig.type, classroom_id: id, due_date: assig.due, description: assig.desc, input: "TEXT" })
-        .select('*')
+        .select('id')
         .single()
 
     if (error) console.error(error.message)
 
-    /**
-     * Add the assignment to the students
-     */
-    const classroom = await getClassroom(id)
+    const { data: classroom } = await supabase
+        .from('classrooms')
+        .select('*')
+        .eq('id', id)
+        .single()
 
 
     for (let i = 0; i < classroom.students.length; i++) {
-        console.log(classroom.students.length)
-
-        const { error: userError } = await supabase
-            .from('responses')
-            .insert({ assignment_id: data.id, student_id: classroom.students[i], input: data.type})
-
-        if (userError) console.log(userError.message)
+        const response = await createResponse(assignment.id, classroom.students[i])
+        
+        if(response.message) console.log(response)
     }
+
 }
 
 async function getAssignment(id) {
@@ -232,12 +231,12 @@ async function setResponseViewed(response, bool) {
 
     const { data, error } = await supabase
         .from('responses')
-        .update({is_viewed: bool})
+        .update({ is_viewed: bool })
         .eq('assignment_id', response.assignment_id)
         .eq('student_id', response.student_id)
         .select('*')
         .single()
-        
+
     if (error) console.error(error)
 }
 
