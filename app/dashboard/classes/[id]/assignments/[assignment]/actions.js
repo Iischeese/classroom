@@ -40,9 +40,27 @@ async function getResponses(id) {
         .eq('submitted', true)
         .eq('assignment_id', id)
 
-    if(error) console.error(error);
+    if (error) return error;
 
     return data
 }
 
-export { updateValue, turnItIn, getResponses }
+async function createResponse(id, user_id) {
+    const supabase = createClient()
+
+    const { data, error } = await supabase
+        .from('responses')
+        .insert({
+            assignment_id: id,
+            student_id: user_id,
+            response: { "TEXT": "" },
+
+        })
+        .select('*')
+
+    if(error) return error
+
+    return data
+}
+
+export { updateValue, turnItIn, getResponses, createResponse }

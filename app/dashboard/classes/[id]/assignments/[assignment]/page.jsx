@@ -3,7 +3,7 @@ import { getAssignment, getResponse, setResponseViewed } from "../../../actions"
 import SettingsContainer from "@/components/dashboard/SettingsContainer"
 import { getUserData } from "@/app/(setup)/login/actions"
 import Response from "./Response"
-import { getResponses } from "./actions"
+import { createResponse, getResponses } from "./actions"
 import ResponsePreview from "./ResponsePreview"
 
 async function AssignmentView({ params }) {
@@ -16,6 +16,13 @@ async function AssignmentView({ params }) {
 
     if (user.type == "student") {
         const response = await getResponse(id, user.user_id)
+
+        if(response.code == "PGRST116") {
+            const response = await createResponse(id, user.user_id)
+
+            if(response.message) {console.log(response); return <Error />}
+        }
+
         await setResponseViewed(response, true)
     }
 
@@ -34,7 +41,7 @@ async function AssignmentView({ params }) {
                 <div className="border-t border-text/40 py-10 flex flex-col gap-3">
                     {
                         user.type == "student" ?
-                            <Response id={id} user={user} />
+                            <Response id={id} user={user.user_id} />
                             :
                             <>
                                 <Heading>Students Work: </Heading>

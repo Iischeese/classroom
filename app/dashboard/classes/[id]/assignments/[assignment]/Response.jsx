@@ -3,10 +3,13 @@ import { getResponse } from "../../../actions"
 import {updateValue, turnItIn } from "./actions";
 import { Section, SectionContent, SectionFooter } from "@/components/Section";
 import { Text, Heading } from "@/components/Typography";
+import Error from "@/components/Error";
 
 async function Response({ id, user }) {
 
-    const response = await getResponse(id, user.user_id)
+    const response = await getResponse(id, user)
+
+    if(response.message) {console.log(response); return <Error />}
 
     let anw
 
