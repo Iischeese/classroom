@@ -7,6 +7,7 @@ import Card from "@/components/Card"
 import Bento from "@/components/dashboard/Bento"
 import AssignmentPreview from "@/components/dashboard/AssignmentsPreview"
 import Image from "next/image"
+import Link from "next/link"
 
 export async function generateMetadata({ params }) {
   const data = await getClassroom(params.id)
@@ -67,16 +68,16 @@ export default async function Page({ params }) {
             </div>
           </Card>
           <Card className="row-span-3 col-span-1 flex flex-col gap-4 overflow-y-scroll">
-            <Heading>Upcoming assignments</Heading>
-            <div className="w-full h-full overflow-y-scroll">
+            <Link className="h-full overflow-y-scroll" href={`/dashboard/classes/${params.id}/assignments`}>
+              <Heading>Upcoming assignments</Heading>
               {
                 assignments.map((assignment, index) => {
                   return (
-                    <AssignmentPreview link={params.id} assignment={assignment} key={index} />
+                    <AssignmentPreview assignment={assignment} key={index} />
                   )
                 })
               }
-            </div>
+            </Link>
           </Card>
         </Bento>
       </main >

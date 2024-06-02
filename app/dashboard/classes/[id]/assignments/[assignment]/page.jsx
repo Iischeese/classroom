@@ -1,4 +1,4 @@
-import { Title, Text, Heading } from "@/components/Typography"
+import { Title, Text, Heading, SubTitle } from "@/components/Typography"
 import { getAssignment, getResponse, setResponseViewed } from "../../../actions"
 import SettingsContainer from "@/components/dashboard/SettingsContainer"
 import { getUserData } from "@/app/(setup)/login/actions"
@@ -6,6 +6,7 @@ import Response from "./Response"
 import { createResponse, getResponses } from "./actions"
 import ResponsePreview from "./ResponsePreview"
 import Error from "@/components/Error"
+import { BackButton } from "@/components/dashboard/Navigation"
 
 async function AssignmentView({ params }) {
 
@@ -32,8 +33,9 @@ async function AssignmentView({ params }) {
     return (
         <>
             <SettingsContainer>
+                <BackButton />
                 <div className="py-10 w-full flex justify-between items-end border-b border-text/40">
-                    <Title>{assignment.name}</Title>
+                    <SubTitle>{assignment.name}</SubTitle>
                     <Text><span className="w-full break-keep">{assignment.due_date}</span></Text>
                 </div>
                 <p className="py-10 text-text/85">

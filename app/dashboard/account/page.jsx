@@ -3,6 +3,8 @@ import Button from "@/components/Button"
 import Input from "@/components/Input"
 import { Section, SectionContent, SectionFooter } from "@/components/Section"
 import { Title, Heading, Text } from "@/components/Typography"
+import Navigation from "@/components/dashboard/Navigation"
+import ProfilePic from "@/components/dashboard/Profile"
 import SettingsContainer from "@/components/dashboard/SettingsContainer"
 import { redirect } from "next/navigation"
 
@@ -15,7 +17,7 @@ async function Account() {
 
     return (
         <SettingsContainer>
-            <Title>Account Settings</Title>
+            <Navigation title={'Account Settings'}/> 
             <div className="flex flex-col gap-10 my-10">
                 <Section>
                     <SectionContent>
@@ -28,6 +30,19 @@ async function Account() {
                     </SectionContent>
                     <SectionFooter>
                         <div></div>
+                        <Button primary mono style="w-min">Save</Button>
+                    </SectionFooter>
+                </Section>
+                <Section>
+                    <SectionContent>
+                        <Heading>Profile Picture</Heading>
+                        <div className="flex gap-8">
+                            <Text>The public picture that will represent you. Shows up by your name, classes ect.</Text>
+                            <div className="w-1/4"> <ProfilePic /></div>
+                        </div>
+                    </SectionContent>
+                    <SectionFooter>
+                        <Text>Not to exceed 50MB.</Text>
                         <Button primary mono style="w-min">Save</Button>
                     </SectionFooter>
                 </Section>
