@@ -15,6 +15,8 @@ async function AssignmentView({ params }) {
 
     const assignment = await getAssignment(id)
 
+    if(assignment.message) return <Error />
+
     if (user.type == "student") {
         const response = await getResponse(id, user.user_id)
 
