@@ -5,6 +5,7 @@ import { getUserData } from "@/app/(setup)/login/actions"
 import Response from "./Response"
 import { createResponse, getResponses } from "./actions"
 import ResponsePreview from "./ResponsePreview"
+import Error from "@/components/Error"
 
 async function AssignmentView({ params }) {
 

@@ -8,7 +8,7 @@ async function ProfilePic() {
     return (
         <div className="w-full aspect-square">
             <div className={`${user.type == "teacher" ? "border-4 border-primary" : ""} w-full aspect-square rounded-full overflow-clip relative`}>
-                <Image className="w-full h-full absolute object-cover" width={50} height={50} src={user.profile_pic} />
+                <Image alt={`${user.first_name}'s profile picture`} className="w-full h-full absolute object-cover" width={50} height={50} src={user.profile_pic} />
             </div>
         </div>
     )

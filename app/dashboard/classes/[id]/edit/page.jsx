@@ -60,7 +60,7 @@ async function ClassroomSettings({ params }) {
                                 <Text>The photo that appears on the top of your class page. It&apos;s size could change on different devices; Make sure your image is large enough to accommodate.</Text>
                                 <div className="w-full flex gap-2 items-center">
                                     <div className="w-1/2 aspect-video rounded-md overflow-clip relative">
-                                        <Image className="w-full h-full absolute object-cover" width={300} height={200} src={classroom.header_photo} />
+                                        <Image alt="Your current classroom photo" className="w-full h-full absolute object-cover" width={300} height={200} src={classroom.header_photo} />
                                     </div>
                                     <div className="border border-text/40 w-1/2 aspect-video rounded-md overflow-clip relative flex justify-center items-center bg-text/10">
                                         <Heading>Upload</Heading>
