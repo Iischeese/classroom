@@ -1,16 +1,19 @@
 import Button from "@/components/Button";
-import { getResponse } from "../../../actions"
+import { getResponse } from "./actions"
 import {updateValue, turnItIn } from "./actions";
 import { Section, SectionContent, SectionFooter } from "@/components/Section";
 import { Text, Heading } from "@/components/Typography";
 import Error from "@/components/Error";
 import { revalidatePath } from "next/cache";
+import { getUser } from "@/app/(setup)/login/actions";
 
-async function Response({ id, user }) {
+async function Response({ id }) {
 
-    const response = await getResponse(id, user)
+    const user = await getUser()
 
-    if(response.message) {console.log(response); return <Error />}
+    const response = await getResponse(id ,user.id)
+
+    if(response.message) {console.log(response); return <Error title={'This assignment has not been added to your account.'} desc={'You joined this classroom after the teacher created the assignment. Contact you teacher or IT department.'}/>}
 
     let anw
 
@@ -42,7 +45,7 @@ async function Response({ id, user }) {
                 <Section disabled={response.submitted}>
                     <SectionContent>
                         <Heading>Your Work:</Heading>
-                        <textarea name="text" defaultValue={anw} className="bg-text/5 border border-text/40 rounded-md focus:outline-none p-3" />
+                        <textarea onChangeCapture={update} name="text" defaultValue={anw} className="bg-text/5 border border-text/40 rounded-md focus:outline-none p-3" />
                     </SectionContent>
                     <SectionFooter>
                         <Text>Your progress will not auto-save.</Text>

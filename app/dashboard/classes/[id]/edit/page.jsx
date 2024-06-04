@@ -11,6 +11,10 @@ import Header from "@/components/dashboard/Header"
 import SettingsContainer from "@/components/dashboard/SettingsContainer"
 import Navigation from "@/components/dashboard/Navigation"
 
+export const metadata = {
+    title: 'Classroom Settigns'
+}
+
 async function ClassroomSettings({ params }) {
 
     const isSignedIn = await getUser()
@@ -38,7 +42,7 @@ async function ClassroomSettings({ params }) {
         return (
             <>
                 <SettingsContainer>
-                    <Navigation title={`${classroom.name}'s Configuration`} link={`/dashboard/classes/${id}`}/>
+                    <Navigation title={`Classroom Settings`} link={`/dashboard/classes/${id}`}/>
                     <div className="flex flex-col gap-10 my-10">
                         <Section>
                             <SectionContent>

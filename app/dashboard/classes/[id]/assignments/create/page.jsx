@@ -3,9 +3,10 @@ import Label from "@/components/Label"
 import Input from "@/components/Input"
 import Button from "@/components/Button"
 import Dropdown from "@/components/Dropdown"
-import { createAssignment } from "../../../actions"
+import { createAssignment } from "../[assignment]/actions"
 import SettingsContainer from "@/components/dashboard/SettingsContainer"
 import { redirect } from "next/navigation"
+import Navigation from "@/components/dashboard/Navigation"
 
 function CreateAssignment({ params }) {
 
@@ -30,7 +31,7 @@ function CreateAssignment({ params }) {
         <>
             <SettingsContainer>
                 <div className="rounded-md p-5 flex flex-col gap-4 w-full">
-                    <SubTitle>Create an assignment</SubTitle>
+                    <Navigation title="Create an assignment"/>
                     <form className="flex flex-col gap-8">
                         <div className="flex flex-col gap-2">
                             <Label id='name'>Name: </Label>

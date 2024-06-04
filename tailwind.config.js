@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ["class"],
+  darkMode: ["media"],
   content: [
     './pages/**/*.{js,jsx}',
     './components/**/*.{js,jsx}',
@@ -9,20 +9,16 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {
-        'text': '#eed7f7',
-        'background': '#15061a',
-        'primary': '#d691e8',
-        'secondary': '#931f4c',
-        'accent': '#d32d40',
+      borderRadius: {
+        'md': '.3rem'
       },
       colors: {
-        'text': '#dbe7f8',
-        'background': '#040b12',
-        'primary': '#8bb6e9',
-        'secondary': '#441a85',
-        'accent': '#a82cd6',
-       },       
+        "text": "#F9E7CF",
+        "background": "#0F0803",
+        "primary": "#fbc531",
+        "secondary": "#dbb521",
+        "accent": "#fbc531"
+      }
     }
   },
 }

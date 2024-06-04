@@ -7,7 +7,7 @@ import { SubTitle } from "../Typography"
 function Navigation({ title, children }) {
 
     return (
-        <div className="flex w-full justify-between items-center gap-32 py-5 border-b border-text/40">
+        <div className="flex w-full justify-between items-center gap-32 py-5">
             <SubTitle>{title}</SubTitle>
             <div className="flex items-center gap-2">
                 {children}
@@ -17,7 +17,7 @@ function Navigation({ title, children }) {
     )
 }
 
-function BackButton() {
+function BackButton({className}) {
 
     const router = useRouter()
 
@@ -26,7 +26,7 @@ function BackButton() {
     }
 
     return (
-        <Button style="w-min" noForm={back} mono>Back</Button>
+        <Button style={`${className} w-min`} noForm={back} mono>Back</Button>
     )
 }
 

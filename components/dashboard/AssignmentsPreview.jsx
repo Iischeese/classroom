@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { Text } from "../Typography"
-import { getResponse } from "@/app/dashboard/classes/actions"
+import { getResponse } from "@/app/dashboard/classes/[id]/assignments/[assignment]/actions"
 import { getUser } from "@/app/(setup)/login/actions"
 
 async function AssignmentPreview({ link, assignment }) {

@@ -8,6 +8,10 @@ import ProfilePic from "@/components/dashboard/Profile"
 import SettingsContainer from "@/components/dashboard/SettingsContainer"
 import { redirect } from "next/navigation"
 
+export const metadata = {
+    title: 'Account Settings'
+}
+
 async function Account() {
 
     const user = await getUser()

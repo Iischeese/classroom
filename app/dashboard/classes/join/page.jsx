@@ -14,9 +14,9 @@ async function Join() {
                     <form className="flex flex-col gap-8">
                         <div className="flex flex-col gap-2">
                             <Label id='code'>Code: </Label>
-                            <Input mono id='code' name='code'/>
+                            <Input placeholder={'XXXXXXX'} id='code' name='code'/>
                         </div>
-                        <Button click={joinClassroom} mono primary>Create</Button>
+                        <Button click={joinClassroom} mono primary>Join</Button>
                     </form>
                 </div>
             </main>

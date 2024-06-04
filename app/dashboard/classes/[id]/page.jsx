@@ -1,6 +1,7 @@
 import Button from "@/components/Button"
 import { Title, SubTitle, Heading, Text } from "@/components/Typography"
-import { getAssignments, getClassroom } from "../actions"
+import { getAssignments } from "./assignments/[assignment]/actions"
+import { getClassroom } from "../actions"
 import { getUser, getUserData } from "@/app/(setup)/login/actions"
 import Error from "@/components/Error"
 import Card from "@/components/Card"
@@ -8,6 +9,7 @@ import Bento from "@/components/dashboard/Bento"
 import AssignmentPreview from "@/components/dashboard/AssignmentsPreview"
 import Image from "next/image"
 import Link from "next/link"
+import { BackButton } from "@/components/dashboard/Navigation"
 
 export async function generateMetadata({ params }) {
   const data = await getClassroom(params.id)
@@ -40,7 +42,7 @@ export default async function Page({ params }) {
           <Image width={1920} height={1080} alt="" className="z-10 absolute object-cover w-full h-full" src={classroom.header_photo} />
           <div className="z-20 absolute w-full h-full bg-background/20" />
           <div className="absolute w-full h-full top-0 left-0 z-30 flex flex-col gap-2" >
-            <Button link={'/dashboard/classes'} style="m-3 w-min absolute top-0 left-0 m-3" mono>Back</Button>
+            <BackButton className="absolute top-0 left-0 m-3" />
             <div className="flex flex-col gap-2 absolute bottom-0 m-3">
               <Title>{classroom.name}</Title>
               <SubTitle>{classroom.grade_level}{classroom.grade_level > 2 ? "th" : classroom.grade_level > 1 ? "nd" : "st"} grade | {user.prefix} {user.last_name}</SubTitle>

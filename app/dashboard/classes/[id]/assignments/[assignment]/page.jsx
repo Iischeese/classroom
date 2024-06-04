@@ -1,9 +1,9 @@
 import { Title, Text, Heading, SubTitle } from "@/components/Typography"
-import { getAssignment, getResponse, setResponseViewed } from "../../../actions"
+import { getAssignment, getResponse, setResponseViewed } from "./actions"
 import SettingsContainer from "@/components/dashboard/SettingsContainer"
 import { getUserData } from "@/app/(setup)/login/actions"
 import Response from "./Response"
-import { createResponse, getResponses } from "./actions"
+import { getResponses } from "./actions"
 import ResponsePreview from "./ResponsePreview"
 import Error from "@/components/Error"
 import { BackButton } from "@/components/dashboard/Navigation"
@@ -16,7 +16,8 @@ async function AssignmentView({ params }) {
 
     const assignment = await getAssignment(id)
 
-    if (assignment.message) return <Error />
+
+    if (assignment.message) {console.error(assignment);return <Error />}
 
     const check = async () => {
         if (user.type == "student") {
@@ -44,7 +45,7 @@ async function AssignmentView({ params }) {
                 <div className="border-t border-text/40 py-10 flex flex-col gap-3">
                     {
                         user.type == "student" ?
-                            <Response id={id} user={user.user_id} />
+                            <Response id={id} />
                             :
                             <>
                                 <Heading>Students Work: </Heading>

@@ -72,7 +72,7 @@ async function getUserData(id){
     .eq('user_id', user.id)
     .single()
 
-  if(error) return
+  if(error) return error
 
   return data
 

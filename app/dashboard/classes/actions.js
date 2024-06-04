@@ -57,18 +57,50 @@ async function getClassroom(id) {
 
 async function deleteClassroom(id) {
 
-    console.log("DELETE: " + id)
+    console.log("DELETE CLASS: " + id)
 
     const supabase = createClient()
 
-    const user = await getUserData()
-
-    const { error } = await supabase
+    // delete the classroom
+    const { data: classroom, error: classError } = await supabase
         .from('classrooms')
         .delete()
         .eq('id', id)
+        .select('*')
+        .single()
 
-    if (error) { console.log(error.message); return }
+    if (classError) { console.error(classError); return }
+
+    // delete the assignments associated with it
+    const { data: assignmentData, error: assignmentError } = await supabase
+        .from('assignments')
+        .delete()
+        .eq('classroom_id', id)
+        .select('*')
+
+    if (assignmentError) { console.error(assignmentError); return }
+
+    // delete all the student responses
+    for (let i = 0; i < assignmentData.length; i++) {
+
+        console.log(assignmentData[i])
+
+        const { error: responsesError } = await supabase
+            .from('responses')
+            .delete()
+            .eq('assignment_id', assignmentData[i].id)
+
+        if (responsesError) { console.error(responsesError); return }
+    }
+
+    // delete header photo from storage (not working GRRRR! :/ )
+    const string = classroom.header_photo
+
+    const url = string.split('/')
+
+    const path = classroom.user_id + '/' + url[url.length - 1]
+
+    await supabase.storage.from('header-picture').remove([path])
 
     redirect('/dashboard')
 
@@ -157,89 +189,6 @@ function generateJoinCode() {
     return code.join("")
 }
 
-async function getAssignments(class_id) {
-    const supabase = createClient()
-
-    let { data: assignments, error } = await supabase
-        .from('assignments')
-        .select('*')
-        .eq('classroom_id', class_id)
-
-    if (error) { console.error(error); return }
-
-    return assignments
-}
-
-async function createAssignment(assig, id) {
-
-    const supabase = createClient()
-
-    const { data: assignment, error } = await supabase
-        .from('assignments')
-        .insert({ name: assig.name, type: assig.type, classroom_id: id, due_date: assig.due, description: assig.desc, input: "TEXT" })
-        .select('id')
-        .single()
-
-    if (error) console.error(error.message)
-
-    const { data: classroom } = await supabase
-        .from('classrooms')
-        .select('*')
-        .eq('id', id)
-        .single()
-
-
-    for (let i = 0; i < classroom.students.length; i++) {
-        const response = await createResponse(assignment.id, classroom.students[i])
-        
-        if(response.message) console.log(response)
-    }
-
-}
-
-async function getAssignment(id) {
-    const supabase = createClient()
-
-    const { data, error } = await supabase
-        .from('assignments')
-        .select('*')
-        .eq('id', id)
-        .single()
-
-    if (error) return error
-
-    return data
-}
-
-async function getResponse(assID, userID) {
-    const supabase = createClient()
-
-    const { data: response, error } = await supabase
-        .from('responses')
-        .select('*')
-        .eq('assignment_id', assID)
-        .eq('student_id', userID)
-        .single()
-
-    if (error) return error
-
-    return response
-}
-
-async function setResponseViewed(response, bool) {
-    const supabase = createClient()
-
-    const { data, error } = await supabase
-        .from('responses')
-        .update({ is_viewed: bool })
-        .eq('assignment_id', response.assignment_id)
-        .eq('student_id', response.student_id)
-        .select('*')
-        .single()
-
-    if (error) console.error(error)
-}
-
 export {
     getClassrooms,
     getClassroom,
@@ -247,9 +196,4 @@ export {
     changeName,
     joinClassroom,
     generateJoinCode,
-    getAssignments,
-    createAssignment,
-    getAssignment,
-    getResponse,
-    setResponseViewed
 }
