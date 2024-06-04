@@ -13,11 +13,11 @@ module.exports = {
         'md': '.3rem'
       },
       colors: {
-        "text": "#F9E7CF",
-        "background": "#0F0803",
-        "primary": "#fbc531",
-        "secondary": "#dbb521",
-        "accent": "#fbc531"
+        "text": "#FDFCDC",
+        "background": "#14120B",
+        "primary": "#78B3FF",
+        "secondary": "#27476E",
+        "accent": "#EE4266"
       }
     }
   },

@@ -7,7 +7,7 @@ import {Title} from "@/components/Typography"
 import { createClass } from "./actions"
 import { useCallback, useRef } from "react"
 
-async function Create() {
+function Create() {
 
     const fileU = useRef(null)
 

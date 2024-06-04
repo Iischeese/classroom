@@ -23,9 +23,14 @@ async function login(formData) {
     redirect('/error')
   }
 
-  revalidatePath('/', 'layout')
-  revalidatePath('/login', 'page')
-  redirect('/')
+  console.log('helllo')
+
+  setTimeout(() => {
+    revalidatePath('/dashboard/classes', 'page')
+    redirect('/dashboard')
+  }, 
+  10
+  )
 }
 
 async function signup(formData) {
@@ -46,25 +51,25 @@ async function signup(formData) {
   redirect('/setup')
 }
 
-async function getUser(){
+async function getUser() {
   const supabase = createClient()
 
-  const {data, error} = await supabase.auth.getUser()
+  const { data, error } = await supabase.auth.getUser()
 
-  if(error) return null
+  if (error) return null
 
   return data.user
 }
 
-async function getUserData(id){
+async function getUserData(id) {
   const supabase = createClient()
 
   let user
 
-  if(!id) user = await getUser()
-  else user = {id: id}
+  if (!id) user = await getUser()
+  else user = { id: id }
 
-  if(!user) return {message: "User not found"}
+  if (!user) return { message: "User not found" }
 
   const { data, error } = await supabase
     .from('users')
@@ -72,19 +77,19 @@ async function getUserData(id){
     .eq('user_id', user.id)
     .single()
 
-  if(error) return error
+  if (error) return error
 
   return data
 
 }
 
-async function signOut(){
+async function signOut() {
   const supabase = createClient()
 
-  const {error} = await supabase.auth.signOut()
+  const { error } = await supabase.auth.signOut()
 
   revalidatePath('/', 'layout')
   redirect('/login')
 }
 
-export {signup, login, getUser, getUserData, signOut}
+export { signup, login, getUser, getUserData, signOut }
