@@ -71,7 +71,7 @@ async function getAssignments(class_id) {
     let { data: assignments, error } = await supabase
         .from('assignments')
         .select('*')
-        .order('created_at', {ascending:false})
+        .order('created_at', { ascending: false })
         .eq('classroom_id', class_id)
 
     if (error) { console.error(error); return }
@@ -85,7 +85,7 @@ async function createAssignment(assig, id) {
 
     const user = await getUserData()
 
-    if(user.type == 'student') return
+    if (user.type == 'student') return
 
     const { data: assignment, error } = await supabase
         .from('assignments')
@@ -139,6 +139,20 @@ async function getResponse(assID, userID) {
     return response
 }
 
+async function getResponseByID(id) {
+    const supabase = createClient()
+
+    const { data, error } = await supabase
+        .from('responses')
+        .select('*')
+        .eq('id', id)
+        .single()
+
+    if (error) return error
+
+    return data
+}
+
 async function setResponseViewed(response, bool) {
     const supabase = createClient()
 
@@ -162,5 +176,6 @@ export {
     getAssignment,
     getResponse,
     setResponseViewed,
-    getAssignments
+    getAssignments,
+    getResponseByID
 }

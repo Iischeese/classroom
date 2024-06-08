@@ -6,7 +6,7 @@ import Response from "./Response"
 import { getResponses } from "./actions"
 import ResponsePreview from "./ResponsePreview"
 import Error from "@/components/Error"
-import { BackButton } from "@/components/dashboard/Navigation"
+import Navigation, { BackButton } from "@/components/dashboard/Navigation"
 import Table from "@/components/dashboard/Table"
 
 async function AssignmentView({ params }) {
@@ -35,26 +35,22 @@ async function AssignmentView({ params }) {
     return (
         <>
             <SettingsContainer>
-                <BackButton />
-                <div className="py-10 w-full flex justify-between items-end border-b border-text/40">
-                    <SubTitle>{assignment.name}</SubTitle>
-                    <Text><span className="w-full break-keep">{assignment.due_date}</span></Text>
-                </div>
-                <p className="py-10 text-text/85">
+                <Navigation title={`${assignment.name}`}> <Text>({assignment.type})</Text> <Text><span className="w-full break-keep">{assignment.due_date}</span></Text></Navigation>
+                <p className="pb-5 text-text/85">
                     {assignment.description}
                 </p>
-                <div className="flex flex-col gap-4 border-t border-text/40 py-3">
+                <div className="flex flex-col gap-4 border-t border-text/40 py-5">
                     {
                         user.type == "student" ?
                             <Response id={id} />
                             :
                             <>
                                 <Heading>Students Work: </Heading>
-                                <Table headingItems={['Student', 'Response']}>
+                                <Table headingItems={['Student', 'Response', 'Grade']}>
                                     {
                                         responses.map((value, index) => {
                                             return (
-                                                <ResponsePreview key={index} value={value} />
+                                                <ResponsePreview classroom={assignment.classroom_id} key={index} value={value} />
                                             )
                                         })
                                     }

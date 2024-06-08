@@ -4,6 +4,7 @@ import { getAssignments } from "./[assignment]/actions"
 import Navigation from "@/components/dashboard/Navigation"
 import { getResponses } from "./[assignment]/actions"
 import Link from "next/link"
+import { redirect } from "next/navigation"
 import Table from "@/components/dashboard/Table"
 
 export const metadata = {
@@ -24,15 +25,15 @@ async function Assignments({ params }) {
                     </Button>
                 </Navigation>
                 <Table
-                headingItems={[
-                    'Name',
-                    'Due Date',
-                    'Students Completed'
-                ]}>
+                    headingItems={[
+                        'Name',
+                        'Due Date',
+                        'Students Completed'
+                    ]}>
                     {
                         assignments.map((value, index) => {
                             return (
-                                <AssignmentPreviewBig as={value} key={index} />
+                                <AssignmentPreviewBig id={params.id} as={value} key={index} />
                             )
                         })
                     }
@@ -42,23 +43,28 @@ async function Assignments({ params }) {
     )
 }
 
-async function AssignmentPreviewBig({ as }) {
+async function AssignmentPreviewBig({ as, id }) {
 
     const responses = await getResponses(as.id)
 
     let count = 0
 
-    for (let i = 0; i > responses.length; i++) {
+    for (let i = 0; i < responses.length; i++) {
         if (responses[i].submitted) {
             count++
+
         }
     }
 
     return (
-        <tr className="even:bg-primary/10">
-            <td className="p-3"><Link href={`/dashboard/classes/${as.classroom_id}/assignments/${as.id}`}>{as.name}  </Link></td>
+        <tr className="even:bg-primary/10 relative overflow-clip">
+            <td className="p-3"><Link href={`/dashboard/classes/${id}/assignments/${as.id}`}>{as.name}</Link></td>
             <td className="p-3">{as.due_date}</td>
-            <td className="p-3">{count}</td>
+            <td className="p-3 flex gap-2">
+                <p>{count}</p>
+                <p>/</p>
+                <p>{responses.length}</p>
+            </td>
         </tr>
     )
 }
