@@ -1,5 +1,6 @@
 'use server'
 
+import { getUserData } from "@/app/(setup)/login/actions"
 import { revalidatePath } from "next/cache"
 
 const { createClient } = require("@/utils/supabase/server")
@@ -70,6 +71,7 @@ async function getAssignments(class_id) {
     let { data: assignments, error } = await supabase
         .from('assignments')
         .select('*')
+        .order('created_at', {ascending:false})
         .eq('classroom_id', class_id)
 
     if (error) { console.error(error); return }
@@ -80,6 +82,10 @@ async function getAssignments(class_id) {
 async function createAssignment(assig, id) {
 
     const supabase = createClient()
+
+    const user = await getUserData()
+
+    if(user.type == 'student') return
 
     const { data: assignment, error } = await supabase
         .from('assignments')

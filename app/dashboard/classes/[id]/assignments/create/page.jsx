@@ -43,11 +43,11 @@ function CreateAssignment({ params }) {
                         </div>
                         <div className="flex flex-col gap-2">
                             <Label id='date'>Due Date: </Label>
-                            <input className="bg-text/5 border border-text/40 rounded-md p-3" type="date" name="date" id="date" />
+                            <input className="bg-primary/5 border border-text/40 rounded-md p-3" type="date" name="date" id="date" />
                         </div>
                         <div className="flex flex-col gap-2">
                             <Label id='desc'>Instructions </Label>
-                            <textarea className="bg-text/5 border border-text/40 rounded-md p-3" name="desc" id="desc"></textarea>
+                            <textarea className="bg-primary/5 border border-text/40 rounded-md p-3" name="desc" id="desc"></textarea>
                         </div>
                         <Button click={create} mono primary>Create</Button>
                     </form>

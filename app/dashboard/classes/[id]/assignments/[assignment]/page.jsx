@@ -7,6 +7,7 @@ import { getResponses } from "./actions"
 import ResponsePreview from "./ResponsePreview"
 import Error from "@/components/Error"
 import { BackButton } from "@/components/dashboard/Navigation"
+import Table from "@/components/dashboard/Table"
 
 async function AssignmentView({ params }) {
 
@@ -17,7 +18,7 @@ async function AssignmentView({ params }) {
     const assignment = await getAssignment(id)
 
 
-    if (assignment.message) {console.error(assignment);return <Error />}
+    if (assignment.message) { console.error(assignment); return <Error /> }
 
     const check = async () => {
         if (user.type == "student") {
@@ -42,24 +43,26 @@ async function AssignmentView({ params }) {
                 <p className="py-10 text-text/85">
                     {assignment.description}
                 </p>
-                <div className="border-t border-text/40 py-10 flex flex-col gap-3">
+                <div className="flex flex-col gap-4 border-t border-text/40 py-3">
                     {
                         user.type == "student" ?
                             <Response id={id} />
                             :
                             <>
                                 <Heading>Students Work: </Heading>
-                                {
-                                    responses.map((value, index) => {
-                                        return (
-                                            <ResponsePreview key={index} value={value} />
-                                        )
-                                    })
-                                }
-
+                                <Table headingItems={['Student', 'Response']}>
+                                    {
+                                        responses.map((value, index) => {
+                                            return (
+                                                <ResponsePreview key={index} value={value} />
+                                            )
+                                        })
+                                    }
+                                </Table>
                             </>
                     }
                 </div>
+
             </SettingsContainer>
         </>
     )
