@@ -18,7 +18,7 @@ async function getClassrooms() {
     if (user.type == "teacher") {
         const { data, error } = await supabase
             .from('classrooms')
-            .select('*')
+            .select('name, user_id, grade_level, id')
             .eq('user_id', user.user_id)
             .order('created_at', { ascending: false })
 
@@ -30,7 +30,7 @@ async function getClassrooms() {
 
         const { data, error } = await supabase
             .from('classrooms')
-            .select('*')
+            .select('name, user_id, grade_level, id')
             .in('id', user.enrolled_classes)
             .order('created_at', { ascending: true })
 
@@ -49,7 +49,7 @@ async function getClassroom(id) {
         .eq('id', id)
         .single()
 
-    if (error) return error
+    if (error) {console.error(error); return error}
 
     return data
 
@@ -66,7 +66,7 @@ async function deleteClassroom(id) {
         .from('classrooms')
         .delete()
         .eq('id', id)
-        .select('*')
+        .select('user_id, header_photo')
         .single()
 
     if (classError) { console.error(classError); return }
@@ -76,7 +76,7 @@ async function deleteClassroom(id) {
         .from('assignments')
         .delete()
         .eq('classroom_id', id)
-        .select('*')
+        .select('id')
 
     if (assignmentError) { console.error(assignmentError); return }
 
@@ -113,7 +113,6 @@ async function changeName(id, newName) {
         .from('classrooms')
         .update({ name: newName })
         .eq('id', id)
-        .select('*')
 
     if (error) return error
 
@@ -132,7 +131,7 @@ async function joinClassroom(formData) {
 
     const { data: { students }, error } = await supabase
         .from('classrooms')
-        .select('*')
+        .select('students')
         .eq('join_code', code)
         .single()
 
@@ -145,7 +144,7 @@ async function joinClassroom(formData) {
         .update({ students: studentsArray })
         .eq('join_code', code)
         .single()
-        .select()
+        .select('id')
 
     if (classroom.error) console.error(classroom.error.message)
 

@@ -35,65 +35,64 @@ export default async function Page({ params }) {
   // Get Assignments
   let assignments = await getAssignments(params.id)
 
-  const render = () => {
-    return (
-      <main className="flex flex-col p-10 w-screen min-h-[calc(s100vh-5rem)] gap-14">
-        <div className="relative rounded-md h-96 overflow-clip">
-          <Image width={1920} height={1080} alt="" className="z-10 absolute object-cover w-full h-full" src={classroom.header_photo} />
-          <div className="z-20 absolute w-full h-full bg-background/20" />
-          <div className="absolute w-full h-full top-0 left-0 z-30 flex flex-col gap-2" >
-            <BackButton className="absolute top-0 left-0 m-3" />
-            <div className="flex flex-col gap-2 absolute bottom-0 m-3">
-              <Title>{classroom.name}</Title>
-              <SubTitle>{classroom.grade_level}{classroom.grade_level > 2 ? "th" : classroom.grade_level > 1 ? "nd" : "st"} grade | {user.prefix} {user.last_name}</SubTitle>
-            </div>
-            {
-              // Edit Mode
-              signedIn.user_id == classroom.user_id ?
-                <div className="absolute right-0 top-0 m-3 flex gap-2">
-                  <Button mono link={`/dashboard/classes/${params.id}/edit`}>Settings</Button>
-                  <Button mono primary link={`/dashboard/classes/${params.id}/assignments/create`}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
-                    Assignment
-                  </Button>
-                </div>
-                :
-                <></>
-            }
-          </div>
-        </div>
-        <Bento>
-          <Card >
-            <div className="flex flex-col gap-2">
-              <Heading>Join Code:</Heading>
-              <Text>{classroom.join_code}</Text>
-            </div>
-          </Card>
-          <Card className="row-span-3 col-span-1 flex flex-col gap-4 overflow-y-scroll">
-            <Link className="h-full overflow-y-scroll" href={`/dashboard/classes/${params.id}/assignments`}>
-              <Heading>Upcoming assignments</Heading>
-              {
-                assignments.map((assignment, index) => {
-                  return (
-                    <AssignmentPreview assignment={assignment} key={index} />
-                  )
-                })
-              }
-            </Link>
-          </Card>
-        </Bento>
-      </main >
-    )
-  }
+  let auth = 0
 
   // Check Auth
-  if (isSignedIn.id == user.user_id) return render()
+  if (!isSignedIn.id == user.user_id) auth = 1
   for (let i = 0; i < classroom.students.length; i++) {
     if (signedIn.user_id == classroom.students[i]) {
-      return render()
+      auth = 1
     }
   }
 
-  return <Error title="Not Authenticated." desc="You don't have access to this classroom, if this is a mistake contact your teacher or School Head." />
+  if(auth == 0) return <Error title="No access." desc="You do not have access to this classroom. If you believe this is a mistake contact your teacher or school head."/>
 
+  return (
+    <main className="flex flex-col p-10 w-screen min-h-[calc(s100vh-5rem)] gap-14">
+      <div className="relative rounded-md h-96 overflow-clip">
+        <Image width={1920} height={1080} alt="" className="z-10 absolute object-cover w-full h-full" src={classroom.header_photo} />
+        <div className="z-20 absolute w-full h-full bg-background/20" />
+        <div className="absolute w-full h-full top-0 left-0 z-30 flex flex-col gap-2" >
+          <BackButton className="absolute top-0 left-0 m-3" />
+          <div className="flex flex-col gap-2 absolute bottom-0 m-3">
+            <Title>{classroom.name}</Title>
+            <SubTitle>{classroom.grade_level}{classroom.grade_level > 2 ? "th" : classroom.grade_level > 1 ? "nd" : "st"} grade | {user.prefix} {user.last_name}</SubTitle>
+          </div>
+          {
+            // Edit Mode
+            signedIn.user_id == classroom.user_id ?
+              <div className="absolute right-0 top-0 m-3 flex gap-2">
+                <Button mono link={`/dashboard/classes/${params.id}/edit`}>Settings</Button>
+                <Button mono primary link={`/dashboard/classes/${params.id}/assignments/create`}>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                  Assignment
+                </Button>
+              </div>
+              :
+              <></>
+          }
+        </div>
+      </div>
+      <Bento>
+        <Card >
+          <div className="flex flex-col gap-2">
+            <Heading>Join Code:</Heading>
+            <Text>{classroom.join_code}</Text>
+          </div>
+        </Card>
+        <Card className="row-span-3 col-span-1 flex flex-col gap-4 overflow-y-scroll">
+          <Link className="h-full overflow-y-scroll" href={`/dashboard/classes/${params.id}/assignments`}>
+            <Heading>Upcoming assignments</Heading>
+            {
+              assignments.map((assignment, index) => {
+                return (
+                  <AssignmentPreview assignment={assignment} key={index} />
+                )
+              })
+            }
+          </Link>
+        </Card>
+      </Bento>
+    </main >
+  )
 }

@@ -44,7 +44,7 @@ async function createClass(formData) {
         .insert([
             { join_code: generateJoinCode(), user_id: formD.user_id, name: formD.name, grade_level: formD.grade_level, header_photo: formD.photo, students: [] }
         ])
-        .select('*')
+        .select('id')
         .single()
 
     if (!error) {

@@ -57,11 +57,8 @@ async function createResponse(assign_id, user_id) {
             response: { "TEXT": "" },
 
         })
-        .select('*')
 
     if (error) return error
-
-    return data
 }
 
 
@@ -161,7 +158,6 @@ async function setResponseViewed(response, bool) {
         .update({ is_viewed: bool })
         .eq('assignment_id', response.assignment_id)
         .eq('student_id', response.student_id)
-        .select('*')
         .single()
 
     if (error) console.error(error)

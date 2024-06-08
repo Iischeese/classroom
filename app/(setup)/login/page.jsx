@@ -10,9 +10,7 @@ export default async function LoginPage() {
 
   const user = await getUser()
 
-  if (user) {
-    redirect('/dashboard')
-  }
+  if(user) redirect('/dashboard')
 
   return (
     <SplitView>

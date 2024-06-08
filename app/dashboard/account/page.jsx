@@ -14,9 +14,6 @@ export const metadata = {
 
 async function Account() {
 
-    const user = await getUser()
-    if (!user) redirect('/login')
-
     const userData = await getUserData()
 
     return (

@@ -1,10 +1,9 @@
 import Button from "@/components/Button"
 import Input from "@/components/Input"
 import ClassroomPreview from "@/components/dashboard/ClassroomPreview"
-import { redirect } from "next/navigation"
-import { getClassrooms, joinClassroom } from "./actions"
-import { getUser, getUserData } from "@/app/(setup)/login/actions"
-import { Heading, SubTitle, Title } from "@/components/Typography"
+import { getClassrooms } from "./actions"
+import { getUserData } from "@/app/(setup)/login/actions"
+import { Heading, Title } from "@/components/Typography"
 import { Suspense } from "react"
 
 export const metadata = {
@@ -12,12 +11,6 @@ export const metadata = {
 }
 
 async function Classes() {
-
-    const user = await getUser()
-
-    if (!user) {
-        redirect('/login')
-    }
 
     const userData = await getUserData()
 
