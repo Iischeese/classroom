@@ -38,14 +38,15 @@ export default async function Page({ params }) {
   let auth = 0
 
   // Check Auth
-  if (!isSignedIn.id == user.user_id) auth = 1
+
+  if (isSignedIn.id == user.user_id) { auth = 1 }
   for (let i = 0; i < classroom.students.length; i++) {
     if (signedIn.user_id == classroom.students[i]) {
       auth = 1
     }
   }
 
-  if(auth == 0) return <Error title="No access." desc="You do not have access to this classroom. If you believe this is a mistake contact your teacher or school head."/>
+  if (auth == 0) return <Error title="No access." desc="You do not have access to this classroom. If you believe this is a mistake contact your teacher or school head." />
 
   return (
     <main className="flex flex-col p-10 w-screen min-h-[calc(s100vh-5rem)] gap-14">

@@ -39,7 +39,7 @@ async function AssignmentView({ params }) {
                 <p className="pb-5 text-text/85">
                     {assignment.description}
                 </p>
-                <div className="flex flex-col gap-4 border-t border-text/40 py-5">
+                <div className="w-full  flex flex-col gap-4 border-t border-text/40 py-5">
                     {
                         user.type == "student" ?
                             <Response id={id} />

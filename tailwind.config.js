@@ -9,14 +9,17 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        'md': '876px'
+      },
       borderRadius: {
         'md': '.3rem'
       },
       colors: {
-        "text": "#FDFCDC",
-        "background": "#14120B",
-        "primary": "#78B3FF",
-        "secondary": "#27476E",
+        "text": "#deecff",
+        "background": "#0a0d12",
+        "primary": "#b6d4fa",
+        "secondary": "#3c4a5c65",
         "accent": "#EE4266"
       }
     }

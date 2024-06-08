@@ -1,12 +1,11 @@
-import { getUser, getUserData, signOut } from "@/app/(setup)/login/actions"
+import { getUserData, signOut } from "@/app/(setup)/login/actions"
 import Button from "@/components/Button"
 import Input from "@/components/Input"
 import { Section, SectionContent, SectionFooter } from "@/components/Section"
-import { Title, Heading, Text } from "@/components/Typography"
+import { Heading, Text } from "@/components/Typography"
 import Navigation from "@/components/dashboard/Navigation"
 import ProfilePic from "@/components/dashboard/Profile"
 import SettingsContainer from "@/components/dashboard/SettingsContainer"
-import { redirect } from "next/navigation"
 
 export const metadata = {
     title: 'Account Settings'
@@ -18,7 +17,7 @@ async function Account() {
 
     return (
         <SettingsContainer>
-            <Navigation title={'Account Settings'}/> 
+            <Navigation title={'Account Settings'}>{userData.user_id == '5f8b3f57-9dc7-4e4f-bddd-1370817e86ee' ? <Button primary link='/admin'>Admin</Button> : ''}</Navigation> 
             <div className="flex flex-col gap-10 my-10">
                 <Section>
                     <SectionContent>

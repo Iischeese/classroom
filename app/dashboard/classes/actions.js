@@ -49,7 +49,7 @@ async function getClassroom(id) {
         .eq('id', id)
         .single()
 
-    if (error) {console.error(error); return error}
+    if (error) {return error}
 
     return data
 

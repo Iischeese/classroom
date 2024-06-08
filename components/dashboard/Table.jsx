@@ -1,8 +1,6 @@
-import ResponsePreview from "@/app/dashboard/classes/[id]/assignments/[assignment]/ResponsePreview"
-
 function Table({ children, headingItems }) {
     return (
-        <table className="text-left border-separate border-spacing-0 border border-text/40 rounded-md">
+        <table className="w-full text-left border-separate border-spacing-0 border border-text/40 rounded-md">
             <thead className="bg-primary/10">
                 <tr>
                     {
@@ -14,7 +12,7 @@ function Table({ children, headingItems }) {
                     }
                 </tr>
             </thead>
-            <tbody>
+            <tbody className="w-full">
                 {
                     children
                 }

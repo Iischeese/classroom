@@ -7,10 +7,12 @@ async function ResponsePreview({ value }) {
     const user = await getUserData(value.student_id)
 
     return (
-        <tr className="even:bg-primary/10 w-full">
-            <td className="p-3 whitespace-nowrap w-3/8">{user.first_name} {user.last_name}</td>
-            <td className="p-3 truncate w-1/2 text-ellipse">{value.response.TEXT ? value.response.TEXT : "No Response"}</td>
-            <td className="p-3 min-w-32 w-1/8"><Input style={'w-min'} placeholder={'90'}/></td>
+        <tr className="even:bg-primary/10 relative overflow-clip">
+            <td className="p-3">{user.first_name} {user.last_name}</td>
+            <td className="p-3 w-min"><p className="text-ellipsis overflow-hidden max-w-52 whitespace-nowrap">{value.response.TEXT}</p></td>
+            <td className="p-3 flex gap-2">
+                1 / 1
+            </td>
         </tr>
     )
 }
