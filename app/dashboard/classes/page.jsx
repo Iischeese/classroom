@@ -5,7 +5,7 @@ import { getClassrooms } from "./actions"
 import { getUserData } from "@/app/(setup)/login/actions"
 import { Heading, Title } from "@/components/Typography"
 import { Suspense } from "react"
-import CreateClassButton from "./CreateClassButton"
+import { JoinClassButton, CreateClassButton } from "@/components/CreateClassButton"
 
 export const metadata = {
     title: "Classes"
@@ -28,7 +28,7 @@ async function Classes() {
                         userData.type == "teacher" ?
                             <CreateClassButton />
                             :
-                            <Button link='/dashboard/classes/join' mono style="w-max" primary>Join a classroom</Button>
+                            <JoinClassButton />
                     }
                 </div>
                 <Suspense fallback={

@@ -10,7 +10,7 @@ import AssignmentPreview from "@/components/dashboard/AssignmentsPreview"
 import Image from "next/image"
 import Link from "next/link"
 import { BackButton } from "@/components/dashboard/Navigation"
-import CreateAssignmentButton from "./assignments/createAssignmentButton"
+import {CreateAssignmentButton} from "./assignments/createAssignmentButton"
 
 export async function generateMetadata({ params }) {
   const data = await getClassroom(params.id)

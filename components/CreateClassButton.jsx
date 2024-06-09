@@ -1,19 +1,18 @@
 'use client'
 
 import { useState, useRef, useCallback } from "react"
-import Button from "../../../components/Button"
-import Drawer from "../../../components/Drawer"
+import Button from "./Button"
+import Drawer from "./Drawer"
 import Label from "@/components/Label"
 import Form, { FormInput } from "@/components/dashboard/Form"
-import { createClass } from "./actions"
-
+import { createClass, joinClassroom } from "@/app/dashboard/classes/actions"
 function CreateClassButton() {
 
     const [open, setOpen] = useState(false)
 
     const fileU = useRef(null)
 
-    const [file, setFile] = useState('https://omlicebivegdzmftibvx.supabase.co/storage/v1/object/public/header-picture/manas-rb-bkEQ6Lh-lCg-unsplash.jpg')
+    const [file, setFile] = useState(false)
 
     const handle = useCallback(() => {
         fileU.current?.click()
@@ -34,9 +33,14 @@ function CreateClassButton() {
                         <Label id='name'>Photo: </Label>
                         <input className="hidden" ref={fileU} onChange={change} accept="image/*" type="file" name="photo" id="photo" />
                         <input className="w-full bg-secondary border-text/40 border p-3 rounded-md" value="Upload" type="button" onClick={handle} />
-                        <div className="w-full bg-secondary relative aspect-video rounded-md overflow-clip border-text/40 border">
-                            <img className="absolute object-cover w-full h-full" src={file} />
-                        </div>
+                        {
+                            file ?
+                                <div className="w-full bg-secondary relative aspect-video rounded-md overflow-clip border-text/40 border">
+                                    <img className="absolute object-cover w-full h-full" src={file} />
+                                </div>
+                                :
+                                <></>
+                        }
                     </div>
                     <Button click={createClass} primary>Create</Button>
                 </Form>
@@ -45,4 +49,21 @@ function CreateClassButton() {
     )
 }
 
-export default CreateClassButton
+function JoinClassButton() {
+
+    const [open, setOpen] = useState(false)
+
+    return (
+        <>
+            <Button noForm={() => { setOpen(!open) }} primary style="w-min min-w-fit">Join Class</Button>
+            <Drawer title="Join Class" open={open} setOpen={setOpen}>
+                <Form>
+                    <FormInput id="code" label="Join Code" placeholder="FQdhwzE" />
+                    <Button click={joinClassroom}>Join</Button>
+                </Form>
+            </Drawer>
+        </>
+    )
+}
+
+export { CreateClassButton, JoinClassButton }

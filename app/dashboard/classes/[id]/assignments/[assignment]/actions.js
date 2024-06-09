@@ -2,7 +2,7 @@
 
 import { getUserData } from "@/app/(setup)/login/actions"
 import { revalidatePath } from "next/cache"
-import { redirect } from "next/dist/server/api-utils"
+import { redirect } from "next/navigation"
 
 const { createClient } = require("@/utils/supabase/server")
 
@@ -58,8 +58,15 @@ async function createResponse(assign_id, user_id) {
             response: { "TEXT": "" },
 
         })
+        .select('id')
 
     if (error) return error
+
+    const { data: grade, error: gradeError } = await supabase
+        .from('grades')
+        .insert([{ response_id: data.id, grade: 0 }])
+
+    if (gradeError) return gradeError
 }
 
 
@@ -102,6 +109,10 @@ async function createAssignment(assig, id) {
 
     for (let i = 0; i < classroom.students.length; i++) {
         const response = await createResponse(assignment.id, classroom.students[i])
+
+        const error = await newGrade(response.id, 0)
+
+        if (error) return error
     }
 
     redirect(`/dashboard/classes/${id}/assignments/${assignment.id}`)
@@ -164,6 +175,74 @@ async function setResponseViewed(response, bool) {
     if (error) console.error(error)
 }
 
+async function newGrade(id, grade) {
+    const supabase = createClient()
+
+    const { data, error } = await supabase
+        .from('grades')
+        .insert([{ response_id: id, grade: grade }])
+        .select()
+        .single()
+
+    if (error) {
+        const { data, error } = await supabase
+            .from('grades')
+            .update({ grade: grade })
+            .eq('response_id', id)
+
+        if (error) console.error(error)
+    }
+}
+
+async function getGrade(id) {
+    const supabase = createClient()
+
+    const { data, error } = await supabase
+        .from('grades')
+        .select('grade')
+        .eq('response_id', id)
+        .single()
+
+    if (error) return error
+
+    return data.grade
+}
+
+async function deleteAssignment(id) {
+    const supabase = createClient()
+
+    console.log(id)
+
+    const { data, error } = await supabase
+        .from('assignments')
+        .delete()
+        .eq('id', id)
+        .select('*')
+        .single()
+
+    redirect('/dashboard/classes/' + data.classroom_id + '/assignments')
+}
+
+async function getAssignmentUrl(id) {
+    const supabase = createClient()
+
+    const { data: assignment, error } = await supabase
+        .from('assignments')
+        .select('classroom_id, id')
+        .eq('id', id)
+        .single()
+
+    const { data: classroom } = await supabase
+        .from('classroom')
+        .select('id')
+        .eq('id', assignment.classroom_id)
+        .single()
+
+    const url = '/dashboard/classes/' + classroom.id + '/assignments/' + assignment.id
+
+    return url
+}
+
 export {
     updateValue,
     turnItIn,
@@ -174,5 +253,8 @@ export {
     getResponse,
     setResponseViewed,
     getAssignments,
-    getResponseByID
+    getResponseByID,
+    newGrade,
+    getGrade,
+    deleteAssignment
 }

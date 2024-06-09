@@ -1,12 +1,10 @@
-import Button from "@/components/Button"
 import SettingsContainer from "@/components/dashboard/SettingsContainer"
 import { getAssignments } from "./[assignment]/actions"
 import Navigation from "@/components/dashboard/Navigation"
 import { getResponses } from "./[assignment]/actions"
 import Link from "next/link"
-import { redirect } from "next/navigation"
 import Table from "@/components/dashboard/Table"
-import CreateAssignmentButton from "./createAssignmentButton"
+import {CreateAssignmentButton} from "./createAssignmentButton"
 
 export const metadata = {
     title: 'Classroom Settings'
@@ -20,7 +18,7 @@ async function Assignments({ params }) {
         <>
             <SettingsContainer>
                 <Navigation title={`All assignments`} >
-                    <CreateAssignmentButton />
+                    <CreateAssignmentButton id={params.id} />
                 </Navigation>
                 <Table
                     headingItems={[

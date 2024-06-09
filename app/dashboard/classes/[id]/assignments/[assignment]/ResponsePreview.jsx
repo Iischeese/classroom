@@ -1,17 +1,21 @@
-import { getUserData } from "@/app/(setup)/login/actions"
+'use client'
+
 import Input from "@/components/Input"
-import Link from "next/link"
+import { newGrade } from "./actions"
 
-async function ResponsePreview({ value }) {
 
-    const user = await getUserData(value.student_id)
+function ResponsePreview({ value, user, defGrade }) {
 
     return (
         <tr className="even:bg-primary/10 relative overflow-clip">
             <td className="p-3">{user.first_name} {user.last_name}</td>
-            <td className="p-3 w-min"><p className="text-ellipsis overflow-hidden max-w-52 whitespace-nowrap">{value.response.TEXT}</p></td>
+            <td className="p-3 w-min"><p className="text-ellipsis w-20 overflow-hidden max-w-52 whitespace-nowrap">{value.response.TEXT ? value.response.TEXT : "No Response"}</p></td>
             <td className="p-3 flex gap-2">
-                1 / 1
+                <form>
+                    <Input placeholder={`${defGrade}`} style='w-min w-[4.4rem] text-center' onChange={async (e) => {
+                        await newGrade(value.id, e.target.value)
+                    }} name="grade" />
+                </form>
             </td>
         </tr>
     )

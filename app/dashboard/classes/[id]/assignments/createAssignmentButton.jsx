@@ -6,7 +6,7 @@ import Drawer from "@/components/Drawer"
 import Form, { FormInput, TextArea } from "@/components/dashboard/Form"
 import Label from "@/components/Label"
 import Dropdown from "@/components/Dropdown"
-import { createAssignment } from "./[assignment]/actions"
+import { createAssignment, deleteAssignment } from "./[assignment]/actions"
 import Input from "@/components/Input"
 
 function CreateAssignmentButton({id}) {
@@ -53,4 +53,4 @@ function CreateAssignmentButton({id}) {
     )
 }
 
-export default CreateAssignmentButton
+export {CreateAssignmentButton}
