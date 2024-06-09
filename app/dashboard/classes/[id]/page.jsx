@@ -10,6 +10,7 @@ import AssignmentPreview from "@/components/dashboard/AssignmentsPreview"
 import Image from "next/image"
 import Link from "next/link"
 import { BackButton } from "@/components/dashboard/Navigation"
+import CreateAssignmentButton from "./assignments/createAssignmentButton"
 
 export async function generateMetadata({ params }) {
   const data = await getClassroom(params.id)
@@ -64,10 +65,7 @@ export default async function Page({ params }) {
             signedIn.user_id == classroom.user_id ?
               <div className="absolute right-0 top-0 m-3 flex gap-2">
                 <Button mono link={`/dashboard/classes/${params.id}/edit`}>Settings</Button>
-                <Button mono primary link={`/dashboard/classes/${params.id}/assignments/create`}>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
-                  Assignment
-                </Button>
+                <CreateAssignmentButton id={params.id}/>
               </div>
               :
               <></>

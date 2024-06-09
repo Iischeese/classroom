@@ -8,7 +8,7 @@ function Navigation({ title, children, close }) {
 
     return (
         <>
-            <div className="flex w-full justify-between items-center gap-32 py-5 border-b border-text/40">
+            <div className="flex w-full justify-between items-center py-5 border-b border-text/40">
                 <SubTitle>{title}</SubTitle>
                 <div className="flex items-center gap-2">
                     {children}

@@ -2,6 +2,7 @@
 
 import { getUserData } from "@/app/(setup)/login/actions"
 import { revalidatePath } from "next/cache"
+import { redirect } from "next/dist/server/api-utils"
 
 const { createClient } = require("@/utils/supabase/server")
 
@@ -101,9 +102,9 @@ async function createAssignment(assig, id) {
 
     for (let i = 0; i < classroom.students.length; i++) {
         const response = await createResponse(assignment.id, classroom.students[i])
-
-        if (response.message) console.log(response)
     }
+
+    redirect(`/dashboard/classes/${id}/assignments/${assignment.id}`)
 
 }
 

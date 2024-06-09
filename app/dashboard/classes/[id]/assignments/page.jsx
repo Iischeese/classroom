@@ -6,6 +6,7 @@ import { getResponses } from "./[assignment]/actions"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import Table from "@/components/dashboard/Table"
+import CreateAssignmentButton from "./createAssignmentButton"
 
 export const metadata = {
     title: 'Classroom Settings'
@@ -19,10 +20,7 @@ async function Assignments({ params }) {
         <>
             <SettingsContainer>
                 <Navigation title={`All assignments`} >
-                    <Button mono primary link={`/dashboard/classes/${params.id}/assignments/create`}>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
-                        Assignment
-                    </Button>
+                    <CreateAssignmentButton />
                 </Navigation>
                 <Table
                     headingItems={[

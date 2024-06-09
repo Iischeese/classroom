@@ -4,11 +4,61 @@ import { getUserData } from "@/app/(setup)/login/actions"
 import { createClient } from "@/utils/supabase/server"
 import { createServerClient } from "@supabase/ssr"
 import { redirect } from "next/navigation"
-import { redirect as redirect2 } from "next/dist/server/api-utils"
 import { cookies } from 'next/headers'
 import { revalidatePath } from "next/cache"
-import { createResponse } from "./[id]/assignments/[assignment]/actions"
+import { getUser } from "@/app/(setup)/login/actions"
 
+async function createClass(formData) {
+
+    const supabase = createClient()
+
+    const user = await getUser()
+
+    const photo = formData.get('photo')
+
+    const setPhoto = async () => {
+        const { data, error } = await supabase.storage
+            .from('header-picture')
+            .upload(user.id + '/' + photo.name, photo)
+
+        const getURL = () => {
+            const { data } = supabase.storage
+                .from('header-picture')
+                .getPublicUrl(user.id + '/' + photo.name)
+
+            return data.publicUrl
+        }
+
+        return getURL()
+    }
+
+    const Path = await setPhoto()
+
+    const formD = {
+        name: formData.get('name'),
+        grade_level: formData.get('level'),
+        user_id: user.id,
+        photo: Path,
+    }
+
+
+    const { data, error } = await supabase
+        .from('classrooms')
+        .insert([
+            { join_code: generateJoinCode(), user_id: formD.user_id, name: formD.name, grade_level: formD.grade_level, header_photo: formD.photo, students: [] }
+        ])
+        .select('id')
+        .single()
+
+    if (!error) {
+        redirect(`/dashboard/classes/${data.id}`)
+    }
+    else {
+        console.log(error.message)
+        return redirect('/error')
+    }
+
+}
 
 async function getClassrooms() {
     const supabase = createClient()
@@ -49,7 +99,7 @@ async function getClassroom(id) {
         .eq('id', id)
         .single()
 
-    if (error) {return error}
+    if (error) { return error }
 
     return data
 
@@ -195,4 +245,5 @@ export {
     changeName,
     joinClassroom,
     generateJoinCode,
+    createClass
 }
