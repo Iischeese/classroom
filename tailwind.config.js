@@ -15,6 +15,9 @@ module.exports = {
       borderRadius: {
         'md': '.3rem'
       },
+      boxShadow:{
+        'md': '0px 0px 5px 8px #fff'
+      },
       colors: {
         "text": "#deecff",
         "background": "#0a0d12",
