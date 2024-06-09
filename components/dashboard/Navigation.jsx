@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation"
 import Button from "../Button"
 import { SubTitle } from "../Typography"
 
-function Navigation({ title, children }) {
+function Navigation({ title, children, close }) {
 
     return (
         <>
@@ -12,7 +12,12 @@ function Navigation({ title, children }) {
                 <SubTitle>{title}</SubTitle>
                 <div className="flex items-center gap-2">
                     {children}
-                    <BackButton />
+                    {
+                        close ?
+                        <Button noForm={close}>Close</Button>
+                        :
+                        <BackButton />
+                    }
                 </div>
             </div>
             <div className="py-[.625rem]"></div>

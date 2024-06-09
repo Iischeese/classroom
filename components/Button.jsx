@@ -1,15 +1,15 @@
 import Link from "next/link"
 
-function Button(props) {
-    return props.link ?
+function Button({link,id,noForm,click,style,danger,primary,children}) {
+    return link ?
         (
-            <Link href={props.link}>
-                <Template data={props} ></Template>
+            <Link href={link}>
+                <Template data={{id, noForm, click, style, danger, primary, children}} ></Template>
             </Link>
         )
         :
         (
-            <Template data={props} />
+            <Template data={{id, noForm, click, style, danger, primary, children}} />
         )
 }
 
