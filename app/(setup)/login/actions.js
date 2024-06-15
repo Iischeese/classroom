@@ -2,10 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-
 import { createClient } from '@/utils/supabase/server'
-import { createServerClient } from '@supabase/ssr'
-import Error from '@/components/Error'
 
 async function login(formData) {
   const supabase = createClient()
@@ -27,10 +24,11 @@ async function login(formData) {
 
   setTimeout(() => {
     revalidatePath('/dashboard/classes', 'page')
+  }, 10)
+
+  setTimeout(()=>{
     redirect('/dashboard')
-  }, 
-  10
-  )
+  }, 20)
 }
 
 async function signup(formData) {
