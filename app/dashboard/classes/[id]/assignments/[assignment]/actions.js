@@ -109,10 +109,6 @@ async function createAssignment(assig, id) {
 
     for (let i = 0; i < classroom.students.length; i++) {
         const response = await createResponse(assignment.id, classroom.students[i])
-
-        const error = await newGrade(response.id, 0)
-
-        if (error) return error
     }
 
     redirect(`/dashboard/classes/${id}/assignments/${assignment.id}`)
@@ -175,43 +171,93 @@ async function setResponseViewed(response, bool) {
     if (error) console.error(error)
 }
 
-async function newGrade(id, grade) {
+async function updateGrade(id, grade) {
     const supabase = createClient()
 
-    const { data, error } = await supabase
-        .from('grades')
-        .insert([{ response_id: id, grade: grade }])
-        .select()
+    const {data: response} = await supabase
+        .from('responses')
+        .update([{score: grade}])
+        .eq('id', id)
         .single()
-
-    if (error) {
-        const { data, error } = await supabase
-            .from('grades')
-            .update({ grade: grade })
-            .eq('response_id', id)
-
-        if (error) console.error(error)
-    }
 }
 
-async function getGrade(id) {
+async function getGrade(id, viewUnreleased) {
     const supabase = createClient()
 
-    const { data, error } = await supabase
-        .from('grades')
-        .select('grade')
-        .eq('response_id', id)
+    const {data: response} = await supabase
+        .from('responses')
+        .select('*')
+        .eq('id', id)
         .single()
 
-    if (error) return error
+    const {data: assignment} = await supabase
+        .from('assignments')
+        .select('score_released')
+        .eq('id', response.assignment_id)
+        .single()
 
-    return data.grade
+    if(!assignment.score_released && !viewUnreleased) return null
+
+    return response.score
+
+}
+
+async function releaseGrades(assignment_id, value){
+    const supabase = createClient()
+
+    const {data, error} = await supabase
+        .from('assignments')
+        .update([{score_released: value}])
+        .eq('id', assignment_id)
+        .single()
+
+    if(error) return error
+
+    revalidatePath('/dashboard/classes/[id]/assignments/[assignment]', 'page')
+
+}
+
+async function getAverageGrade(id, user_id){
+    const supabase = createClient()
+
+    const {data: classroom} = await supabase
+        .from('classrooms')
+        .select('id')
+        .eq('id', id)
+        .single()
+
+    const { data: assignments, error } = await supabase
+        .from('assignments')
+        .select('id')
+        .eq('score_released', true)
+        .eq('classroom_id', classroom.id)
+
+    let grades = []
+
+    for(let i = 0; i < assignments.length; i++){
+        const {data, error} = await supabase    
+            .from('responses')
+            .select('score')
+            .eq('assignment_id', assignments[i].id)
+            .single()
+
+        grades.push(data.score)
+    }
+
+
+    let total = 0
+
+    for(let i = 0; i < grades.length; i++){
+        total = total + grades[i]
+    }
+
+    const final = total / grades.length
+
+    return final
 }
 
 async function deleteAssignment(id) {
     const supabase = createClient()
-
-    console.log(id)
 
     const { data, error } = await supabase
         .from('assignments')
@@ -254,7 +300,10 @@ export {
     setResponseViewed,
     getAssignments,
     getResponseByID,
-    newGrade,
+    updateGrade,
     getGrade,
-    deleteAssignment
+    releaseGrades,
+    getAverageGrade,
+    deleteAssignment,
+    getAssignmentUrl
 }

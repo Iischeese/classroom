@@ -1,7 +1,7 @@
 'use client'
 
 import Input from "@/components/Input"
-import { newGrade } from "./actions"
+import { updateGrade } from "./actions"
 
 
 function ResponsePreview({ value, user, defGrade }) {
@@ -13,7 +13,7 @@ function ResponsePreview({ value, user, defGrade }) {
             <td className="p-3 flex gap-2">
                 <form>
                     <Input placeholder={`${defGrade}`} style='w-min w-[4.4rem] text-center' onChange={async (e) => {
-                        await newGrade(value.id, e.target.value)
+                        await updateGrade(value.id, e.target.value)
                     }} name="grade" />
                 </form>
             </td>

@@ -1,10 +1,12 @@
-import SettingsContainer from "@/components/dashboard/SettingsContainer"
+import SettingsContainer, { Content } from "@/components/dashboard/SettingsContainer"
 import { getAssignments } from "./[assignment]/actions"
 import Navigation from "@/components/dashboard/Navigation"
 import { getResponses } from "./[assignment]/actions"
 import Link from "next/link"
 import Table from "@/components/dashboard/Table"
-import {CreateAssignmentButton} from "./createAssignmentButton"
+import { CreateAssignmentButton } from "./createAssignmentButton"
+import { getUserData } from "@/app/(setup)/login/actions"
+import { getClassroom } from "../../actions"
 
 export const metadata = {
     title: 'Classroom Settings'
@@ -12,34 +14,59 @@ export const metadata = {
 
 async function Assignments({ params }) {
 
-    let assignments = await getAssignments(params.id)
+    const assignments = await getAssignments(params.id)
+
+    const userData = await getUserData();
+
+    const classroom = await getClassroom(params.id)
+
+    const isOwner = (userData.user_id == classroom.user_id)
 
     return (
         <>
             <SettingsContainer>
-                <Navigation title={`All assignments`} >
-                    <CreateAssignmentButton id={params.id} />
-                </Navigation>
-                <Table
-                    headingItems={[
-                        'Name',
-                        'Due Date',
-                        'Students Completed'
-                    ]}>
-                    {
-                        assignments.map((value, index) => {
-                            return (
-                                <AssignmentPreviewBig id={params.id} as={value} key={index} />
-                            )
-                        })
+                <Content>
+                    <Navigation title={`All assignments`} >
+                        {isOwner ? <CreateAssignmentButton id={params.id} /> : <></>}
+                    </Navigation>
+                    {isOwner ?
+                        <Table
+                            headingItems={[
+                                'Name',
+                                'Due Date',
+                                'Students Completed'
+                            ]}>
+                            {
+                                assignments.map((value, index) => {
+                                    return (
+                                        <AssignmentPreviewBig id={params.id} as={value} key={index} />
+                                    )
+                                })
+                            }
+                        </Table>
+                        :
+                        <Table
+                            headingItems={[
+                                'Name',
+                                'Due Date',
+                                'Grade'
+                            ]}>
+                            {
+                                assignments.map((value, index) => {
+                                    return (
+                                        <AssignmentPreviewBig owner={isOwner} id={params.id} as={value} key={index} />
+                                    )
+                                })
+                            }
+                        </Table>
                     }
-                </Table>
+                </Content>
             </SettingsContainer>
         </>
     )
 }
 
-async function AssignmentPreviewBig({ as, id }) {
+async function AssignmentPreviewBig({ as, id, isOwner }) {
 
     const responses = await getResponses(as.id)
 
@@ -56,11 +83,18 @@ async function AssignmentPreviewBig({ as, id }) {
         <tr className="even:bg-primary/10 relative overflow-clip">
             <td className="p-3"><Link href={`/dashboard/classes/${id}/assignments/${as.id}`}>{as.name}</Link></td>
             <td className="p-3">{as.due_date}</td>
-            <td className="p-3 flex gap-2">
-                <p>{count}</p>
-                <p>/</p>
-                <p>{responses.length}</p>
-            </td>
+            {
+                isOwner ?
+                    <td className="p-3 flex gap-2">
+                        <p>{count}</p>
+                        <p>/</p>
+                        <p>{responses.length}</p>
+                    </td>
+                    :
+                    <td>
+
+                    </td>
+            }
         </tr>
     )
 }

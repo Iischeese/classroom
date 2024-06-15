@@ -34,7 +34,7 @@ function BackButton({ className }) {
     }
 
     return (
-        <Button style={`${className} w-min`} noForm={back} mono>Back</Button>
+        <Button style={`${className} w-min`} noForm={back}>Back</Button>
     )
 }
 

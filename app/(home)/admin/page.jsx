@@ -1,11 +1,13 @@
 import Navigation from "@/components/dashboard/Navigation"
-import SettingsContainer from "@/components/dashboard/SettingsContainer"
+import SettingsContainer, { Content } from "@/components/dashboard/SettingsContainer"
 
-function AdminPanel(){
+function AdminPanel() {
 
-    return(
+    return (
         <SettingsContainer>
-            <Navigation title={"Admin Panel"}/>
+            <Content>
+                <Navigation title={"Admin Panel"} />
+            </Content>
         </SettingsContainer>
     )
 }

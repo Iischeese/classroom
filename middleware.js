@@ -12,8 +12,10 @@ export async function middleware(request) {
     return Response.redirect(url)
   }
 
-  if(user.id !== '5f8b3f57-9dc7-4e4f-bddd-1370817e86ee' && request.nextUrl.pathname.startsWith('/admin')) { 
-    return Response.error()
+  if (user) {
+    if (user.id !== '5f8b3f57-9dc7-4e4f-bddd-1370817e86ee' && request.nextUrl.pathname.startsWith('/admin')) {
+      return Response.error()
+    }
   }
 
   return await updateSession(request)

@@ -80,7 +80,7 @@ async function getClassrooms() {
 
         const { data, error } = await supabase
             .from('classrooms')
-            .select('name, user_id, grade_level, id')
+            .select('name, user_id, grade_level, id, header_photo')
             .in('id', user.enrolled_classes)
             .order('created_at', { ascending: true })
 
@@ -245,5 +245,5 @@ export {
     changeName,
     joinClassroom,
     generateJoinCode,
-    createClass
+    createClass,
 }
