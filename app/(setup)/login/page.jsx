@@ -1,33 +1,27 @@
 import SplitView from '@/components/Splitview'
-import Button from '@/components/Button'
-import Label from '@/components/Label'
-import Input from '@/components/Input'
 import { Title } from '@/components/Typography'
-import { getUser, login, signup } from './actions'
-import { redirect } from 'next/navigation'
+import { login, signup } from './actions'
+import FormButton from '@/components/dashboard/FormButton'
+import { ErrorSpace, FormInput, FormSpace } from '@/components/dashboard/Form'
 
-export default async function LoginPage() {
-
-  const user = await getUser()
-
-  if(user) redirect('/dashboard')
+export default function LoginPage({ searchParams }) {
 
   return (
     <SplitView>
       <Title>Login</Title>
       <form className='flex flex-col items-start justify-center w-full gap-8'>
-        <div className='w-full flex flex-col gap-2'>
-          <Label id="email">Email:</Label>
-          <Input id="email" name="email" type="email" required />
-        </div>
-        <div className='w-full flex flex-col gap-2'>
-          <Label id="password">Password:</Label>
-          <Input id="password" name="password" type="password" required />
-        </div>
-        <div className='w-full flex flex-col gap-2'>
-          <Button click={login}>Log in</Button>
-          <Button primary click={signup}>Sign up</Button>
-        </div>
+        <FormInput label={"Email"} id={"email"} />
+        <FormInput type="password" label={"Password"} id={"password"} />
+        <FormSpace>
+          <FormButton primary formAction={login} pendingText={"Logging In"}>Login</FormButton>
+          <FormButton formAction={signup} pendingText="Signing Up">Sign Up</FormButton>
+        </FormSpace>
+        {
+          searchParams.error ?
+            <ErrorSpace errorText={searchParams.error} />
+            :
+            <></>
+        }
       </form>
     </SplitView>
   )

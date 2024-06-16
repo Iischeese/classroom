@@ -14,7 +14,7 @@ async function ClassroomPreview({ classroom }) {
     return (
         <Link href={`/dashboard/classes/${classroom.id}`}>
             <Card className="h-52 relative p-0">
-                <div className="top-0 right-0 absolute opacity-100 -z-10 w-full h-full ">
+                <div className="top-0 right-0 absolute opacity-80 -z-10 w-full h-full ">
                     <Image width={1920} height={1080} className=" absolute w-full h-full object-cover" src={classroom.header_photo} />
                 </div>
                 <div className="absolute left-0 top-0 m-5">
