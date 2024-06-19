@@ -3,7 +3,7 @@ import Label from "../Label"
 
 function Form({ children }) {
     return (
-        <form className="flex flex-col gap-4">
+        <form className="flex w-full flex-col gap-4">
             {children}
         </form>
     )

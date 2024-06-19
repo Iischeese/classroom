@@ -2,14 +2,14 @@ import SplitView from '@/components/Splitview'
 import { Title } from '@/components/Typography'
 import { login, signup } from './actions'
 import FormButton from '@/components/dashboard/FormButton'
-import { ErrorSpace, FormInput, FormSpace } from '@/components/dashboard/Form'
+import Form, { ErrorSpace, FormInput, FormSpace } from '@/components/dashboard/Form'
 
 export default function LoginPage({ searchParams }) {
 
   return (
     <SplitView>
       <Title>Login</Title>
-      <form className='flex flex-col items-start justify-center w-full gap-8'>
+      <Form>
         <FormInput label={"Email"} id={"email"} />
         <FormInput type="password" label={"Password"} id={"password"} />
         <FormSpace>
@@ -22,7 +22,7 @@ export default function LoginPage({ searchParams }) {
             :
             <></>
         }
-      </form>
+      </Form>
     </SplitView>
   )
 }

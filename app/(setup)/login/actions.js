@@ -22,8 +22,12 @@ async function login(formData) {
 
   setTimeout(() => {
     revalidatePath('/dashboard/', 'layout')
-    redirect("/dashboard/classes");
-  }, 5)
+  }, 10)
+
+  setTimeout(() => {
+    // redirect("/dashboard/classes");
+  }, 15)
+
 }
 
 async function signup(formData) {
