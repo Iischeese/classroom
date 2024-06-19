@@ -19,11 +19,11 @@ async function login(formData) {
   if (error) {
     return redirect("/login?error=" + error.message);
   }
-  else {
-      revalidatePath('/dashboard/', 'layout')
-      redirect("/dashboard/classes");
 
-  }
+  setTimeout(() => {
+    revalidatePath('/dashboard/', 'layout')
+    redirect("/dashboard/classes");
+  }, 5)
 }
 
 async function signup(formData) {
