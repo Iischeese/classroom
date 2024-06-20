@@ -18,8 +18,8 @@ async function ClassroomPreview({ classroom }) {
                     <Image width={1920} height={1080} className=" absolute w-full h-full object-cover" src={classroom.header_photo} />
                 </div>
                 <div className="absolute left-0 top-0 m-5">
-                    <SubTitle>{classroom.name}</SubTitle>
-                    <Heading>{classroom.grade_level}{classroom.grade_level > 2 ? "th" : classroom.grade_level > 1 ? "nd" : "st"} grade | {data.prefix} {data.last_name}</Heading>
+                    <SubTitle color={"white"}>{classroom.name}</SubTitle>
+                    <Heading color="">{classroom.grade_level}{classroom.grade_level > 2 ? "th" : classroom.grade_level > 1 ? "nd" : "st"} grade | {data.prefix} {data.last_name}</Heading>
                 </div>
                 {
                     user.type == 'student' ?

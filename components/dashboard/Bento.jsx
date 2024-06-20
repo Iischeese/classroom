@@ -1,6 +1,6 @@
-function Bento({children}){
+function Bento({children, rows, cols, className}){
     return(
-        <div className="grid grid-cols-4 grid-rows-3 gap-8">
+        <div className={`${className} grid grid-cols-${cols} grid-rows-${rows} gap-8`}>
             {children}
         </div>
     )

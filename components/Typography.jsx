@@ -4,25 +4,25 @@ function Title({ children }) {
     )
 }
 
-function SubTitle({ children }) {
+function SubTitle({ children, color }) {
 
     return (
-        <h2 className="text-3xl text-text/95">{children}</h2>
+        <h2 className={`text-3xl ${color ? "text-"+color : "text-text"} opacity-95`}>{children}</h2>
     )
 
 }
 
-function Heading({ children }) {
+function Heading({ children, color,className }) {
     return (
         <>
-            <h3 className="text-xl text-text/90">{children}</h3>
+            <h3 className={`${className} text-xl ${color ? "text-"+color : "text-text"} opacity-90`}>{children}</h3>
         </>
     )
 }
 
-function Text({ children }) {
+function Text({ children, color, className }) {
     return (
-        <p className="text-sm text-text/85">{children}</p>
+        <p className={`${className} text-md ${color ? "text-"+color : "text-text"} opacity-85`}>{children}</p>
     )
 }
 

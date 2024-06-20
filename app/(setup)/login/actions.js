@@ -20,12 +20,16 @@ async function login(formData) {
     return redirect("/login?error=" + error.message);
   }
 
+  const func = () => {
+    redirect("/dashboard/classes");
+  }
+
   setTimeout(() => {
-    revalidatePath('/dashboard/', 'layout')
+    revalidatePath('/', 'layout')
   }, 10)
 
   setTimeout(() => {
-    // redirect("/dashboard/classes");
+    func()
   }, 15)
 
 }

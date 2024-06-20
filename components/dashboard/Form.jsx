@@ -37,7 +37,7 @@ function TextArea({ id, label }) {
 
 function ErrorSpace({ errorText }) {
     return (
-        <div className='w-full text-red-500 bg-red-400/20 border border-red-500 rounded-md p-5 py-3'>
+        <div className='w-full text-red/90 bg-red/40 border border-red rounded-md p-5 py-3'>
             {errorText}
         </div>
     )
