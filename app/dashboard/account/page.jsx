@@ -25,13 +25,13 @@ async function Account() {
                             <Heading>Name</Heading>
                             <Text>Your first and last name. This will be used to identify you to others.</Text>
                             <div className="flex gap-8">
-                                <Input mono placeholder={userData.first_name} />
-                                <Input mono placeholder={userData.last_name} />
+                                <Input placeholder={userData.first_name} />
+                                <Input placeholder={userData.last_name} />
                             </div>
                         </SectionContent>
                         <SectionFooter>
                             <div></div>
-                            <Button primary mono style="w-min">Save</Button>
+                            <Button primary style="w-min">Save</Button>
                         </SectionFooter>
                     </Section>
                     <Section>
@@ -44,7 +44,7 @@ async function Account() {
                         </SectionContent>
                         <SectionFooter>
                             <Text>Not to exceed 50MB.</Text>
-                            <Button primary mono style="w-min">Save</Button>
+                            <Button primary style="w-min">Save</Button>
                         </SectionFooter>
                     </Section>
                     <Section danger>

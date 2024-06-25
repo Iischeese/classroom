@@ -20,17 +20,8 @@ async function login(formData) {
     return redirect("/login?error=" + error.message);
   }
 
-  const func = () => {
-    redirect("/dashboard/classes");
-  }
-
-  setTimeout(() => {
     revalidatePath('/', 'layout')
-  }, 10)
-
-  setTimeout(() => {
-    func()
-  }, 15)
+    redirect("/dashboard/classes")
 
 }
 

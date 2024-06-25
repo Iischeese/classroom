@@ -45,13 +45,13 @@ async function ClassroomSettings({ params }) {
                             <SectionContent>
                                 <Heading>Name</Heading>
                                 <Text>This is the title of your classroom. For example: English, History, ect.</Text>
-                                <Input mono type="text" placeholder={classroom.name} />
+                                <Input type="text" placeholder={classroom.name} />
                             </SectionContent>
                             <SectionFooter>
                                 <Text className="text-sm">Ensure length of title is less than 500 characters</Text>
                                 <form action="">
                                     <input id="name" name="name" type="text" className="hidden" />
-                                    <Button click={changeNameOfClass} style='w-min' mono primary>Save</Button>
+                                    <Button click={changeNameOfClass} style='w-min' primary>Save</Button>
                                 </form>
                             </SectionFooter>
                         </Section>
@@ -71,7 +71,7 @@ async function ClassroomSettings({ params }) {
                             <SectionFooter>
                                 <Text>Ensure that it is no larger than 50MB.</Text>
                                 <form>
-                                    <Button mono primary>Save</Button>
+                                    <Button primary>Save</Button>
                                 </form>
                             </SectionFooter>
                         </Section>

@@ -64,7 +64,7 @@ export default async function Page({ params }) {
             // Edit Mode
             signedIn.user_id == classroom.user_id ?
               <div className="absolute right-0 top-0 m-3 flex gap-2">
-                <Button mono link={`/dashboard/classes/${params.id}/edit`}>Settings</Button>
+                <Button link={`/dashboard/classes/${params.id}/edit`}>Settings</Button>
                 <CreateAssignmentButton id={params.id}/>
               </div>
               :

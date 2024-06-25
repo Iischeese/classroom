@@ -24,7 +24,7 @@ function CreateClassButton() {
 
     return (
         <>
-            <Button noForm={() => { setOpen(!open) }} mono style="min-w-fit w-max" primary>Create new classroom</Button>
+            <Button noForm={() => { setOpen(!open) }} style="min-w-fit w-max" primary>Create new classroom</Button>
             <Drawer size="sm" title="New Classroom" open={open} setOpen={setOpen}>
                 <Form>
                     <FormInput placeholder="History" id="name" label="Name" />
