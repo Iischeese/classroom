@@ -5,7 +5,7 @@ import { Section, SectionContent, SectionFooter } from "@/components/Section";
 import { Text, Heading } from "@/components/Typography";
 import Error from "@/components/Error";
 import { revalidatePath } from "next/cache";
-import { getUser } from "@/app/(setup)/login/actions";
+import { getUser } from "@/app/(home)/login/actions";
 
 async function Response({ id }) {
 

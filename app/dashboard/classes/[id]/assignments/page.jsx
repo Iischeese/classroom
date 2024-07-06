@@ -5,7 +5,7 @@ import { getResponses } from "./[assignment]/actions"
 import Link from "next/link"
 import Table from "@/components/dashboard/Table"
 import { CreateAssignmentButton } from "./createAssignmentButton"
-import { getUserData } from "@/app/(setup)/login/actions"
+import { getUserData } from "@/app/(home)/login/actions"
 import { getClassroom } from "../../actions"
 
 export const metadata = {

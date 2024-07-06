@@ -1,7 +1,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Heading, SubTitle, Text } from "../Typography"
-import { getUser, getUserData } from "@/app/(setup)/login/actions"
+import { getUser, getUserData } from "@/app/(home)/login/actions"
 import Card from "../Card"
 import GradeView from "./GradeView"
 

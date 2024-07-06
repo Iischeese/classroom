@@ -1,6 +1,6 @@
 'use server'
 
-import { getUserData } from "@/app/(setup)/login/actions"
+import { getUserData } from "@/app/(home)/login/actions"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 

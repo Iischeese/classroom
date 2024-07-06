@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { Text } from "../Typography"
 import { getResponse } from "@/app/dashboard/classes/[id]/assignments/[assignment]/actions"
-import { getUser } from "@/app/(setup)/login/actions"
+import { getUser } from "@/app/(home)/login/actions"
 
 async function AssignmentPreview({ link, assignment }) {
 

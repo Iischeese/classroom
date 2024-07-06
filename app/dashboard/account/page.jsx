@@ -1,4 +1,4 @@
-import { getUserData, signOut } from "@/app/(setup)/login/actions"
+import { getUserData, signOut } from "@/app/(home)/login/actions"
 import Button from "@/components/Button"
 import Input from "@/components/Input"
 import { Section, SectionContent, SectionFooter } from "@/components/Section"

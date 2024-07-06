@@ -1,12 +1,12 @@
 'use server'
 
-import { getUserData } from "@/app/(setup)/login/actions"
+import { getUserData } from "@/app/(home)/login/actions"
 import { createClient } from "@/utils/supabase/server"
 import { createServerClient } from "@supabase/ssr"
 import { redirect } from "next/navigation"
 import { cookies } from 'next/headers'
 import { revalidatePath } from "next/cache"
-import { getUser } from "@/app/(setup)/login/actions"
+import { getUser } from "@/app/(home)/login/actions"
 
 async function createClass(formData) {
 

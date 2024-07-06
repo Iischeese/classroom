@@ -1,7 +1,7 @@
 import { Text, Heading } from "@/components/Typography"
 import { getAssignment, getGrade, getResponse, setResponseViewed } from "./actions"
 import SettingsContainer, { Content } from "@/components/dashboard/SettingsContainer"
-import { getUserData } from "@/app/(setup)/login/actions"
+import { getUserData } from "@/app/(home)/login/actions"
 import Response from "./Response"
 import { getResponses } from "./actions"
 import ResponsePreview from "./ResponsePreview"

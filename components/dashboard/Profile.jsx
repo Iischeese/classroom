@@ -1,4 +1,4 @@
-import { getUserData } from "@/app/(setup)/login/actions"
+import { getUserData } from "@/app/(home)/login/actions"
 import Image from "next/image"
 
 async function ProfilePic() {
