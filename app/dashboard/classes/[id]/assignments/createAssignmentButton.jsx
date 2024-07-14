@@ -4,10 +4,10 @@ import { useState } from "react"
 import Button from "@/components/Button"
 import Drawer from "@/components/Drawer"
 import Form, { FormInput, TextArea } from "@/components/dashboard/Form"
+import FormButton from '@/components/dashboard/FormButton'
 import Label from "@/components/Label"
 import Dropdown from "@/components/Dropdown"
 import { createAssignment, deleteAssignment } from "./[assignment]/actions"
-import Input from "@/components/Input"
 
 function CreateAssignmentButton({id}) {
 
@@ -46,7 +46,7 @@ function CreateAssignmentButton({id}) {
                         <Label id='desc'>Instructions</Label>
                         <TextArea id='desc'/>
                     </div>
-                    <Button click={create}>Create</Button>
+                    <FormButton primary pendingText="Creating" formAction={create}>Create</FormButton>
                 </Form>
             </Drawer>
         </>

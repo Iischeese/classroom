@@ -152,7 +152,7 @@ async function deleteClassroom(id) {
 
     await supabase.storage.from('header-picture').remove([path])
 
-    redirect('/dashboard')
+    redirect('/dashboard/classes')
 
 }
 

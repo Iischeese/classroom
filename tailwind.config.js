@@ -57,9 +57,9 @@ module.exports = {
         'primary': '#83e6c8',
         'secondary': '#1d6192',
         'accent': '#2f71d6',
-        'yellow': '#F0CF65',
-        'orange': '#FF8C42',
-        'red': '#DE1A1A'
+        'yellow': '#FFCB47',
+        'orange': '#E4572E',
+        'red': '#EF2D56'
        },
        
     }

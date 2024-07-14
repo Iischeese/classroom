@@ -10,14 +10,14 @@ function PendingView({text}){
     )
 }
 
-function FormButton({children, primary, pendingText, formAction}){
+function FormButton({children, primary, pendingText, formAction, ...props}){
 
     const {pending, action} = useFormStatus()
 
     const isPending = pending && action == formAction
 
     return(
-        <Button disabled={isPending} primary={primary} click={formAction} >{isPending ? <PendingView text={pendingText}/> : children }</Button>
+        <Button {...props} disabled={isPending} primary={primary} click={formAction} >{isPending ? <PendingView text={pendingText}/> : children }</Button>
     )
 }
 

@@ -1,9 +1,9 @@
 import Input from "../Input"
 import Label from "../Label"
 
-function Form({ children }) {
+function Form({ children, className, min }) {
     return (
-        <form className="flex w-full flex-col gap-4">
+        <form className={className + ` ${min? "w-min" : "w-full"} flex flex-col gap-4`}>
             {children}
         </form>
     )

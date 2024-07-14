@@ -253,6 +253,8 @@ async function getAverageGrade(id, user_id){
 
     const final = total / grades.length
 
+    if(!final > 0) return 0 
+
     return final
 }
 

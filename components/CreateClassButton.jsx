@@ -5,6 +5,7 @@ import Button from "./Button"
 import Drawer from "./Drawer"
 import Label from "@/components/Label"
 import Form, { FormInput } from "@/components/dashboard/Form"
+import FormButton from "@/components/dashboard/FormButton"
 import { createClass, joinClassroom } from "@/app/dashboard/classes/actions"
 function CreateClassButton() {
 
@@ -42,7 +43,7 @@ function CreateClassButton() {
                                 <></>
                         }
                     </div>
-                    <Button click={createClass} primary>Create</Button>
+                    <FormButton pendingText="Creating" formAction={createClass} primary>Create</FormButton>
                 </Form>
             </Drawer>
         </>

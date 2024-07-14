@@ -6,7 +6,8 @@ import { Heading, Text } from "@/components/Typography"
 import Navigation from "@/components/dashboard/Navigation"
 import ProfilePic from "@/components/dashboard/Profile"
 import SettingsContainer, { Content } from "@/components/dashboard/SettingsContainer"
-
+import Form from '@/components/dashboard/Form'
+import FormButton from '@/components/dashboard/FormButton'
 export const metadata = {
     title: 'Account Settings'
 }
@@ -53,12 +54,10 @@ async function Account() {
                             <Text>This will sign you out of all your devices signed in to this account.</Text>
                         </SectionContent>
                         <SectionFooter danger>
-                            <div></div>
-                            <form action="">
-                                <Button click={signOut} primary danger style="w-fit w-max-min">
-                                    Log-Out
-                                </Button>
-                            </form>
+                            <div className="w-full"/>
+                            <Form min>
+                                <FormButton style="whitespace-nowrap" danger pendingText="Logging Out" formAction={signOut}>Log Out</FormButton>
+                            </Form>
                         </SectionFooter>
                     </Section>
                 </div>

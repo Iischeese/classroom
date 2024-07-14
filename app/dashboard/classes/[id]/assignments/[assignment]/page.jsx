@@ -21,6 +21,8 @@ async function AssignmentView({ params }) {
     if (assignment.message) { console.error(assignment); return <Error /> }
 
     const check = async () => {
+        "use server"
+
         if (user.type == "student") {
             const response = await getResponse(id, user.user_id)
 
@@ -31,7 +33,13 @@ async function AssignmentView({ params }) {
 
     const responses = await getResponses(id)
 
+    let response
+
     const edit = user.user_id == classroom.user_id
+
+    if(!edit){
+        response =  await getResponse(assignment.id, user.user_id)
+    }
 
     return (
         <>
@@ -53,7 +61,7 @@ async function AssignmentView({ params }) {
                     <div className="w-full  flex flex-col gap-4 border-t border-text/40 py-5">
                         {
                             user.type == "student" ?
-                                <Response id={id} />
+                                <Response response={response} />
                                 :
                                 <>
                                     <Heading>Students Work: </Heading>
