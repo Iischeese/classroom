@@ -57,11 +57,20 @@ module.exports = {
         'primary': '#83e6c8',
         'secondary': '#1d6192',
         'accent': '#2f71d6',
-        'yellow': '#FFCB47',
-        'orange': '#E4572E',
-        'red': '#EF2D56'
+        'yellow': '#F0CF65',
+        'orange': '#FF8C42',
+        'red': '#DE1A1A'
        },
-       
+       colors: {
+        'text': '#edf4f5',
+        'background': '#0b1516',
+        'primary': '#93ccd4',
+        'secondary': '#277079',
+        'accent': '#50c3d2',
+        'yellow': '#F0CF65',
+        'orange': '#FF8C42',
+        'red': '#DE1A1A'
+       },       
     }
   },
 }

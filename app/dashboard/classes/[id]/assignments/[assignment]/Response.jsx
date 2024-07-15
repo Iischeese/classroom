@@ -1,3 +1,5 @@
+"use client"
+
 import { updateValue, turnItIn } from "./actions";
 import { Section, SectionContent, SectionFooter } from "@/components/Section";
 import { Text, Heading } from "@/components/Typography";
@@ -31,12 +33,10 @@ function Response({ response }) {
   }
 
   async function update(formData) {
-    "use server";
     await updateValue(response, response.input, formData.get("text"));
   }
 
   async function turnIN() {
-    "use server";
     await turnItIn(response);
   }
 
@@ -51,7 +51,6 @@ function Response({ response }) {
               defaultValue={anw}
               className="bg-text/5 border border-text/40 rounded-md focus:outline-none p-3"
               onChange={async (e) => {
-                "use server"
                 await updateValue(response, response.input, e.target.value);
               }}
             />
@@ -60,19 +59,12 @@ function Response({ response }) {
             <Text>Your progress will not auto-save.</Text>
             <div className="flex gap-2">
               <FormButton
-                pendingText="Saving..."
-                formAction={update}
-                style="w-min"
-              >
-                Save
-              </FormButton>
-              <FormButton
                 pendingText="Submitting..."
                 formAction={turnIN}
                 primary
                 style="w-fit"
               >
-                {response.submitted ? "Submitted!" : "Turn it in!"}
+                {response.submitted ? "Already submitted" : "Submit!"}
               </FormButton>
             </div>
           </SectionFooter>

@@ -3,12 +3,13 @@
 import { useRouter } from "next/navigation"
 import Button from "../Button"
 import { SubTitle } from "../Typography"
+import Divider from "../Divider"
 
 function Navigation({ title, children, close }) {
 
     return (
         <>
-            <div className="flex w-full justify-between items-center py-5 border-b border-text/40">
+            <div className="flex w-full justify-between items-center">
                 <SubTitle>{title}</SubTitle>
                 <div className="flex items-center gap-2">
                     {children}
@@ -20,7 +21,7 @@ function Navigation({ title, children, close }) {
                     }
                 </div>
             </div>
-            <div className="py-[.625rem]"></div>
+            <Divider />
         </>
     )
 }

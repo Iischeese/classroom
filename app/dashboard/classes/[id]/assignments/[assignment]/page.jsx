@@ -10,6 +10,7 @@ import Navigation from "@/components/dashboard/Navigation"
 import Table from "@/components/dashboard/Table"
 import { getClassroom } from "../../../actions"
 import AssignmentSideBar from "./SideBar"
+import Divider from "@/components/Divider"
 
 async function AssignmentView({ params }) {
 
@@ -58,7 +59,8 @@ async function AssignmentView({ params }) {
                     <p className="pb-5 text-text/85">
                         {assignment.description}
                     </p>
-                    <div className="w-full  flex flex-col gap-4 border-t border-text/40 py-5">
+                    <div className="w-full  flex flex-col gap-4 py-5">
+                        <Divider />
                         {
                             user.type == "student" ?
                                 <Response response={response} />
