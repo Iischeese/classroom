@@ -1,12 +1,12 @@
 'use server'
 
-import { getUserData } from "@/app/(home)/login/actions"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
+import { getUserData } from "@/app/(home)/login/actions"
 
 const { createClient } = require("@/utils/supabase/server")
 
-async function updateValue(res, type, value) {
+async function updateValue(res, value) {
 
     const supabase = createClient()
 
@@ -16,6 +16,8 @@ async function updateValue(res, type, value) {
         .eq('student_id', res.student_id)
         .eq('assignment_id', res.assignment_id)
         .single()
+
+    if(error) console.error(error)
 }
 
 async function turnItIn(res) {

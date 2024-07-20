@@ -8,7 +8,7 @@ function SettingsContainer({ children }) {
 
 function Content({side, children}) {
     return (
-        <div className={`lg:w-[60%] w-[90%] py-5`}>
+        <div className={`lg:w-[60%] w-[90%] py-5 flex flex-col gap-10`}>
             {children}
         </div>
     )
