@@ -5,7 +5,7 @@ import StarterKit from "@tiptap/starter-kit";
 import CharacterCount from "@tiptap/extension-character-count";
 import Underline from "@tiptap/extension-underline";
 import HorizontalRule from "@tiptap/extension-horizontal-rule";
-import useDebounce from "use-debounce";
+import {useDebounce} from "use-debounce";
 import Button from "../Button";
 import {
   BinaryIcon,
@@ -19,16 +19,12 @@ import {
   UnderlineIcon,
   Undo2Icon,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect } from "react";
 
-function TipTap() {
-
-
-  const [raw, setRaw] = useState(0)
-
+function TipTap({ setItem, defaultValue }) {
   const editor = useEditor({
-    content: "<p>Hello World!</p>",
     immediatelyRender: false,
+    content: "<p>Loading...</p>",
     extensions: [
       StarterKit.configure(),
       Underline,
@@ -41,18 +37,24 @@ function TipTap() {
           "prose prose-invert max-w-none rounded-md rounded-t-none border border-text/40  focus:outline-none focus:border-accent p-5",
       },
     },
-    onUpdate: ({ editor }) => {
-      setRaw(raw+1)
-    },
   });
 
-  const [debouncedEditor] = useDebounce(getRaw(), 2000);
-
-  useEffect(() => {
-    if (debouncedEditor) {
-      console.log(debouncedEditor)
+  useEffect(()=>{
+    if(editor){
+      editor.commands.setContent(defaultValue)
     }
-  }, [debouncedEditor]);
+  }, [defaultValue])
+
+  const [debouncedEditor] = useDebounce(
+    editor?.state.doc.content.toJSON(),
+    2000
+  );
+
+  // useEffect(() => {
+  //   if (debouncedEditor) {
+  //     setItem(debouncedEditor);
+  //   }
+  // }, [debouncedEditor]);
 
   if (editor)
     return (
