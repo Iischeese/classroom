@@ -13,43 +13,37 @@ import {
 } from "@/app/dashboard/classes/[id]/assignments/[assignment]/actions";
 function Test() {
   const [item, setItem] = useState({});
-  const [defaultValue, setDefaultValue] = useState('')
+  const [defaultValue, setDefaultValue] = useState("");
 
-  useEffect(()=>{
-
-    async function getResponse(){
-      const response = await getResponseByID(36)
-      setDefaultValue(response.response.TEXT)
+  useEffect(() => {
+    async function getResponse() {
+      const response = await getResponseByID(36);
+      setDefaultValue(response.response.TEXT);
     }
 
-    getResponse()
-
-  }, [])
+    getResponse();
+  }, []);
 
   const update = async () => {
     await updateValue(
-      {
-        student_id: "bb8275eb-1a7c-4278-8703-9d2cbba3e57d",
-        assignment_id: "1f883a8d-4b69-4e1c-bc0c-8419ee90da9d",
-      },
+      "bb8275eb-1a7c-4278-8703-9d2cbba3e57d",
+      "1f883a8d-4b69-4e1c-bc0c-8419ee90da9d",
       item
     );
   };
 
+  useEffect(() => {
+    update();
+  }, [item]);
 
-  useEffect(()=>{
-    // update()
-  }, [item])
-  
-
-  console.log(defaultValue)
+  console.log(defaultValue);
 
   return (
     <>
       <SettingsContainer>
         <Content>
           <Navigation title={"TipTap Test"} />
-          <TipTap defaultValue={defaultValue.toString()} setItem={setItem} />
+          <TipTap defaultValue={defaultValue} setItem={setItem} />
         </Content>
       </SettingsContainer>
     </>

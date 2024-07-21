@@ -9,6 +9,14 @@ function Form({ children, className, min }) {
     )
 }
 
+function Horizontal({children}){
+    return(
+        <div className="flex gap-4 w-full">
+            {children}
+        </div>
+    )
+}
+
 function FormInput({ label, placeholder, id, type }) {
     return (
         <FormSpace>
@@ -43,6 +51,6 @@ function ErrorSpace({ errorText }) {
     )
 }
 
-export { FormInput, TextArea, FormSpace, ErrorSpace }
+export { FormInput, TextArea, FormSpace, ErrorSpace, Horizontal }
 
 export default Form

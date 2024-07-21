@@ -9,9 +9,9 @@ function Section({ children, danger, disabled }) {
     )
 }
 
-function SectionContent({ children }) {
+function SectionContent({ children, disabled }) {
     return (
-        <div className="w-full p-5 flex flex-col gap-3">
+        <div className={` ${disabled? "opacity-50 pointer-events-none" : ""} w-full p-5 flex flex-col gap-3`}>
             {children}
         </div>
     )

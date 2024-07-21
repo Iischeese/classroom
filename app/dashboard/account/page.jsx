@@ -69,6 +69,12 @@ async function Account() {
             </Button>
           </SectionFooter>
         </Section>
+        <Section>
+          <SectionContent>
+            <Heading>Notifications</Heading>
+            <Text>TODO: add notification Center</Text>
+          </SectionContent>
+        </Section>
         <Section danger>
           <SectionContent>
             <Heading>Sign Out</Heading>
