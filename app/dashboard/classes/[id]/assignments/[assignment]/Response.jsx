@@ -17,7 +17,6 @@ function Response({ response }) {
   useEffect(() => {
     const fetch = async () => {
       const res = await getResponseByID(response.id);
-      console.log(res);
       setValue(res.response.TEXT);
     };
 

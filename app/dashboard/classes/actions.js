@@ -54,7 +54,6 @@ async function createClass(formData) {
         redirect(`/dashboard/classes/${data.id}`)
     }
     else {
-        console.log(error.message)
         return redirect('/error')
     }
 
@@ -107,8 +106,6 @@ async function getClassroom(id) {
 
 async function deleteClassroom(id) {
 
-    console.log("DELETE CLASS: " + id)
-
     const supabase = createClient()
 
     // delete the classroom
@@ -132,8 +129,6 @@ async function deleteClassroom(id) {
 
     // delete all the student responses
     for (let i = 0; i < assignmentData.length; i++) {
-
-        console.log(assignmentData[i])
 
         const { error: responsesError } = await supabase
             .from('responses')
@@ -185,7 +180,7 @@ async function joinClassroom(formData) {
         .eq('join_code', code)
         .single()
 
-    if (error) console.log(error.message)
+    if (error) return error
 
     const studentsArray = students.concat(user.user_id)
 

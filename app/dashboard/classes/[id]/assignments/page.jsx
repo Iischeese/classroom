@@ -82,8 +82,6 @@ async function AssignmentPreviewBig({ as, id, owner }) {
 
     const res = await getResponse(as.id, user.user_id)
 
-    console.log(res)
-
     grade = res.score
   }
 
