@@ -39,7 +39,7 @@ function Template({ data, ...props }) {
         data.danger
           ? "bg-red"
           : data.primary
-          ? "bg-primary text-background border-text/40 border"
+          ? "bg-primary text-secondary border-text/40 border"
           : "bg-secondary border-text/40 border"
       } flex justify-center items-center gap-2 backdrop-blur-sm backdrop-filter w-full py-3 px-5 rounded-md hover:opacity-70 transition-opacity disabled:opacity-30`}
     >

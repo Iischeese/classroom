@@ -5,7 +5,7 @@ import StarterKit from "@tiptap/starter-kit";
 import CharacterCount from "@tiptap/extension-character-count";
 import Underline from "@tiptap/extension-underline";
 import HorizontalRule from "@tiptap/extension-horizontal-rule";
-import { useDebounce } from "use-debounce";
+import {useDebounce} from "use-debounce";
 import Button from "../Button";
 import {
   BinaryIcon,
@@ -21,12 +21,16 @@ import {
 } from "lucide-react";
 import { useEffect } from "react";
 
-function TipTap({ setItem, defaultValue, readOnly }) {
+function TipTap({ setItem, defaultValue }) {
   const editor = useEditor({
     immediatelyRender: false,
-    editable: !readOnly,
     content: "<p>Loading...</p>",
-    extensions: [StarterKit.configure(), Underline],
+    extensions: [
+      StarterKit.configure(),
+      Underline,
+      HorizontalRule,
+      CharacterCount,
+    ],
     editorProps: {
       attributes: {
         class:
@@ -35,30 +39,28 @@ function TipTap({ setItem, defaultValue, readOnly }) {
     },
   });
 
-  useEffect(() => {
-    if (editor) {
-      editor.commands.setContent(defaultValue);
+  useEffect(()=>{
+    if(editor){
+      editor.commands.setContent(defaultValue)
     }
-  }, [defaultValue]);
+  }, [defaultValue])
 
-  if (!readOnly) {
-    const [debouncedEditor] = useDebounce(
-      editor?.state.doc.content.toJSON(),
-      500
-    );
+  const [debouncedEditor] = useDebounce(
+    editor?.state.doc.content.toJSON(),
+    2000
+  );
 
-    useEffect(() => {
-      if (debouncedEditor) {
-        setItem(debouncedEditor);
-      }
-    }, [debouncedEditor]);
-  }
+  // useEffect(() => {
+  //   if (debouncedEditor) {
+  //     setItem(debouncedEditor);
+  //   }
+  // }, [debouncedEditor]);
 
   if (editor)
     return (
       <>
         <div>
-          {readOnly? <></> : <Buttons editor={editor} />}
+          <Buttons editor={editor} />
           <EditorContent editor={editor} />
         </div>
       </>
@@ -69,7 +71,8 @@ function Buttons({ editor }) {
   if (editor) {
     return (
       <>
-        <div className="flex w-full *:p-0 *:py-1 *:rounded-none *:border-transparent *:border-r-text/40 *:last:border-r-transparent *:bg-none ">
+        {editor.storage.characterCount.characters()}
+        <div className="flex w-full gap-4 p-5 border border-text/40 border-b-transparent rounded-b-none rounded-md">
           <Button
             style={
               editor.isActive("bold")

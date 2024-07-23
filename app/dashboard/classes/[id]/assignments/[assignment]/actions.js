@@ -10,11 +10,9 @@ async function updateValue(res, value) {
 
     const supabase = createClient()
 
-    const item = await JSON.parse(value)
-
     const { error } = await supabase
         .from('responses')
-        .update({ response: { 'TEXT': item } })
+        .update({ response: { 'TEXT': value } })
         .eq('student_id', res.student_id)
         .eq('assignment_id', res.assignment_id)
         .single()
@@ -34,7 +32,7 @@ async function turnItIn(res) {
 
     if (error) console.error(error);
 
-    revalidatePath('/dashboard/classes/[id]/assignments/[assignment]/', 'page')
+    revalidatePath('/', 'page')
 }
 
 async function getResponses(id) {
@@ -295,35 +293,6 @@ async function getAssignmentUrl(id) {
     return url
 }
 
-async function requestUnSubmit(res){
-
-    const supabase = createClient()
-
-    const {data, error} = await supabase
-        .from('responses')
-        .update({request_return: true})
-        .eq("student_id", res.student_id)
-        .eq("assignment_id", res.assignment_id)
-        .single()
-
-    if(error) console.error(error)
-
-}
-
-async function unTurnItIn(id){
-    const supabase = createClient()
-
-    const {data, error} = await supabase
-        .from('responses')
-        .update({submitted: false})
-        .select('*')
-        .eq("id", id)
-        .single()
-
-    if(!error) return data
-    else return error
-}
-
 export {
     updateValue,
     turnItIn,
@@ -340,7 +309,5 @@ export {
     releaseGrades,
     getAverageGrade,
     deleteAssignment,
-    getAssignmentUrl,
-    requestUnSubmit,
-    unTurnItIn
+    getAssignmentUrl
 }
