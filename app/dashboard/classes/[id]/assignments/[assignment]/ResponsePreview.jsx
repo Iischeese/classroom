@@ -1,13 +1,24 @@
 "use client";
 
 import Input from "@/components/Input";
-import { updateGrade } from "./actions";
+import { getResponseByID, updateGrade } from "./actions";
 import Drawer from "@/components/Drawer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Divider from "@/components/Divider";
+import TipTap from "@/components/dashboard/TipTap";
 
 function ResponsePreview({ value, user, defGrade }) {
   const [open, setOpen] = useState(false);
+  const [text, setText] = useState({});
+
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await getResponseByID(value.id);
+      setText(value.response.TEXT);
+    };
+
+    fetch();
+  }, []);
 
   return (
     <>
@@ -31,7 +42,11 @@ function ResponsePreview({ value, user, defGrade }) {
               />
             </form>
             <Divider />
-            {value.response.TEXT ? value.response.TEXT : "No Response"}
+            {value.response.TEXT ? (
+              <TipTap readOnly defaultValue={text} />
+            ) : (
+              "No Response"
+            )}
           </Drawer>
         </td>
         <td
@@ -40,8 +55,8 @@ function ResponsePreview({ value, user, defGrade }) {
             setOpen(!open);
           }}
         >
-          <p className="text-ellipsis w-20 overflow-hidden max-w-52 whitespace-nowrap">
-            {value.response.TEXT ? value.response.TEXT : "No Response"}
+          <p className="text-ellipsis w-40 bg-primary/30 rounded-md p-1 px-2 overflow-hidden max-w-52 whitespace-nowrap">
+            {value.status}
           </p>
         </td>
         <td className="p-3 flex gap-2 w-24">

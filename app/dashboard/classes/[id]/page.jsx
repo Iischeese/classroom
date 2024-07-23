@@ -51,7 +51,7 @@ export default async function Page({ params }) {
 
   return (
     <main className="flex flex-col p-10 w-screen min-h-[calc(s100vh-5rem)] gap-14">
-      <div className="relative rounded-md h-96 overflow-clip">
+      <div className="relative rounded-md h-96 overflow-clip border border-text/40">
         <Image width={1920} height={1080} alt="" className="z-10 absolute object-cover w-full h-full" src={classroom.header_photo} />
         <div className="z-20 absolute w-full h-full bg-background/20" />
         <div className="absolute w-full h-full top-0 left-0 z-30 flex flex-col gap-2" >

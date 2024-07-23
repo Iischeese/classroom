@@ -10,6 +10,8 @@ import SettingsContainer, {
   Content,
 } from "@/components/dashboard/SettingsContainer";
 import Navigation from "@/components/dashboard/Navigation";
+import Form from "@/components/dashboard/Form";
+import FormButton from "@/components/dashboard/FormButton";
 
 export const metadata = {
   title: "Classroom Settigns",
@@ -105,11 +107,9 @@ async function ClassroomSettings({ params }) {
             </SectionContent>
             <SectionFooter danger>
               <div></div>
-              <form>
-                <Button click={deleteClass} danger style="w-min">
-                  Delete
-                </Button>
-              </form>
+              <Form min>
+                <FormButton danger formAction={deleteClass} pendingText="Deleting...">Delete</FormButton>
+              </Form>
             </SectionFooter>
           </Section>
         </Content>

@@ -10,6 +10,8 @@ import Form, {
   FormSpace,
 } from "@/components/dashboard/Form";
 
+export const metadata = {title: "Login"}
+
 export default function Login({ searchParams }) {
   const signIn = async (formData) => {
     "use server";

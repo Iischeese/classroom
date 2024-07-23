@@ -12,7 +12,7 @@ async function updateValue(res, value) {
 
     const { error } = await supabase
         .from('responses')
-        .update({ response: { 'TEXT': value } })
+        .update({ response: { 'TEXT': JSON.parse(value) } })
         .eq('student_id', res.student_id)
         .eq('assignment_id', res.assignment_id)
         .single()

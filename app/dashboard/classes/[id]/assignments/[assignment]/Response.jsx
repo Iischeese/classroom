@@ -1,75 +1,65 @@
-"use client"
+"use client";
 
-import { updateValue, turnItIn } from "./actions";
+import { updateValue, turnItIn, getResponseByID } from "./actions";
 import { Section, SectionContent, SectionFooter } from "@/components/Section";
 import { Text, Heading } from "@/components/Typography";
 import Error from "@/components/Error";
 import Form from "@/components/dashboard/Form";
 import FormButton from "@/components/dashboard/FormButton";
+import { useEffect, useState } from "react";
+import TipTap from "@/components/dashboard/TipTap";
+import Button from "@/components/Button";
 
 function Response({ response }) {
+  const [item, setItem] = useState({});
+  const [value, setValue] = useState();
 
-  if (response.message) {
-    console.log(response);
-    return (
-      <Error
-        title={"This assignment has not been added to your account."}
-        desc={
-          "You joined this classroom after the teacher created the assignment. Contact you teacher or IT department."
-        }
-      />
-    );
-  }
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await getResponseByID(response.id);
+      console.log(res);
+      setValue(res.response.TEXT);
+    };
 
-  let anw;
+    fetch();
+  }, []);
 
-  switch (response.input) {
-    case "TEXT":
-      anw = response.response.TEXT;
-      break;
-    default:
-      anw = response.response.TEXT;
-      break;
-  }
-
-  async function update(formData) {
-    await updateValue(response, response.input, formData.get("text"));
-  }
-
-  async function turnIN() {
-    await turnItIn(response);
-  }
+  useEffect(() => {
+    updateValue(response, JSON.stringify(item));
+  }, [item]);
 
   return (
     <>
-      <Form>
-        <Section disabled={response.submitted}>
-          <SectionContent>
-            <Heading>Your Work:</Heading>
-            <textarea
-              name="text"
-              defaultValue={anw}
-              className="bg-text/5 border border-text/40 rounded-md focus:outline-none p-3"
-              onChange={async (e) => {
-                await updateValue(response, response.input, e.target.value);
-              }}
-            />
-          </SectionContent>
-          <SectionFooter>
-            <Text>Your progress will not auto-save.</Text>
-            <div className="flex gap-2">
-              <FormButton
-                pendingText="Submitting..."
-                formAction={turnIN}
-                primary
-                style="w-fit"
-              >
-                {response.submitted ? "Already submitted" : "Submit!"}
-              </FormButton>
-            </div>
-          </SectionFooter>
-        </Section>
-      </Form>
+      <Section disabled={response.submitted}>
+        <SectionContent>
+          <Heading>Your Work</Heading>
+          <TipTap readOnly={response.submitted} defaultValue={value} setItem={setItem} />
+        </SectionContent>
+        <SectionFooter>
+          {!response.submitted ? (
+            <>
+              <Text>Your work will auto-save</Text>
+              <Form min>
+                <FormButton
+                  pendingText="Submitting..."
+                  formAction={async () => {
+                    await turnItIn(response);
+                  }}
+                >
+                  Submit
+                </FormButton>
+              </Form>
+            </>
+          ) : (
+            <>
+              <Text>
+                Your work cannot be edited because you have already submitted
+                it.
+              </Text>
+            </>
+          )}
+        </SectionFooter>
+      </Section>
     </>
   );
 }
