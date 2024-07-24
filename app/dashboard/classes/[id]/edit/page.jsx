@@ -10,11 +10,11 @@ import SettingsContainer, {
   Content,
 } from "@/components/dashboard/SettingsContainer";
 import Navigation from "@/components/dashboard/Navigation";
-import Form from "@/components/dashboard/Form";
+import Form, { FormInput } from "@/components/dashboard/Form";
 import FormButton from "@/components/dashboard/FormButton";
 
 export const metadata = {
-  title: "Classroom Settigns",
+  title: "Classroom Settings",
 };
 
 async function ClassroomSettings({ params }) {
@@ -24,18 +24,12 @@ async function ClassroomSettings({ params }) {
   if (classroom.message) return <Error />;
   const user = await getUserData();
 
-  if (!user.user_id == classroom.user_id) return <Error />;
+  if (user.user_id !== classroom.user_id)
+    return <Error title="You are not the owner of this classroom." />;
 
   const deleteClass = async () => {
     "use server";
     await deleteClassroom(id);
-  };
-
-  const changeNameOfClass = async () => {
-    "use server";
-    const error = await changeName(id, "English");
-
-    if (error) console.error(error.message);
   };
 
   return (
@@ -47,25 +41,32 @@ async function ClassroomSettings({ params }) {
             link={`/dashboard/classes/${id}`}
           />
           <Section>
-            <SectionContent>
-              <Heading>Name</Heading>
-              <Text>
-                This is the title of your classroom. For example: English,
-                History, ect.
-              </Text>
-              <Input type="text" placeholder={classroom.name} />
-            </SectionContent>
-            <SectionFooter>
-              <Text className="text-sm">
-                Ensure length of title is less than 500 characters
-              </Text>
-              <form action="">
-                <input id="name" name="name" type="text" className="hidden" />
-                <Button click={changeNameOfClass} style="w-min" primary>
+            <form>
+              <SectionContent>
+                <Heading>Name</Heading>
+                <Text>
+                  This is the title of your classroom. For example: English,
+                  History, ect.
+                </Text>
+                <FormInput id="name" placeholder={classroom.name} />
+              </SectionContent>
+              <SectionFooter>
+                <Text className="text-sm">
+                  Ensure length of title is less than 500 characters
+                </Text>
+                <FormButton
+                  style="w-min"
+                  pendingText="Saving"
+                  primary
+                  formAction={async (formData) => {
+                    "use server";
+                    await changeName(classroom.id, formData.get("name"));
+                  }}
+                >
                   Save
-                </Button>
-              </form>
-            </SectionFooter>
+                </FormButton>
+              </SectionFooter>
+            </form>
           </Section>
           <Section>
             <SectionContent>
@@ -108,7 +109,13 @@ async function ClassroomSettings({ params }) {
             <SectionFooter danger>
               <div></div>
               <Form min>
-                <FormButton danger formAction={deleteClass} pendingText="Deleting...">Delete</FormButton>
+                <FormButton
+                  danger
+                  formAction={deleteClass}
+                  pendingText="Deleting..."
+                >
+                  Delete
+                </FormButton>
               </Form>
             </SectionFooter>
           </Section>

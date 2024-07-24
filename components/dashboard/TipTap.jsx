@@ -39,6 +39,8 @@ function TipTap({ setItem, defaultValue, readOnly }) {
   useEffect(() => {
     if (editor) {
       editor.commands.setContent(defaultValue);
+
+      setItem(defaultValue)
     }
   }, [defaultValue]);
 

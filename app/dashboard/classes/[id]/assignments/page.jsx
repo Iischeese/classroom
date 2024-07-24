@@ -11,7 +11,7 @@ import { getUserData } from "@/app/(home)/login/actions";
 import { getClassroom } from "../../actions";
 
 export const metadata = {
-  title: "Classroom Settings",
+  title: "Assignments",
 };
 
 async function Assignments({ params }) {

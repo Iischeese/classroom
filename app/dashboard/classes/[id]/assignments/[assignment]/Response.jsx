@@ -32,7 +32,11 @@ function Response({ response }) {
       <Section disabled={response.submitted}>
         <SectionContent>
           <Heading>Your Work</Heading>
-          <TipTap readOnly={response.submitted} defaultValue={value} setItem={setItem} />
+          <TipTap
+            readOnly={response.submitted}
+            defaultValue={value}
+            setItem={setItem}
+          />
         </SectionContent>
         <SectionFooter>
           {!response.submitted ? (
@@ -40,6 +44,7 @@ function Response({ response }) {
               <Text>Your work will auto-save</Text>
               <Form min>
                 <FormButton
+                  primary
                   pendingText="Submitting..."
                   formAction={async () => {
                     await turnItIn(response);
@@ -55,6 +60,9 @@ function Response({ response }) {
                 Your work cannot be edited because you have already submitted
                 it.
               </Text>
+              <Button primary style="w-min">
+                Submitted
+              </Button>
             </>
           )}
         </SectionFooter>

@@ -19,6 +19,15 @@ import { getClassroom } from "../../../actions";
 import AssignmentSideBar from "./SideBar";
 import Divider from "@/components/Divider";
 
+export async function generateMetadata({params}) {
+
+  const data = await getAssignment(params.assignment)
+
+  return {
+    title: data.name
+  }
+}
+
 async function AssignmentView({ params }) {
   const id = params.assignment;
   const user = await getUserData();
@@ -66,7 +75,7 @@ async function AssignmentView({ params }) {
           <p className=" text-text/85">{assignment.description}</p>
           <div className="w-full  flex flex-col gap-4">
             <Divider />
-            {user.type == "student" ? (
+            {!edit ? (
               <Response response={response} />
             ) : (
               <>
