@@ -3,6 +3,7 @@ import { Text } from "@/components/Typography";
 import { deleteAssignment, releaseGrades } from "./actions";
 import Form from "@/components/dashboard/Form";
 import FormButton from "@/components/dashboard/FormButton";
+import EditAssignmentButton from "./EditAssignementButton"
 
 function AssignmentSideBar({ assignment }) {
   const release = async () => {
@@ -17,7 +18,7 @@ function AssignmentSideBar({ assignment }) {
 
   return (
     <SideBar>
-      <Text>Scores are {assignment.score_released ? "" : "not"} released</Text>
+      <EditAssignmentButton assignment={assignment} />
       {!assignment.score_released ? (
         <Form>
           <FormButton pendingText="Publishing" primary formAction={release}>

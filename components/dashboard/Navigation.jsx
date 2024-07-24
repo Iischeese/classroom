@@ -8,7 +8,7 @@ import Divider from "../Divider";
 function Navigation({ title, children, close }) {
   return (
     <>
-      <div>
+      <div className="">
         <div className="flex w-full justify-between items-center">
           <SubTitle>{title}</SubTitle>
           <div className="flex items-center gap-2">

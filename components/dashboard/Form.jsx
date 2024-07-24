@@ -16,11 +16,11 @@ function Form({ children, className, min, horizontal }) {
   );
 }
 
-function FormInput({ label, placeholder, id, type }) {
+function FormInput({ label, placeholder, id, type, defaultValue }) {
   return (
     <FormSpace>
       {label ? <Label id={id}>{label}:</Label> : <></>}
-      <Input type={type} name={id} id={id} placeholder={placeholder} />
+      <Input defaultValue={defaultValue} type={type} name={id} id={id} placeholder={placeholder} />
     </FormSpace>
   );
 }

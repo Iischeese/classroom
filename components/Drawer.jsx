@@ -35,7 +35,7 @@ function Drawer({ size, title, children, open, setOpen }) {
     }
 
     return (
-        <div className={`top-0 ${open ? "right-0" : "-right-[100%]"} z-50 p-5 transition-all duration-250 ease-in-out ${percent} min-w-52 h-screen fixed bg-background border-l border-text/40 rounded-l-md`}>
+        <div className={`fixed z-[200] top-0 ${open ? "right-0" : "-right-[100%]"} p-5 transition-all duration-250 ease-in-out ${percent} min-w-52 h-screen overflow-y-scroll bg-background border-l border-text/40 rounded-l-md`}>
             <Navigation title={title} close={close} />
             {children}
         </div>

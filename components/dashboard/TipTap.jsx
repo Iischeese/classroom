@@ -22,12 +22,11 @@ import {
 import { useEffect } from "react";
 import { Text } from "../Typography";
 
-function TipTap({ setItem, defaultValue, readOnly }) {
+function TipTap({ setItem, defaultValue, readOnly, noBorder }) {
   const editor = useEditor({
     editable: !readOnly,
     immediatelyRender: false,
     autofocus: true,
-    content: "<p>Loading...</p>",
     extensions: [StarterKit.configure(), Underline, CharacterCount],
     editorProps: {
       attributes: {
@@ -40,7 +39,7 @@ function TipTap({ setItem, defaultValue, readOnly }) {
     if (editor) {
       editor.commands.setContent(defaultValue);
 
-      setItem(defaultValue)
+      if(setItem) setItem(defaultValue)
     }
   }, [defaultValue]);
 
@@ -71,7 +70,7 @@ function TipTap({ setItem, defaultValue, readOnly }) {
               </div>
             </>
           ) : (
-            <div className="relative rounded-md border border-text/40 focus:border-accent p-5">
+            <div className={`relative rounded-md overflow-scroll ${noBorder ? "" : "border p-5"} border-text/40 focus:border-accent`}>
               <EditorContent editor={editor} />
             </div>
           )}
