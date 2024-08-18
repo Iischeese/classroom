@@ -1,244 +1,325 @@
-'use server'
+"use server";
 
-import { getUserData } from "@/app/(home)/login/actions"
-import { createClient } from "@/utils/supabase/server"
-import { createServerClient } from "@supabase/ssr"
-import { redirect } from "next/navigation"
-import { cookies } from 'next/headers'
-import { revalidatePath } from "next/cache"
-import { getUser } from "@/app/(home)/login/actions"
+import { getUserData } from "@/app/(home)/login/actions";
+import { createClient } from "@/utils/supabase/server";
+import { createServerClient } from "@supabase/ssr";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
+import { getUser } from "@/app/(home)/login/actions";
+import { getAverageGrade } from "./[id]/assignments/[assignment]/actions";
 
 async function createClass(formData) {
+  const supabase = createClient();
 
-    const supabase = createClient()
+  const user = await getUser();
 
-    const user = await getUser()
+  const photo = formData.get("photo");
 
-    const photo = formData.get('photo')
+  const setPhoto = async () => {
+    const { data, error } = await supabase.storage
+      .from("header-picture")
+      .upload(user.id + "/" + photo.name, photo);
 
-    const setPhoto = async () => {
-        const { data, error } = await supabase.storage
-            .from('header-picture')
-            .upload(user.id + '/' + photo.name, photo)
+    const getURL = () => {
+      const { data } = supabase.storage
+        .from("header-picture")
+        .getPublicUrl(user.id + "/" + photo.name);
 
-        const getURL = () => {
-            const { data } = supabase.storage
-                .from('header-picture')
-                .getPublicUrl(user.id + '/' + photo.name)
+      return data.publicUrl;
+    };
 
-            return data.publicUrl
-        }
+    return getURL();
+  };
 
-        return getURL()
-    }
+  const Path = await setPhoto();
 
-    const Path = await setPhoto()
+  const formD = {
+    name: formData.get("name"),
+    grade_level: formData.get("level"),
+    user_id: user.id,
+    photo: Path,
+  };
 
-    const formD = {
-        name: formData.get('name'),
-        grade_level: formData.get('level'),
-        user_id: user.id,
-        photo: Path,
-    }
+  const { data, error } = await supabase
+    .from("classrooms")
+    .insert([
+      {
+        join_code: generateJoinCode(),
+        user_id: formD.user_id,
+        name: formD.name,
+        grade_level: formD.grade_level,
+        header_photo: formD.photo,
+        students: [],
+      },
+    ])
+    .select("id")
+    .single();
 
-
-    const { data, error } = await supabase
-        .from('classrooms')
-        .insert([
-            { join_code: generateJoinCode(), user_id: formD.user_id, name: formD.name, grade_level: formD.grade_level, header_photo: formD.photo, students: [] }
-        ])
-        .select('id')
-        .single()
-
-    if (!error) {
-        redirect(`/dashboard/classes/${data.id}`)
-    }
-    else {
-        return redirect('/error')
-    }
-
+  if (!error) {
+    redirect(`/dashboard/classes/${data.id}`);
+  } else {
+    return redirect("/error");
+  }
 }
 
 async function getClassrooms() {
-    const supabase = createClient()
+  const supabase = createClient();
 
-    const user = await getUserData()
+  const user = await getUserData();
 
-    if (user.type == "teacher") {
-        const { data, error } = await supabase
-            .from('classrooms')
-            .select('name, user_id, grade_level, id, header_photo')
-            .eq('user_id', user.user_id)
-            .order('created_at', { ascending: false })
+  if (user.type == "teacher") {
+    const { data, error } = await supabase
+      .from("classrooms")
+      .select("name, user_id, grade_level, id, header_photo")
+      .eq("user_id", user.user_id)
+      .order("created_at", { ascending: false });
 
-        if (error) return
+    if (error) return;
 
-        return data
-    }
-    else {
+    return data;
+  } else {
+    const { data, error } = await supabase
+      .from("classrooms")
+      .select("name, user_id, grade_level, id, header_photo")
+      .in("id", user.enrolled_classes)
+      .order("created_at", { ascending: true });
 
-        const { data, error } = await supabase
-            .from('classrooms')
-            .select('name, user_id, grade_level, id, header_photo')
-            .in('id', user.enrolled_classes)
-            .order('created_at', { ascending: true })
-
-        if (error) { console.error(error.code + ': ' + error.message + '\n' + error.details); return [] }
-        else return data
-    }
+    if (error) {
+      console.error(error.code + ": " + error.message + "\n" + error.details);
+      return [];
+    } else return data;
+  }
 }
 
 async function getClassroom(id) {
+  const supabase = createClient();
 
-    const supabase = createClient()
+  const { data, error } = await supabase
+    .from("classrooms")
+    .select("*")
+    .eq("id", id)
+    .single();
 
-    const { data, error } = await supabase
-        .from('classrooms')
-        .select('*')
-        .eq('id', id)
-        .single()
+  if (error) {
+    return error;
+  }
 
-    if (error) { return error }
-
-    return data
-
+  return data;
 }
 
 async function deleteClassroom(id) {
+  const supabase = createClient();
 
-    const supabase = createClient()
+  // delete the classroom
+  const { data: classroom, error: classError } = await supabase
+    .from("classrooms")
+    .delete()
+    .eq("id", id)
+    .select("user_id, header_photo")
+    .single();
 
-    // delete the classroom
-    const { data: classroom, error: classError } = await supabase
-        .from('classrooms')
-        .delete()
-        .eq('id', id)
-        .select('user_id, header_photo')
-        .single()
+  if (classError) {
+    console.error(classError);
+    return;
+  }
 
-    if (classError) { console.error(classError); return }
+  // delete the assignments associated with it
+  const { data: assignmentData, error: assignmentError } = await supabase
+    .from("assignments")
+    .delete()
+    .eq("classroom_id", id)
+    .select("id");
 
-    // delete the assignments associated with it
-    const { data: assignmentData, error: assignmentError } = await supabase
-        .from('assignments')
-        .delete()
-        .eq('classroom_id', id)
-        .select('id')
+  if (assignmentError) {
+    console.error(assignmentError);
+    return;
+  }
 
-    if (assignmentError) { console.error(assignmentError); return }
+  // delete all the student responses
+  for (let i = 0; i < assignmentData.length; i++) {
+    const { error: responsesError } = await supabase
+      .from("responses")
+      .delete()
+      .eq("assignment_id", assignmentData[i].id);
 
-    // delete all the student responses
-    for (let i = 0; i < assignmentData.length; i++) {
-
-        const { error: responsesError } = await supabase
-            .from('responses')
-            .delete()
-            .eq('assignment_id', assignmentData[i].id)
-
-        if (responsesError) { console.error(responsesError); return }
+    if (responsesError) {
+      console.error(responsesError);
+      return;
     }
+  }
 
-    // delete header photo from storage (not working GRRRR! :/ )
-    const string = classroom.header_photo
+  // delete header photo from storage (not working GRRRR! :/ )
+  const string = classroom.header_photo;
 
-    const url = string.split('/')
+  const url = string.split("/");
 
-    const path = classroom.user_id + '/' + url[url.length - 1]
+  const path = classroom.user_id + "/" + url[url.length - 1];
 
-    await supabase.storage.from('header-picture').remove([path])
+  await supabase.storage.from("header-picture").remove([path]);
 
-    redirect('/dashboard/classes')
-
+  redirect("/dashboard/classes");
 }
 
 async function changeName(id, newName) {
-    const supabase = createClient()
+  const supabase = createClient();
 
-    const { data, error } = await supabase
-        .from('classrooms')
-        .update({ name: newName })
-        .eq('id', id)
+  const { data, error } = await supabase
+    .from("classrooms")
+    .update({ name: newName })
+    .eq("id", id);
 
-    if (error) return error
+  if (error) return error;
 
-    revalidatePath('/', 'page')
+  revalidatePath("/", "page");
 }
 
 async function joinClassroom(formData) {
+  const cookieStore = cookies();
 
-    const cookieStore = cookies()
+  const code = formData.get("code");
 
-    const code = formData.get('code')
+  const supabase = createServerClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY,
+    { cookies: {} }
+  );
 
-    const supabase = createServerClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, { cookies: {} })
+  const user = await getUserData();
 
-    const user = await getUserData()
+  const {
+    data: { students },
+    error,
+  } = await supabase
+    .from("classrooms")
+    .select("students")
+    .eq("join_code", code)
+    .single();
 
-    const { data: { students }, error } = await supabase
-        .from('classrooms')
-        .select('students')
-        .eq('join_code', code)
-        .single()
+  if (error) return error;
 
-    if (error) return error
+  const studentsArray = students.concat(user.user_id);
 
-    const studentsArray = students.concat(user.user_id)
+  const classroom = await supabase
+    .from("classrooms")
+    .update({ students: studentsArray })
+    .eq("join_code", code)
+    .single()
+    .select("id");
 
-    const classroom = await supabase
-        .from('classrooms')
-        .update({ students: studentsArray })
-        .eq('join_code', code)
-        .single()
-        .select('id')
+  if (classroom.error) console.error(classroom.error.message);
 
-    if (classroom.error) console.error(classroom.error.message)
+  const classesArray = user.enrolled_classes.concat(classroom.data.id);
 
-    const classesArray = user.enrolled_classes.concat(classroom.data.id)
+  const newUser = await supabase
+    .from("users")
+    .update({ enrolled_classes: classesArray })
+    .eq("user_id", user.user_id)
+    .select();
 
-    const newUser = await supabase
-        .from('users')
-        .update({ enrolled_classes: classesArray })
-        .eq('user_id', user.user_id)
-        .select()
-
-    redirect('/dashboard/classes/' + classroom.data.id)
+  redirect("/dashboard/classes/" + classroom.data.id);
 }
 
 function generateJoinCode() {
+  const n = 7;
 
-    const n = 7
+  var add = 1,
+    max = 12 - add; // 12 is the min safe number Math.random() can generate without it starting to pad the end with zeros.
 
-    var add = 1, max = 12 - add;   // 12 is the min safe number Math.random() can generate without it starting to pad the end with zeros.   
+  if (n > max) {
+    return generate(max) + generate(n - max);
+  }
 
-    if (n > max) {
-        return generate(max) + generate(n - max);
-    }
+  max = Math.pow(10, n + add);
+  var min = max / 10; // Math.pow(10, n) basically
+  var number = Math.floor(Math.random() * (max - min + 1)) + min;
 
-    max = Math.pow(10, n + add);
-    var min = max / 10; // Math.pow(10, n) basically
-    var number = Math.floor(Math.random() * (max - min + 1)) + min;
+  const seed = ("" + number).substring(add);
 
-    const seed = ("" + number).substring(add);
+  const alphabet =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  let code = [];
 
-    let code = []
+  for (let i = 0; i < seed.length; i++) {
+    const char = alphabet.charAt((i * 1 + seed.charAt(i)) % alphabet.length);
 
-    for (let i = 0; i < seed.length; i++) {
-        const char = alphabet.charAt((i * 1 + seed.charAt(i)) % alphabet.length)
+    code.push(char);
+  }
 
-        code.push(char)
-    }
+  return code.join("");
+}
 
-    return code.join("")
+async function updateGradingCycleCount(value, id) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("classrooms")
+    .update({ quarters: value })
+    .eq("id", id)
+    .single();
+
+  if (error) console.log(error);
+
+  revalidatePath("/", "layout");
+
+  return 0;
+}
+
+async function rollCycleForward(id) {
+  const supabase = createClient();
+
+  const classroom = await getClassroom(id);
+
+  // archive student grades
+  for (let i = 0; i < classroom.students.length; i++) {
+    const grade = await getAverageGrade(classroom.id, classroom.students[i]);
+
+    const {error} = await supabase
+      .from("grade_archive")
+      .insert({
+        quarter: classroom.quarter,
+        classroom_id: classroom.id,
+        student_id: classroom.students[i],
+        grade: grade,
+      })
+
+  }
+
+  // delete assignments & old grades
+
+  const{data: assignments} = await supabase
+    .from('assignments')
+    .select('*')
+    .eq("classroom_id", classroom.id)
+
+  for (let i = 0; i < assignments.length; i++) {
+    const {data: responseD, error: response} = await supabase.from("responses").delete().eq("assignment_id", assignments[i].id);
+
+    if(response) console.error(response)
+  }
+
+  await supabase.from("assignments").delete().eq("classroom_id", classroom.id);
+
+
+
+  const { data } = await supabase
+    .from("classrooms")
+    .update({ current_quarter: classroom.current_quarter + 1 })
+    .eq("id", id)
+    .single();
+
+  return 0;
 }
 
 export {
-    getClassrooms,
-    getClassroom,
-    deleteClassroom,
-    changeName,
-    joinClassroom,
-    generateJoinCode,
-    createClass,
-}
+  getClassrooms,
+  getClassroom,
+  deleteClassroom,
+  changeName,
+  joinClassroom,
+  generateJoinCode,
+  createClass,
+  updateGradingCycleCount,
+  rollCycleForward,
+};

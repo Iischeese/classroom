@@ -37,6 +37,8 @@ function EditAssignmentButton({ assignment }) {
 
     const error = await updateAssignment(assignment.id, values)
 
+    setOpen(false)
+
     if(error) console.error(error)
   }
 

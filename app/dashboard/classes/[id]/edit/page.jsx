@@ -1,8 +1,19 @@
 import Button from "@/components/Button";
 import Input from "@/components/Input";
-import { Section, SectionContent, SectionFooter } from "@/components/Section";
+import {
+  Section,
+  SectionContent,
+  SectionFooter,
+  SectionFooterButtons,
+} from "@/components/Section";
 import { Heading, Text } from "@/components/Typography";
-import { deleteClassroom, getClassroom, changeName } from "../../actions";
+import {
+  deleteClassroom,
+  getClassroom,
+  changeName,
+  updateGradingCycleCount,
+  rollCycleForward,
+} from "../../actions";
 import { getUserData } from "@/app/(home)/login/actions";
 import Error from "@/components/Error";
 import Image from "next/image";
@@ -97,6 +108,64 @@ async function ClassroomSettings({ params }) {
                 <Button primary>Save</Button>
               </form>
             </SectionFooter>
+          </Section>
+          <Section>
+            <form>
+              <SectionContent>
+                <Heading>Grading Periods</Heading>
+                <Text>
+                  Grading periods, or cycles are the amount of time that
+                  students have until their final grade averages are released.
+                  These periods will be averaged at the end of the academic year
+                  to generate a end of year assessment, report card, and GPA. We
+                  recommend four cycles.
+                </Text>
+                <Text>
+                  <strong>
+                    Your current cycle is: {classroom.current_quarter} out of{" "}
+                    {classroom.quarters}
+                  </strong>
+                </Text>
+                <FormInput
+                  label="Amount of cycles"
+                  id="cycles"
+                  defaultValue={classroom.quarters}
+                ></FormInput>
+              </SectionContent>
+              <SectionFooter>
+                <Text></Text>
+                <SectionFooterButtons>
+                  <FormButton
+                    type="submit"
+                    pendingText={"Saving"}
+                    formAction={async (formData) => {
+                      "use server";
+
+                      await updateGradingCycleCount(
+                        formData.get("cycles"),
+                        classroom.id
+                      );
+                    }}
+                    primary
+                    style="w-min"
+                  >
+                    Save
+                  </FormButton>
+                  <FormButton
+                    pendingText={"Starting new cycle"}
+                    danger
+                    style="w-min"
+                    formAction={async () => {
+                      "use server";
+
+                      await rollCycleForward(classroom.id);
+                    }}
+                  >
+                    Forward Cycle
+                  </FormButton>
+                </SectionFooterButtons>
+              </SectionFooter>
+            </form>
           </Section>
           <Section danger>
             <SectionContent>

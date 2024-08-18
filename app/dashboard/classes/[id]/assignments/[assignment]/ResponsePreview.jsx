@@ -29,14 +29,6 @@ function ResponsePreview({ value, user, defGrade }) {
     fetch();
   }, []);
 
-  useEffect(() => {
-    const update = async () => {
-      await updateValue(value, JSON.stringify(updated));
-    };
-
-    update();
-  }, [updated]);
-
   return (
     <>
       <tr className="even:bg-primary/10 relative overflow-clip">
@@ -50,7 +42,7 @@ function ResponsePreview({ value, user, defGrade }) {
           >
             <form>
               <Input
-                placeholder={`${defGrade}`}
+                defaultValue={`${defGrade}`}
                 style="w-full text-center"
                 onChange={async (e) => {
                   await updateGrade(value.id, e.target.value);
@@ -84,7 +76,7 @@ function ResponsePreview({ value, user, defGrade }) {
         <td className="p-3 flex gap-2 w-24">
           <form>
             <Input
-              placeholder={`${defGrade}`}
+              defaultValue={`${defGrade}`}
               style="w-full text-center"
               onChange={async (e) => {
                 await updateGrade(value.id, e.target.value);

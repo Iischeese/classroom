@@ -242,6 +242,7 @@ async function getAverageGrade(id, user_id) {
       .from("responses")
       .select("score")
       .eq("assignment_id", assignments[i].id)
+      .eq('student_id', user_id)
       .single();
 
     grades.push(data.score);
@@ -304,6 +305,8 @@ async function updateAssignment(id, value) {
     .single();
 
   if (error) return error;
+
+  revalidatePath('/', 'layout')
 
   return 0;
 }

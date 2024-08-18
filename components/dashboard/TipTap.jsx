@@ -39,7 +39,7 @@ function TipTap({ setItem, defaultValue, readOnly, noBorder }) {
     if (editor) {
       editor.commands.setContent(defaultValue);
 
-      if(setItem) setItem(defaultValue)
+      if (setItem) setItem(defaultValue);
     }
   }, [defaultValue]);
 
@@ -70,7 +70,11 @@ function TipTap({ setItem, defaultValue, readOnly, noBorder }) {
               </div>
             </>
           ) : (
-            <div className={`relative rounded-md overflow-scroll ${noBorder ? "" : "border p-5"} border-text/40 focus:border-accent`}>
+            <div
+              className={`relative rounded-md ${
+                noBorder ? "" : "border p-5"
+              } border-text/40 focus:border-accent`}
+            >
               <EditorContent editor={editor} />
             </div>
           )}
@@ -85,6 +89,7 @@ function Buttons({ editor }) {
       <>
         <div className="flex w-full border *:border-transparent *:rounded-none *:p-0 *:py-1 *:border-r-text/40 *:last:border-r-transparent border-text/40 border-b-transparent rounded-b-none rounded-md overflow-clip">
           <Button
+            type="button"
             style={
               editor.isActive("bold")
                 ? "bg-text text-background  border-accent border-2"
@@ -97,6 +102,7 @@ function Buttons({ editor }) {
             <BoldIcon />
           </Button>
           <Button
+            type="button"
             style={
               editor.isActive("italic")
                 ? "bg-text text-background  border-accent border-2"
@@ -109,6 +115,7 @@ function Buttons({ editor }) {
             <ItalicIcon />
           </Button>
           <Button
+            type="button"
             style={
               editor.isActive("bulletList")
                 ? "bg-text text-background  border-accent border-2"
@@ -121,6 +128,7 @@ function Buttons({ editor }) {
             <ListIcon />
           </Button>
           <Button
+            type="button"
             style={
               editor.isActive("orderedList")
                 ? "bg-text text-background  border-accent border-2"
@@ -133,6 +141,7 @@ function Buttons({ editor }) {
             <ListOrderedIcon />
           </Button>
           <Button
+            type="button"
             style={
               editor.isActive("underline")
                 ? "bg-text text-background  border-accent border-2"
@@ -145,6 +154,7 @@ function Buttons({ editor }) {
             <UnderlineIcon />
           </Button>
           <Button
+            type="button"
             style={"bg-background text-text  border-accent border-2"}
             noForm={() => {
               editor.chain().focus().setHorizontalRule().run();
@@ -153,6 +163,7 @@ function Buttons({ editor }) {
             <SeparatorHorizontalIcon />
           </Button>
           <Button
+            type="button"
             style={
               editor.isActive("blockquote")
                 ? "bg-text text-background  border-accent border-2"
@@ -165,6 +176,7 @@ function Buttons({ editor }) {
             <QuoteIcon />
           </Button>
           <Button
+            type="button"
             style={
               editor.isActive("codeBlock")
                 ? "bg-text text-background  border-accent border-2"
@@ -177,6 +189,7 @@ function Buttons({ editor }) {
             <BinaryIcon />
           </Button>
           <Button
+            type="button"
             style={"bg-background text-text  border-accent border-2"}
             noForm={() => {
               editor.chain().focus().undo().run();
@@ -186,6 +199,7 @@ function Buttons({ editor }) {
             <Undo2Icon />
           </Button>
           <Button
+            type="button"
             style={"bg-background text-text  border-accent border-2"}
             noForm={() => {
               editor.chain().focus().redo().run();

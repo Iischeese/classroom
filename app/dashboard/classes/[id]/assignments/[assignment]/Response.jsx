@@ -12,19 +12,20 @@ import Button from "@/components/Button";
 
 function Response({ response }) {
   const [item, setItem] = useState({});
-  const [value, setValue] = useState();
+  const [value, setValue] = useState({});
 
   useEffect(() => {
     const fetch = async () => {
       const res = await getResponseByID(response.id);
-      setValue(res.response.TEXT);
+      setValue(res);
     };
 
     fetch();
   }, []);
 
   useEffect(() => {
-    updateValue(response, JSON.stringify(item));
+    if(!response.submitted) updateValue(response, JSON.stringify(item));
+    else setValue(value)
   }, [item]);
 
   return (
@@ -32,11 +33,14 @@ function Response({ response }) {
       <Section disabled={response.submitted}>
         <SectionContent>
           <Heading>Your Work</Heading>
-          <TipTap
-            readOnly={response.submitted}
-            defaultValue={value}
-            setItem={setItem}
-          />
+          {value.response ? (
+            <TipTap
+              readOnly={response.submitted}
+              defaultValue={value.response.TEXT}
+            />
+          ) : (
+            <Heading>Loading...</Heading>
+          )}
         </SectionContent>
         <SectionFooter>
           {!response.submitted ? (
