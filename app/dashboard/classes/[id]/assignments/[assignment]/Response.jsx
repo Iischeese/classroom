@@ -12,20 +12,19 @@ import Button from "@/components/Button";
 
 function Response({ response }) {
   const [item, setItem] = useState({});
-  const [value, setValue] = useState({});
+  const [value, setValue] = useState();
 
   useEffect(() => {
     const fetch = async () => {
       const res = await getResponseByID(response.id);
-      setValue(res);
+      setValue(res.response.TEXT);
     };
 
     fetch();
   }, []);
 
   useEffect(() => {
-    if(!response.submitted) updateValue(response, JSON.stringify(item));
-    else setValue(value)
+    updateValue(response, JSON.stringify(item));
   }, [item]);
 
   return (
@@ -33,14 +32,7 @@ function Response({ response }) {
       <Section disabled={response.submitted}>
         <SectionContent>
           <Heading>Your Work</Heading>
-          {value.response ? (
-            <TipTap
-              readOnly={response.submitted}
-              defaultValue={value.response.TEXT}
-            />
-          ) : (
-            <Heading>Loading...</Heading>
-          )}
+          <TipTap readOnly={response.submitted} defaultValue={value} setItem={setItem} />
         </SectionContent>
         <SectionFooter>
           {!response.submitted ? (
@@ -48,7 +40,6 @@ function Response({ response }) {
               <Text>Your work will auto-save</Text>
               <Form min>
                 <FormButton
-                  primary
                   pendingText="Submitting..."
                   formAction={async () => {
                     await turnItIn(response);
@@ -64,9 +55,6 @@ function Response({ response }) {
                 Your work cannot be edited because you have already submitted
                 it.
               </Text>
-              <Button primary style="w-min">
-                Submitted
-              </Button>
             </>
           )}
         </SectionFooter>

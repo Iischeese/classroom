@@ -39,12 +39,4 @@ function SectionFooter({ children, danger }) {
   );
 }
 
-function SectionFooterButtons({children}){
-  return (
-    <div className="flex flex-row-reverse justify-end gap-5 items-center">
-      {children}
-    </div>
-  )
-}
-
-export { Section, SectionContent, SectionFooter, SectionFooterButtons };
+export { Section, SectionContent, SectionFooter };

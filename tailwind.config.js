@@ -69,7 +69,7 @@ module.exports = {
         'accent': '#50c3d2',
         'yellow': '#F0CF65',
         'orange': '#FF8C42',
-        'red': '#F02D3A'
+        'red': '#DE1A1A'
        },       
     }
   },

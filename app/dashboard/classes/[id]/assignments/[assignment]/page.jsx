@@ -18,16 +18,6 @@ import Table from "@/components/dashboard/Table";
 import { getClassroom } from "../../../actions";
 import AssignmentSideBar from "./SideBar";
 import Divider from "@/components/Divider";
-import Description from "./Description"
-
-export async function generateMetadata({params}) {
-
-  const data = await getAssignment(params.assignment)
-
-  return {
-    title: data.name
-  }
-}
 
 async function AssignmentView({ params }) {
   const id = params.assignment;
@@ -73,10 +63,10 @@ async function AssignmentView({ params }) {
               <span className="w-full break-keep">{assignment.due_date}</span>
             </Text>
           </Navigation>
-          <Description assignment={assignment}/>
+          <p className=" text-text/85">{assignment.description}</p>
           <div className="w-full  flex flex-col gap-4">
             <Divider />
-            {!edit ? (
+            {user.type == "student" ? (
               <Response response={response} />
             ) : (
               <>

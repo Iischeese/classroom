@@ -16,7 +16,7 @@ function Content({noSpread, children}) {
 
 function SideBar({ children }) {
     return (
-        <div className="w-1/6 z-50 h-screen flex flex-col gap-4 items-center justify-center py-10 sticky left-0 top-0">
+        <div className="w-1/6 h-screen flex flex-col gap-4 items-center justify-center py-10 sticky left-0 top-0">
             {children}
         </div>
     )

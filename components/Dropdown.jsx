@@ -1,6 +1,6 @@
-function Dropdown({ options, name, defaultValue }){
+function Dropdown({ options, name }){
     return(
-       <select defaultValue={defaultValue} name={name} id={name} className="bg-secondary border border-text/40 placeholder:text-text/50 w-full px-5 py-3 rounded-md focus:outline-none appearance-none" >
+       <select name={name} id={name} className="bg-secondary border border-text/40 placeholder:text-text/50 w-full px-5 py-3 rounded-md focus:outline-none appearance-none" >
         {
             options.map((option, index)=>{
                 return(
